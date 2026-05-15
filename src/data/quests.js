@@ -71,9 +71,9 @@ export const quests = [
   },
 ];
 
-function getDayOfYear(date) {
-  const start = new Date(date.getFullYear(), 0, 0);
-  return Math.floor((date - start) / 86400000);
+function getDayOfYear(utcMidnight) {
+  const start = Date.UTC(utcMidnight.getUTCFullYear(), 0, 1);
+  return Math.floor((utcMidnight - start) / 86400000) + 1;
 }
 
 function seeded(n) {
@@ -81,31 +81,44 @@ function seeded(n) {
   return x - Math.floor(x);
 }
 
-// New quest drops at a seeded-random time between 8am and 10pm CET (UTC+1).
-function getResetDateFor(date) {
-  const day = getDayOfYear(date);
-  const hourCET = 8 + Math.floor(seeded(day * 3) * 14); // 8–21 CET
-  const minute  = Math.floor(seeded(day * 7)  * 60);
-  const second  = Math.floor(seeded(day * 13) * 60);
-  const reset = new Date(date);
+function utcMidnight(date) {
+  const d = new Date(date);
+  d.setUTCHours(0, 0, 0, 0);
+  return d;
+}
+
+// Hard-coded overrides for specific UTC dates { hourCET, minute, second }
+const OVERRIDES = {
+  '2026-05-16': { hourCET: 14, minute: 0, second: 0 },
+};
+
+// utcDay must be a Date at UTC midnight for the target calendar day
+function getResetDateFor(utcDay) {
+  const key = utcDay.toISOString().slice(0, 10);
+  const day = getDayOfYear(utcDay);
+  const ov = OVERRIDES[key];
+  const hourCET = ov ? ov.hourCET : 8 + Math.floor(seeded(day * 3) * 14);
+  const minute  = ov ? ov.minute  : Math.floor(seeded(day * 7)  * 60);
+  const second  = ov ? ov.second  : Math.floor(seeded(day * 13) * 60);
+  const reset = new Date(utcDay);
   reset.setUTCHours(hourCET - 1, minute, second, 0); // CET = UTC+1
   return reset;
 }
 
 export function msUntilReset() {
   const now = new Date();
-  const todayReset = getResetDateFor(now);
+  const todayReset = getResetDateFor(utcMidnight(now));
   if (todayReset > now) return todayReset - now;
-  const next = new Date(todayReset);
-  next.setUTCDate(next.getUTCDate() + 1);
-  return next - now;
+  const tomorrow = utcMidnight(now);
+  tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+  return Math.max(0, getResetDateFor(tomorrow) - now);
 }
 
 export function getLastResetTime() {
   const now = new Date();
-  const todayReset = getResetDateFor(now);
+  const todayReset = getResetDateFor(utcMidnight(now));
   if (todayReset <= now) return todayReset;
-  const yesterday = new Date(now);
+  const yesterday = utcMidnight(now);
   yesterday.setUTCDate(yesterday.getUTCDate() - 1);
   return getResetDateFor(yesterday);
 }
