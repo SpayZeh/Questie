@@ -53,7 +53,7 @@ export default function App() {
           <img src="https://i.pravatar.cc/150?img=5" alt="Profile" className="bottom-profile-avatar" />
         </button>
         <button className={`bottom-tab ${tab === 'potential' ? 'bottom-tab--active' : ''}`} onClick={() => setTab('potential')}>
-          Potential Questies
+          Future Questies
         </button>
       </nav>
 
