@@ -9,6 +9,7 @@ import NotifSheet from './components/NotifSheet.jsx';
 import SplashScreen from './components/SplashScreen.jsx';
 import LoginSheet from './components/LoginSheet.jsx';
 import QuestComplete from './components/QuestComplete.jsx';
+import { requestNotificationPermission, notificationsSupported, notificationsBlocked } from './hooks/useNotifications.js';
 import { msUntilReset, getLastResetTime } from './data/quests.js';
 
 const quest = { emoji: '💧', tagline: 'Hydrate!', description: 'take a picture of you hydrating.', color: '#3B82F6' };
@@ -47,6 +48,9 @@ export default function App() {
   const [pendingPost, setPendingPost] = useState(false);
   const [hasUnreadNotifs, setHasUnreadNotifs] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [notifStatus, setNotifStatus] = useState(() =>
+    'Notification' in window ? Notification.permission : 'unsupported'
+  );
 
   // Auth
   useEffect(() => {
@@ -202,6 +206,17 @@ export default function App() {
             }}>
               complete quest
             </button>
+          )}
+          {user && notificationsSupported() && notifStatus === 'default' && (
+            <button className="quest-notif-prompt" onClick={async () => {
+              const result = await requestNotificationPermission(user.uid);
+              setNotifStatus(result === 'granted' ? 'granted' : 'denied');
+            }}>
+              notify me when quests drop
+            </button>
+          )}
+          {user && notifStatus === 'granted' && !hasPosted && (
+            <p className="quest-notif-on">notifications on — we'll ping you every day</p>
           )}
         </header>
 

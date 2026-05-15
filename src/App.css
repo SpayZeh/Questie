@@ -404,6 +404,28 @@ body {
 }
 .quest-post-btn:active { opacity: 0.85; }
 
+.quest-notif-prompt {
+  margin-top: 8px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--sub);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.quest-notif-prompt:hover { border-color: var(--accent); color: var(--accent); }
+
+.quest-notif-on {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--sub);
+  text-align: center;
+}
+
 /* ── Feed ── */
 .feed {
   display: flex;
