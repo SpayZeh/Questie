@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import FeedPost from './components/FeedPost.jsx';
-import QuestBanner from './components/QuestBanner.jsx';
 import { getTodaysQuest, getNextQuest } from './data/quests.js';
 import { feedPosts } from './data/posts.js';
 
@@ -9,6 +8,7 @@ const nextQuest = getNextQuest();
 
 export default function App() {
   const [tab, setTab] = useState('best');
+  const fileRef = useRef(null);
 
   return (
     <div className="app">
@@ -30,16 +30,10 @@ export default function App() {
             </button>
           </nav>
           <button className="profile-btn">
-            <img
-              src="https://i.pravatar.cc/150?img=5"
-              alt="Profile"
-              className="profile-avatar"
-            />
+            <img src="https://i.pravatar.cc/150?img=5" alt="Profile" className="profile-avatar" />
             <span className="profile-label">Profile</span>
           </button>
         </header>
-
-        <QuestBanner quest={todaysQuest} nextQuest={nextQuest} />
 
         <main className="feed">
           {feedPosts.map((post) => (
@@ -48,6 +42,20 @@ export default function App() {
         </main>
 
       </div>
+
+      {/* Bottom quest bar */}
+      <div className="quest-bar" style={{ '--qcolor': todaysQuest.color }}>
+        <span className="quest-bar-emoji">{todaysQuest.emoji}</span>
+        <div className="quest-bar-text">
+          <p className="quest-bar-title">{todaysQuest.title}</p>
+          <p className="quest-bar-next">Next: {nextQuest.emoji} {nextQuest.title}</p>
+        </div>
+        <button className="quest-bar-btn" onClick={() => fileRef.current?.click()}>
+          Post
+        </button>
+        <input ref={fileRef} type="file" accept="image/*,video/*" capture="environment" style={{ display: 'none' }} />
+      </div>
+
     </div>
   );
 }
