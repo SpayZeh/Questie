@@ -55,10 +55,11 @@ body {
   transition: padding 0.3s ease;
 }
 
-.quest-bar-icons {
+.quest-tagline-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 12px;
   width: 100%;
 }
 
@@ -73,6 +74,7 @@ body {
   justify-content: center;
   transition: color 0.15s;
   position: relative;
+  flex-shrink: 0;
 }
 
 .quest-icon-btn:active { color: var(--text); }
@@ -86,14 +88,6 @@ body {
   border-radius: 50%;
   background: var(--accent);
   border: 1.5px solid var(--bg);
-}
-
-.quest-bar-top {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
 }
 
 .quest-bar--done {
@@ -764,10 +758,6 @@ body {
   cursor: pointer;
   padding: 0 6px;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
 }
 
 .bottom-profile-avatar {
@@ -777,14 +767,6 @@ body {
   object-fit: cover;
   border: 1.5px solid var(--border);
   display: block;
-}
-
-.bottom-profile-label {
-  font-size: 8px;
-  font-weight: 600;
-  color: var(--sub);
-  white-space: nowrap;
-  letter-spacing: 0.01em;
 }
 
 /* ── Post add questie btn ── */
