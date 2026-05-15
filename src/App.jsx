@@ -4,7 +4,7 @@ import PostModal from './components/PostModal.jsx';
 import { friendPosts, discoveryPosts } from './data/posts.js';
 import { msUntilReset } from './data/quests.js';
 
-const quest = { emoji: '🌿', tagline: 'Touch Grass', description: 'Literally, touch grass and capture it.', color: '#5a9e6f' };
+const quest = { emoji: '🌿', tagline: 'Touch Grass', description: 'Literally, touch grass and capture it.', color: '#F97316' };
 
 function formatCountdown(ms) {
   const total = Math.max(0, Math.floor(ms / 1000));
