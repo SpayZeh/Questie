@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { collection, query, orderBy, onSnapshot, addDoc, doc, setDoc, getDoc, updateDoc, serverTimestamp, limit, arrayUnion, increment } from 'firebase/firestore';
+import { collection, query, orderBy, onSnapshot, addDoc, doc, setDoc, getDoc, updateDoc, serverTimestamp, limit, arrayUnion, increment, where } from 'firebase/firestore';
 import { auth, db } from './firebase.js';
 import FeedPost from './components/FeedPost.jsx';
 import PostModal from './components/PostModal.jsx';
@@ -44,6 +44,7 @@ export default function App() {
   const [posting, setPosting] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [pendingPost, setPendingPost] = useState(false);
+  const [hasUnreadNotifs, setHasUnreadNotifs] = useState(false);
 
   // Auth
   useEffect(() => {
@@ -89,6 +90,13 @@ export default function App() {
     const id = setInterval(() => setMsLeft(msUntilReset()), 1000);
     return () => clearInterval(id);
   }, []);
+
+  // Unread notifications
+  useEffect(() => {
+    if (!user) { setHasUnreadNotifs(false); return; }
+    const q = query(collection(db, 'users', user.uid, 'notifications'), where('unread', '==', true), limit(1));
+    return onSnapshot(q, (snap) => setHasUnreadNotifs(!snap.empty));
+  }, [user]);
 
   // Feed subscription
   useEffect(() => {
@@ -178,7 +186,7 @@ export default function App() {
             <div className="quest-timer-pill">{formatCountdown(msLeft)}</div>
             <button className="quest-icon-btn" onClick={() => setShowNotifs(true)} aria-label="notifications">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-              <span className="quest-notif-dot" />
+              {hasUnreadNotifs && <span className="quest-notif-dot" />}
             </button>
           </div>
           <p className="quest-tagline"><span className="quest-emoji">{quest.emoji}</span> {quest.tagline}</p>

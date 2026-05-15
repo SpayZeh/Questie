@@ -37,7 +37,7 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
     if (!searchVal.trim()) { setSearchResults([]); return; }
     const timer = setTimeout(async () => {
       setSearchLoading(true);
-      const val = searchVal.trim().toLowerCase();
+      const val = searchVal.trim();
       const q = query(
         collection(db, 'users'),
         where('username', '>=', val),
@@ -56,10 +56,11 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
 
   async function handleSave() {
     setSaving(true);
+    const cleanName = name.trim().toLowerCase();
     try {
-      if (user && name !== userProfile?.username) {
-        await updateDoc(doc(db, 'users', user.uid), { username: name });
-        onProfileUpdate?.({ username: name });
+      if (user && cleanName !== userProfile?.username) {
+        await updateDoc(doc(db, 'users', user.uid), { username: cleanName });
+        onProfileUpdate?.({ username: cleanName });
       }
     } catch (e) {
       console.error('save failed:', e);
