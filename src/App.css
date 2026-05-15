@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:      #080808;
-  --surface: #111111;
-  --border:  #1c1c1c;
-  --muted:   #333333;
-  --text:    #f0f0f0;
-  --sub:     #444444;
+  --bg:      #0a0a0a;
+  --surface: #141414;
+  --border:  #1e1e1e;
+  --muted:   #2e2e2e;
+  --text:    #f2f2f2;
+  --sub:     #505050;
   --accent:  #E8941A;
   --accent-dim: #1e1208;
 }
@@ -40,7 +40,7 @@ body {
   top: 0;
   z-index: 10;
   background: var(--bg);
-  padding: 20px 20px 22px;
+  padding: 22px 20px 20px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -48,56 +48,71 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .quest-emoji {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 .quest-timer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px;
   font-size: 11px;
   font-weight: 700;
   color: var(--accent);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   font-variant-numeric: tabular-nums;
 }
 
+.quest-timer-pill::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
 .quest-tagline {
-  font-size: 34px;
-  font-weight: 800;
+  font-size: 36px;
+  font-weight: 900;
   color: var(--text);
   letter-spacing: -0.03em;
-  line-height: 1.05;
+  line-height: 1.0;
   margin-bottom: 8px;
 }
 
 .quest-desc {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--sub);
   line-height: 1.5;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 }
 
 .quest-post-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: var(--accent);
-  color: #fff;
+  background: var(--text);
+  color: var(--bg);
   border: none;
-  border-radius: 22px;
-  padding: 11px 22px;
+  border-radius: 40px;
+  padding: 13px 24px;
   font-family: inherit;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
   letter-spacing: 0.01em;
   transition: opacity 0.15s;
 }
-.quest-post-btn:active { opacity: 0.8; }
+.quest-post-btn:active { opacity: 0.85; }
 
 /* ── Feed ── */
 .feed {
@@ -109,24 +124,23 @@ body {
 .feed-post {
   background: var(--bg);
   border-bottom: 1px solid var(--border);
-  margin-top: 16px;
+  margin-top: 20px;
 }
 
 .post-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   padding: 16px 18px 12px;
   text-align: center;
 }
 
 .post-avatar {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   object-fit: cover;
-  opacity: 0.95;
 }
 
 .post-meta {
@@ -137,8 +151,8 @@ body {
 }
 
 .post-username {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 800;
   color: var(--text);
   letter-spacing: 0.01em;
 }
@@ -173,7 +187,7 @@ body {
 }
 
 .post-caption {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--sub);
   line-height: 1.5;
   text-align: center;
@@ -189,17 +203,17 @@ body {
 .reaction-btn {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 6px 11px;
-  font-size: 12px;
+  border-radius: 40px;
+  padding: 7px 13px;
+  font-size: 13px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   color: var(--sub);
   font-family: inherit;
-  font-weight: 600;
-  transition: border-color 0.15s, color 0.15s;
+  font-weight: 700;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
 
 .reaction-btn:active { transform: scale(0.93); }
@@ -210,24 +224,27 @@ body {
   color: var(--accent);
 }
 
-.reaction-count { font-size: 10px; }
+.reaction-count {
+  font-size: 11px;
+}
 
 .comment-btn {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
+  transition: border-color 0.15s;
 }
 
 .comment-icon {
-  width: 13px;
-  height: 13px;
+  width: 14px;
+  height: 14px;
   fill: none;
   stroke: var(--sub);
   stroke-width: 1.8;
@@ -239,7 +256,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.75);
+  background: rgba(0,0,0,0.8);
   z-index: 100;
   display: flex;
   align-items: center;
@@ -251,10 +268,10 @@ body {
 .modal-sheet {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: 24px;
   width: 100%;
   max-width: 400px;
-  padding: 20px 20px 24px;
+  padding: 22px 22px 26px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -270,19 +287,20 @@ body {
 }
 
 .modal-title {
-  font-size: 18px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 900;
   color: var(--text);
+  letter-spacing: -0.02em;
 }
 
 .modal-sub {
   font-size: 12px;
   color: var(--sub);
-  margin-top: 3px;
+  margin-top: 4px;
 }
 
 .modal-close {
-  background: var(--border);
+  background: var(--muted);
   border: none;
   color: var(--sub);
   font-size: 12px;
@@ -298,7 +316,7 @@ body {
 
 .modal-upload {
   border: 1.5px dashed var(--border);
-  border-radius: 14px;
+  border-radius: 16px;
   aspect-ratio: 4/5;
   display: flex;
   flex-direction: column;
@@ -314,11 +332,11 @@ body {
 .modal-upload:hover { border-color: var(--accent); }
 .modal-upload--filled { border-style: solid; cursor: default; }
 
-.modal-camera-icon { font-size: 34px; opacity: 0.2; }
+.modal-camera-icon { font-size: 36px; opacity: 0.2; }
 
 .modal-upload-title {
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text);
 }
 
@@ -337,8 +355,8 @@ body {
 .modal-caption {
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 11px 14px;
+  border-radius: 12px;
+  padding: 12px 14px;
   color: var(--text);
   font-family: inherit;
   font-size: 13px;
@@ -350,20 +368,21 @@ body {
 .modal-caption::placeholder { color: var(--muted); }
 
 .modal-post-btn {
-  background: var(--accent);
-  color: #fff;
+  background: var(--text);
+  color: var(--bg);
   border: none;
-  border-radius: 12px;
-  padding: 15px;
+  border-radius: 40px;
+  padding: 16px;
   font-family: inherit;
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 900;
   cursor: pointer;
+  letter-spacing: 0.01em;
   transition: opacity 0.15s;
 }
 
-.modal-post-btn--disabled { opacity: 0.2; cursor: not-allowed; }
-.modal-post-btn--done { background: #3a7a50; }
+.modal-post-btn--disabled { opacity: 0.15; cursor: not-allowed; }
+.modal-post-btn--done { background: var(--accent); color: #fff; }
 
 /* ── Comment Sheet ── */
 .comment-sheet { max-height: 75dvh; }
@@ -406,7 +425,7 @@ body {
 
 .comment-username {
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text);
 }
 
@@ -434,8 +453,8 @@ body {
   flex: 1;
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 9px 13px;
+  border-radius: 40px;
+  padding: 10px 14px;
   color: var(--text);
   font-family: inherit;
   font-size: 12px;
@@ -445,20 +464,20 @@ body {
 .comment-input::placeholder { color: var(--sub); }
 
 .comment-send {
-  background: var(--accent);
-  color: #fff;
+  background: var(--text);
+  color: var(--bg);
   border: none;
-  border-radius: 20px;
-  padding: 8px 14px;
+  border-radius: 40px;
+  padding: 9px 16px;
   font-family: inherit;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
   flex-shrink: 0;
   transition: opacity 0.15s;
 }
 
-.comment-send:disabled { opacity: 0.25; cursor: not-allowed; }
+.comment-send:disabled { opacity: 0.2; cursor: not-allowed; }
 
 /* ── Bottom Nav ── */
 .bottom-nav {
@@ -470,7 +489,7 @@ body {
   max-width: 430px;
   background: var(--bg);
   border-top: 1px solid var(--border);
-  padding: 12px 20px 28px;
+  padding: 14px 20px 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -483,7 +502,7 @@ body {
   cursor: pointer;
   font-family: inherit;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--sub);
   padding: 0;
   flex: 1;
