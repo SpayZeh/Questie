@@ -45,6 +45,7 @@ export default function ProfileModal({ onClose }) {
     : [];
 
   return (
+    <>
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal-sheet profile-sheet">
         <div className="modal-header">
@@ -125,5 +126,6 @@ export default function ProfileModal({ onClose }) {
     </div>
 
     {showQuestline && <QuestlineSheet onClose={() => setShowQuestline(false)} />}
+    </>
   );
 }
