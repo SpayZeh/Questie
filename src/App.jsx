@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import FeedPost from './components/FeedPost.jsx';
 import PostModal from './components/PostModal.jsx';
-import { feedPosts } from './data/posts.js';
+import { friendPosts, discoveryPosts } from './data/posts.js';
 
 const quest = { emoji: '🌿', tagline: 'Touch Grass', description: 'Literally, touch grass and capture it.', color: '#34C759' };
 
@@ -27,7 +27,7 @@ export default function App() {
         </header>
 
         <main className="feed">
-          {feedPosts.map((post) => (
+          {(tab === 'best' ? friendPosts : discoveryPosts).map((post) => (
             <FeedPost key={post.id} post={post} questEmoji={quest.emoji} />
           ))}
         </main>

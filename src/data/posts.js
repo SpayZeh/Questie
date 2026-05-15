@@ -1,4 +1,4 @@
-export const feedPosts = [
+export const friendPosts = [
   {
     id: 1,
     username: 'irene.daily',
@@ -63,5 +63,84 @@ export const feedPosts = [
     comments: [
       { id: 1, username: 'irene.daily', avatar: 'https://i.pravatar.cc/150?img=47', text: 'the dedication!!', timeAgo: '50m' },
     ],
+  },
+];
+
+export const discoveryPosts = [
+  {
+    id: 101,
+    username: 'mika.outdoors',
+    avatar: 'https://i.pravatar.cc/150?img=3',
+    photo: 'https://picsum.photos/seed/disc-mika/600/800',
+    caption: 'morning dew on the grass 🌱',
+    timeAgo: '4m',
+    isNew: true,
+    reactions: { quest: 203, heart: 184, laugh: 12 },
+    comments: [
+      { id: 1, username: 'trail.run.tomas', avatar: 'https://i.pravatar.cc/150?img=14', text: 'this is so peaceful', timeAgo: '2m' },
+    ],
+  },
+  {
+    id: 102,
+    username: 'leo.jpeg',
+    avatar: 'https://i.pravatar.cc/150?img=59',
+    photo: 'https://picsum.photos/seed/disc-leo/600/800',
+    caption: 'my cat was not impressed that i was touching grass instead of petting her',
+    timeAgo: '11m',
+    isNew: false,
+    reactions: { quest: 91, heart: 312, laugh: 278 },
+    comments: [
+      { id: 1, username: 'cat.mom.vera', avatar: 'https://i.pravatar.cc/150?img=20', text: 'same energy as my cat 😭', timeAgo: '8m' },
+      { id: 2, username: 'leo.jpeg', avatar: 'https://i.pravatar.cc/150?img=59', text: 'she walked away immediately', timeAgo: '7m' },
+    ],
+  },
+  {
+    id: 103,
+    username: 'nora.wandr',
+    avatar: 'https://i.pravatar.cc/150?img=44',
+    photo: 'https://picsum.photos/seed/disc-nora/600/800',
+    caption: 'found a tiny hill with the best view',
+    timeAgo: '28m',
+    isNew: false,
+    reactions: { quest: 441, heart: 398, laugh: 22 },
+    comments: [],
+  },
+  {
+    id: 104,
+    username: 'dan.does.things',
+    avatar: 'https://i.pravatar.cc/150?img=53',
+    photo: 'https://picsum.photos/seed/disc-dan/600/800',
+    caption: 'office park grass counts. i asked HR.',
+    timeAgo: '42m',
+    isNew: false,
+    reactions: { quest: 56, heart: 89, laugh: 412 },
+    comments: [
+      { id: 1, username: 'mika.outdoors', avatar: 'https://i.pravatar.cc/150?img=3', text: 'HR said yes?? 😂', timeAgo: '35m' },
+      { id: 2, username: 'dan.does.things', avatar: 'https://i.pravatar.cc/150?img=53', text: 'they said "sure whatever"', timeAgo: '30m' },
+    ],
+  },
+  {
+    id: 105,
+    username: 'ana.sol',
+    avatar: 'https://i.pravatar.cc/150?img=36',
+    photo: 'https://picsum.photos/seed/disc-ana/600/800',
+    caption: 'my backyard at golden hour 🌿✨',
+    timeAgo: '1h',
+    isNew: false,
+    reactions: { quest: 788, heart: 901, laugh: 34 },
+    comments: [
+      { id: 1, username: 'nora.wandr', avatar: 'https://i.pravatar.cc/150?img=44', text: 'gorgeous shot omg', timeAgo: '55m' },
+    ],
+  },
+  {
+    id: 106,
+    username: 'trail.run.tomas',
+    avatar: 'https://i.pravatar.cc/150?img=14',
+    photo: 'https://picsum.photos/seed/disc-tomas/600/800',
+    caption: 'mid-run pit stop. quest done. legs not.',
+    timeAgo: '2h',
+    isNew: false,
+    reactions: { quest: 334, heart: 211, laugh: 97 },
+    comments: [],
   },
 ];
