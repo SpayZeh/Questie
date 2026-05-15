@@ -10,7 +10,7 @@ import SplashScreen from './components/SplashScreen.jsx';
 import LoginSheet from './components/LoginSheet.jsx';
 import QuestComplete from './components/QuestComplete.jsx';
 import { requestNotificationPermission, notificationsSupported, notificationsBlocked } from './hooks/useNotifications.js';
-import { msUntilReset, getLastResetTime, isQuestActive } from './data/quests.js';
+import { msUntilReset, getLastResetTime } from './data/quests.js';
 
 const quest = { emoji: '💧', tagline: 'Hydrate!', description: 'take a picture of you hydrating.', color: '#3B82F6' };
 
@@ -199,16 +199,13 @@ export default function App() {
           </div>
           <p className="quest-tagline"><span className="quest-emoji">{quest.emoji}</span> {quest.tagline}</p>
           <p className="quest-desc">{quest.description}</p>
-          {!hasPosted && isQuestActive() && (
+          {!hasPosted && (
             <button className="quest-post-btn" onClick={() => {
               if (!user) { setPendingPost(true); setShowLogin(true); }
               else setShowPost(true);
             }}>
               complete quest
             </button>
-          )}
-          {!hasPosted && !isQuestActive() && (
-            <p className="quest-closed">next quest drops at 8am CET</p>
           )}
           {user && notificationsSupported() && notifStatus === 'default' && (
             <button className="quest-notif-prompt" onClick={async () => {

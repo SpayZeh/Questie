@@ -76,41 +76,38 @@ function getDayOfYear(date) {
   return Math.floor((date - start) / 86400000);
 }
 
-// CET = UTC+1. We use a fixed offset (CEST is UTC+2 but fixed +1 is close enough).
-const CET = 1;
-
-function cetNow() {
-  return new Date(Date.now() + CET * 3600000);
+function seeded(n) {
+  const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
 }
 
-// Quest window: 8am–10pm CET every day.
-export function isQuestActive() {
-  const h = cetNow().getUTCHours();
-  return h >= 8 && h < 22;
+// New quest drops at a seeded-random time between 8am and 10pm CET (UTC+1).
+function getResetDateFor(date) {
+  const day = getDayOfYear(date);
+  const hourCET = 8 + Math.floor(seeded(day * 3) * 14); // 8–21 CET
+  const minute  = Math.floor(seeded(day * 7)  * 60);
+  const second  = Math.floor(seeded(day * 13) * 60);
+  const reset = new Date(date);
+  reset.setUTCHours(hourCET - 1, minute, second, 0); // CET = UTC+1
+  return reset;
 }
 
-// During active hours:   counts down to 10pm CET (quest deadline).
-// During inactive hours: counts down to 8am CET (next quest drops).
 export function msUntilReset() {
-  const now = cetNow();
-  const h = now.getUTCHours();
-  const target = new Date(now);
-  if (h >= 8 && h < 22) {
-    target.setUTCHours(22, 0, 0, 0);
-  } else {
-    if (h >= 22) target.setUTCDate(target.getUTCDate() + 1);
-    target.setUTCHours(8, 0, 0, 0);
-  }
-  return Math.max(0, target - now);
+  const now = new Date();
+  const todayReset = getResetDateFor(now);
+  if (todayReset > now) return todayReset - now;
+  const next = new Date(todayReset);
+  next.setUTCDate(next.getUTCDate() + 1);
+  return next - now;
 }
 
-// Returns the UTC Date of the most recent quest start (8am CET = 7am UTC).
 export function getLastResetTime() {
   const now = new Date();
-  const last = new Date(now);
-  last.setUTCHours(8 - CET, 0, 0, 0);
-  if (now.getUTCHours() < 8 - CET) last.setUTCDate(last.getUTCDate() - 1);
-  return last;
+  const todayReset = getResetDateFor(now);
+  if (todayReset <= now) return todayReset;
+  const yesterday = new Date(now);
+  yesterday.setUTCDate(yesterday.getUTCDate() - 1);
+  return getResetDateFor(yesterday);
 }
 
 export function getTodaysQuest() {
