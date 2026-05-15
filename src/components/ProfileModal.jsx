@@ -72,10 +72,8 @@ export default function ProfileModal({ questline, onClose }) {
           />
         </div>
 
-        <div className="profile-btn-row">
-          <button className="modal-post-btn profile-save-btn" onClick={handleSave}>save</button>
-          <button className="profile-questline-btn" onClick={() => setShowQuestline(true)}>my questline</button>
-        </div>
+        <button className="modal-post-btn" onClick={handleSave}>save</button>
+        <button className="profile-questline-btn" onClick={() => setShowQuestline(true)}>my questline</button>
 
         <div className="profile-divider" />
 
