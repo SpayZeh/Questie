@@ -3,7 +3,7 @@ import { doc, updateDoc, increment, addDoc, collection, serverTimestamp } from '
 import { db, auth } from '../firebase.js';
 import CommentSheet from './CommentSheet.jsx';
 
-export default function FeedPost({ post, questEmoji, showAddQuestie }) {
+export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser, currentUsername }) {
   const [reactions, setReactions] = useState({ ...post.reactions });
   const [tapped, setTapped] = useState({});
   const [showComments, setShowComments] = useState(false);
@@ -17,12 +17,11 @@ export default function FeedPost({ post, questEmoji, showAddQuestie }) {
       await updateDoc(doc(db, 'posts', post.id), {
         [`reactions.${key}`]: increment(1),
       });
-      const currentUser = auth.currentUser;
       if (currentUser && post.userId && post.userId !== currentUser.uid) {
         await addDoc(collection(db, 'users', post.userId, 'notifications'), {
           type: 'reaction',
           fromUid: currentUser.uid,
-          fromUsername: currentUser.displayName || 'someone',
+          fromUsername: currentUsername || currentUser.displayName || 'someone',
           fromAvatar: currentUser.photoURL || '',
           text: 'reacted to your quest',
           postId: post.id,
@@ -112,7 +111,7 @@ export default function FeedPost({ post, questEmoji, showAddQuestie }) {
         </div>
       </article>
 
-      {showComments && <CommentSheet post={post} onClose={() => setShowComments(false)} />}
+      {showComments && <CommentSheet post={post} currentUsername={currentUsername} onClose={() => setShowComments(false)} />}
     </>
   );
 }
