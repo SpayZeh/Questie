@@ -21,6 +21,7 @@ export default function QuestlineSheet({ questline = [], onClose }) {
               <div key={item.id} className={`questline-item ${isLeft ? 'questline-item--left' : 'questline-item--right'}`}>
                 <p className="questline-quest">{item.quest}</p>
                 <img src={item.photo} alt={item.quest} className="questline-photo" loading="lazy" />
+                {item.caption && <p className="questline-caption">{item.caption}</p>}
                 <p className="questline-date">{item.date} · {item.time}</p>
               </div>
             );

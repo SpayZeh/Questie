@@ -150,6 +150,7 @@ export default function App() {
         id: Date.now(),
         quest: quest.tagline.toLowerCase(),
         photo,
+        caption,
         date: now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
         time: now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase(),
       };
