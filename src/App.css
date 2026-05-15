@@ -1,485 +1,188 @@
-/* ============================================================
-   QUESTIE — Global Styles
-   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-:root {
-  --font: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --bg: #F5F5F7;
-  --surface: #FFFFFF;
-  --text-primary: #1A1A1A;
-  --text-secondary: #6B7280;
-  --text-tertiary: #9CA3AF;
-  --border: #E5E7EB;
-  --radius-sm: 10px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --radius-xl: 32px;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.10), 0 2px 8px rgba(0, 0, 0, 0.05);
-  --max-width: 430px;
-  --transition: 180ms ease;
-}
-
-html {
-  font-family: var(--font);
-  background-color: var(--bg);
-  color: var(--text-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  min-height: 100dvh;
-  background-color: var(--bg);
+  background: #000;
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
-
-button {
-  font-family: var(--font);
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-/* ============================================================
-   APP SHELL
-   ============================================================ */
 
 .app {
-  min-height: 100dvh;
-  background-color: var(--bg);
   display: flex;
   justify-content: center;
+  min-height: 100dvh;
 }
 
 .app-inner {
   width: 100%;
-  max-width: var(--max-width);
+  max-width: 430px;
   display: flex;
   flex-direction: column;
-  min-height: 100dvh;
-  background: var(--bg);
 }
 
-/* ============================================================
-   HEADER
-   ============================================================ */
-
+/* ── Header ── */
 .header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: rgba(245, 245, 247, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 20px;
+  padding: 16px 16px 8px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #000;
 }
 
-.logo {
+.tabs {
   display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.logo-icon {
-  font-size: 22px;
-  line-height: 1;
-}
-
-.logo-text {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: -0.5px;
-}
-
-.avatar-btn {
-  position: relative;
-  padding: 0;
-  border-radius: 50%;
-  transition: transform var(--transition), opacity var(--transition);
-}
-
-.avatar-btn:active {
-  transform: scale(0.92);
-  opacity: 0.85;
-}
-
-.avatar-img {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2.5px solid #fff;
-  box-shadow: var(--shadow-sm);
-}
-
-.avatar-badge {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  font-size: 12px;
-  line-height: 1;
-  background: var(--surface);
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-sm);
-}
-
-/* ============================================================
-   MAIN
-   ============================================================ */
-
-.main {
-  flex: 1;
-  padding: 16px 16px 32px;
-  display: flex;
-  flex-direction: column;
   gap: 20px;
 }
 
-.quest-section {
-  /* no extra spacing needed */
+.tab {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: #555;
+  padding: 0;
+  transition: color 0.15s;
 }
 
-/* ============================================================
-   QUEST CARD
-   ============================================================ */
-
-.quest-card {
-  border-radius: var(--radius-xl);
-  background: var(--surface);
-  box-shadow: var(--shadow-lg);
-  overflow: hidden;
-  border: 1px solid var(--border);
-  position: relative;
+.tab--active {
+  color: #fff;
 }
 
-/* Decorative top stripe */
-.quest-card::before {
-  content: '';
-  display: block;
-  height: 5px;
-  background: var(--quest-color, #FF3B30);
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-}
-
-.quest-card-inner {
-  padding: 24px 22px 22px;
+.profile-btn {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.profile-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #333;
+}
+
+.profile-label {
+  font-size: 10px;
+  color: #888;
+  font-family: inherit;
+}
+
+/* ── Quest Banner ── */
+.quest-banner {
+  margin: 8px 12px 4px;
+  background: #111;
+  border-radius: 16px;
+  padding: 14px 14px 10px;
+  border: 1px solid #222;
+}
+
+.quest-banner-top {
+  display: flex;
+  align-items: center;
   gap: 10px;
 }
 
-/* TODAY'S QUEST badge */
-.quest-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border-radius: 99px;
-  background: var(--quest-color-light, #FFF0EF);
-  color: var(--quest-color, #FF3B30);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.quest-badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--quest-color, #FF3B30);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.5; transform: scale(0.75); }
-}
-
-.quest-emoji-big {
-  font-size: 52px;
-  line-height: 1;
-  margin-top: 4px;
-  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.12));
-}
-
-.quest-title {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: -0.4px;
-  line-height: 1.25;
-}
-
-.quest-description {
-  font-size: 14px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-}
-
-/* Stats row */
-.quest-stats {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--quest-color-light, #FFF0EF);
-  border-radius: var(--radius-sm);
-  padding: 8px 12px;
-  width: 100%;
-  margin-top: 2px;
-}
-
-.quest-stats-icon {
-  font-size: 14px;
-}
-
-.quest-stats-text {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
-
-.quest-stats-text strong {
-  color: var(--quest-color, #FF3B30);
-  font-weight: 700;
-}
-
-/* Complete button */
-.complete-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 15px;
-  border-radius: var(--radius-md);
-  background: var(--quest-color, #FF3B30);
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.2px;
-  margin-top: 6px;
-  transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
-  box-shadow: 0 4px 14px -2px color-mix(in srgb, var(--quest-color, #FF3B30) 55%, transparent);
-}
-
-.complete-btn:hover {
-  opacity: 0.92;
-  box-shadow: 0 6px 20px -2px color-mix(in srgb, var(--quest-color, #FF3B30) 60%, transparent);
-}
-
-.complete-btn:active {
-  transform: scale(0.97);
-  opacity: 0.85;
-}
-
-.complete-btn-icon {
-  font-size: 18px;
-}
-
-/* Completed state in card */
-.quest-completed {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 6px;
-}
-
-.quest-completed-preview {
-  position: relative;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  height: 200px;
-}
-
-.quest-preview-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.quest-completed-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.28);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.quest-completed-check {
-  font-size: 48px;
-  color: #fff;
-  font-weight: 900;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-}
-
-.quest-completed-text {
-  background: var(--quest-color-light, #FFF0EF);
-  border-radius: var(--radius-sm);
-  padding: 12px 14px;
-}
-
-.quest-completed-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--quest-color, #FF3B30);
-}
-
-.quest-completed-sub {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-top: 2px;
-}
-
-/* Next quest teaser */
-.next-quest {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 22px;
-  border-top: 1px solid var(--border);
-  background: #FAFAFA;
-}
-
-.next-quest-label {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
+.quest-banner-emoji {
+  font-size: 26px;
   flex-shrink: 0;
 }
 
-.next-quest-title {
+.quest-banner-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.quest-banner-title {
   font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
+  font-weight: 700;
+  color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* ============================================================
-   FEED HEADER
-   ============================================================ */
-
-.feed-header {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding-left: 2px;
-}
-
-.feed-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: -0.3px;
-}
-
-.feed-subtitle {
-  font-size: 13px;
-  color: var(--text-tertiary);
-}
-
-/* ============================================================
-   COMPLETION BANNER
-   ============================================================ */
-
-.completion-banner {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
-  border: 1.5px solid;
-  animation: slideIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(-10px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.completion-banner-icon {
-  font-size: 28px;
-  flex-shrink: 0;
-}
-
-.completion-banner-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-.completion-banner-sub {
-  font-size: 12px;
-  color: var(--text-secondary);
+.quest-banner-next {
+  font-size: 11px;
+  color: #555;
   margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* ============================================================
-   FEED
-   ============================================================ */
+.quest-banner-cta {
+  background: var(--qcolor, #7c3aed);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
 
+.quest-banner-cta:active { opacity: 0.8; }
+
+.quest-examples {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.quest-example-pill {
+  background: #1e1e1e;
+  border: 1px solid #2a2a2a;
+  color: #888;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+/* ── Feed ── */
 .feed {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 2px;
+  padding: 8px 0 40px;
 }
 
-/* ============================================================
-   FEED POST
-   ============================================================ */
-
+/* ── Feed Post ── */
 .feed-post {
-  background: var(--surface);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  background: #111;
+  border-radius: 18px;
+  margin: 6px 12px;
   overflow: hidden;
-  border: 1px solid var(--border);
 }
 
 .post-header {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 16px 12px;
+  padding: 12px 14px 10px;
 }
 
 .post-avatar {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--border);
   flex-shrink: 0;
 }
 
@@ -488,252 +191,71 @@ img {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  min-width: 0;
-}
-
-.post-display-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .post-username {
-  font-size: 12px;
-  color: var(--text-tertiary);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
 }
 
-.post-time {
-  font-size: 12px;
-  color: var(--text-tertiary);
-  flex-shrink: 0;
+.post-sub {
+  font-size: 11px;
+  color: #555;
 }
 
-/* Photo */
+.post-new-badge {
+  background: #7c3aed;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
 .post-photo-wrap {
-  position: relative;
+  width: 100%;
+  aspect-ratio: 4/5;
   overflow: hidden;
-  background: #f0f0f0;
 }
 
 .post-photo {
   width: 100%;
-  aspect-ratio: 4 / 4.5;
+  height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
 }
 
-.post-photo:hover {
-  transform: scale(1.015);
+.post-caption {
+  padding: 10px 14px 4px;
+  font-size: 13px;
+  color: #ccc;
+  line-height: 1.4;
 }
 
-.post-photo-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 4px 10px;
-  border-radius: 99px;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-/* Reactions */
 .post-reactions {
   display: flex;
-  align-items: center;
   gap: 8px;
-  padding: 12px 14px 14px;
-  flex-wrap: wrap;
-}
-
-.reaction-list {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  flex: 1;
+  padding: 10px 14px 14px;
 }
 
 .reaction-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 5px 10px;
-  border-radius: 99px;
-  border: 1.5px solid var(--border);
-  background: #fff;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  transition: transform var(--transition), border-color var(--transition), background var(--transition);
-  -webkit-tap-highlight-color: transparent;
-}
-
-.reaction-btn:active {
-  transform: scale(0.9);
-}
-
-.reaction-btn--active {
-  border-color: var(--quest-color, #FF3B30);
-  background: color-mix(in srgb, var(--quest-color, #FF3B30) 10%, white);
-  color: var(--text-primary);
-}
-
-.reaction-count {
-  font-size: 12px;
-}
-
-.add-reaction-btn {
-  width: 32px;
-  height: 32px;
+  background: #1e1e1e;
+  border: 1px solid #2a2a2a;
   border-radius: 50%;
-  border: 1.5px dashed var(--border);
-  background: #fff;
-  color: var(--text-tertiary);
-  font-size: 16px;
-  font-weight: 600;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  transition: border-color var(--transition), color var(--transition), transform var(--transition);
+  transition: transform 0.1s, background 0.15s;
 }
 
-.add-reaction-btn:hover {
-  border-color: var(--text-secondary);
-  color: var(--text-primary);
-}
+.reaction-btn:active { transform: scale(0.9); }
 
-.add-reaction-btn:active {
-  transform: scale(0.88);
-}
-
-/* ============================================================
-   PAST QUESTS
-   ============================================================ */
-
-.past-quests-section {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding-top: 4px;
-}
-
-.past-quests-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: -0.3px;
-  padding-left: 2px;
-}
-
-.past-quests-list {
-  background: var(--surface);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-
-.past-quest-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--border);
-  opacity: 0.65;
-}
-
-.past-quest-item:last-child {
-  border-bottom: none;
-}
-
-.past-quest-emoji {
-  font-size: 24px;
-  flex-shrink: 0;
-  filter: grayscale(0.5);
-}
-
-.past-quest-info {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-
-.past-quest-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.past-quest-completions {
-  font-size: 12px;
-  color: var(--text-tertiary);
-}
-
-.past-quest-done {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-tertiary);
-  background: var(--bg);
-  padding: 3px 8px;
-  border-radius: 99px;
-  flex-shrink: 0;
-}
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-
-.footer {
-  padding: 20px;
-  text-align: center;
-  border-top: 1px solid var(--border);
-  background: var(--surface);
-}
-
-.footer p {
-  font-size: 13px;
-  color: var(--text-tertiary);
-  font-weight: 500;
-}
-
-/* ============================================================
-   DESKTOP CENTER — looks great on wide screens too
-   ============================================================ */
-
-@media (min-width: 500px) {
-  .app {
-    background: #EBEBED;
-  }
-
-  .app-inner {
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.06), 0 8px 48px rgba(0,0,0,0.12);
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-  }
-}
-
-/* ============================================================
-   ANIMATIONS / MICRO-INTERACTIONS
-   ============================================================ */
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
+.reaction-btn--tapped {
+  background: #2a1f3d;
+  border-color: #7c3aed;
 }
