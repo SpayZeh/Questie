@@ -28,6 +28,10 @@ export default function FeedPost({ post, questEmoji, showAddQuestie }) {
             <span className="post-username">{post.username}</span>
             <span className="post-time">{post.isNew ? 'just completed' : post.timeAgo}</span>
           </div>
+          <div className="post-streak">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 0.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5 0.67z"/></svg>
+            <span>{post.streak}</span>
+          </div>
           {showAddQuestie && (
             <button
               className={`post-add-btn ${added ? 'post-add-btn--done' : ''}`}

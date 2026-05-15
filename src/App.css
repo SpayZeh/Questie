@@ -306,6 +306,18 @@ body {
 }
 
 
+/* ── Streak ── */
+.post-streak {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 800;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
 /* ── Photo ── */
 .post-photo-wrap {
   width: 100%;

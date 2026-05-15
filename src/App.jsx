@@ -17,6 +17,14 @@ function formatCountdown(ms) {
   return `${h}:${m}:${s}`;
 }
 
+const initialQuestline = [
+  { id: 1, quest: 'touch grass',  photo: 'https://picsum.photos/seed/ql-1/400/520', date: 'may 14', time: '12:32pm' },
+  { id: 2, quest: "i'm blue",     photo: 'https://picsum.photos/seed/ql-2/400/520', date: 'may 13', time: '3:17pm'  },
+  { id: 3, quest: 'new heights',  photo: 'https://picsum.photos/seed/ql-3/400/520', date: 'may 12', time: '9:45am'  },
+  { id: 4, quest: 'say cheese',   photo: 'https://picsum.photos/seed/ql-4/400/520', date: 'may 11', time: '6:02pm'  },
+  { id: 5, quest: 'golden hour',  photo: 'https://picsum.photos/seed/ql-5/400/520', date: 'may 10', time: '7:48pm'  },
+];
+
 export default function App() {
   const [splash, setSplash] = useState(true);
   const [tab, setTab] = useState('best');
@@ -27,8 +35,13 @@ export default function App() {
   const [discoveryPostsList, setDiscoveryPostsList] = useState(discoveryPosts);
   const [hasPosted, setHasPosted] = useState(false);
   const [showNotifs, setShowNotifs] = useState(false);
+  const [questline, setQuestline] = useState(initialQuestline);
 
   function handlePost(photo, caption, visibility) {
+    const now = new Date();
+    const date = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    const time = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase();
+    const newEntry = { id: Date.now(), quest: quest.tagline.toLowerCase(), photo, date, time };
     const newPost = {
       id: Date.now(),
       username: 'you',
@@ -37,9 +50,11 @@ export default function App() {
       caption,
       timeAgo: '',
       isNew: true,
+      streak: questline.length + 1,
       reactions: { quest: 0, heart: 0, laugh: 0 },
       comments: [],
     };
+    setQuestline((prev) => [newEntry, ...prev]);
     setFriendPosts((prev) => [newPost, ...prev]);
     if (visibility === 'everyone') {
       setDiscoveryPostsList((prev) => [newPost, ...prev]);
@@ -109,7 +124,7 @@ export default function App() {
       </nav>
 
       {showPost    && <PostModal    quest={quest} onPost={handlePost} onClose={() => setShowPost(false)} />}
-      {showProfile && <ProfileModal onClose={() => setShowProfile(false)} />}
+      {showProfile && <ProfileModal questline={questline} onClose={() => setShowProfile(false)} />}
       {showNotifs  && <NotifSheet                onClose={() => setShowNotifs(false)} />}
     </div>
   );
