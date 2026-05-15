@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { doc, updateDoc, increment } from 'firebase/firestore';
+import { db, auth } from '../firebase.js';
 import CommentSheet from './CommentSheet.jsx';
 
 export default function FeedPost({ post, questEmoji, showAddQuestie }) {
@@ -7,10 +9,17 @@ export default function FeedPost({ post, questEmoji, showAddQuestie }) {
   const [showComments, setShowComments] = useState(false);
   const [added, setAdded] = useState(false);
 
-  function tap(key) {
+  async function tap(key) {
     if (tapped[key]) return;
     setTapped((prev) => ({ ...prev, [key]: true }));
     setReactions((prev) => ({ ...prev, [key]: prev[key] + 1 }));
+    try {
+      await updateDoc(doc(db, 'posts', post.id), {
+        [`reactions.${key}`]: increment(1),
+      });
+    } catch (e) {
+      // no-op for mock posts without a real Firestore id
+    }
   }
 
   const pills = [
@@ -19,27 +28,30 @@ export default function FeedPost({ post, questEmoji, showAddQuestie }) {
     { key: 'laugh', emoji: '😂' },
   ];
 
+  const commentCount = post.commentCount || post.comments?.length || 0;
+
   return (
     <>
       <article className="feed-post">
         <div className="post-header">
-          <img src={post.avatar} alt={post.username} className="post-avatar" />
+          {post.avatar
+            ? <img src={post.avatar} alt={post.username} className="post-avatar" referrerPolicy="no-referrer" />
+            : <div className="post-avatar post-avatar--initials">{(post.username || 'u')[0].toUpperCase()}</div>
+          }
           <div className="post-meta">
             <span className="post-username">{post.username}</span>
             <span className="post-time">{post.isNew ? 'just completed' : post.timeAgo}</span>
           </div>
           <div className="post-streak">
             <span className="post-streak-icon">⚡</span>
-            <span>{post.streak}</span>
+            <span>{post.streak || 0}</span>
           </div>
           {showAddQuestie && (
             <button
               className={`post-add-btn ${added ? 'post-add-btn--done' : ''}`}
               onClick={() => setAdded(true)}
             >
-              {added ? (
-                '✓ added'
-              ) : (
+              {added ? '✓ added' : (
                 <>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
                   add questie
@@ -79,9 +91,9 @@ export default function FeedPost({ post, questEmoji, showAddQuestie }) {
             </p>
           )}
 
-          {post.comments.length > 0 && (
+          {commentCount > 0 && (
             <button className="view-comments" onClick={() => setShowComments(true)}>
-              view all {post.comments.length} comment{post.comments.length !== 1 ? 's' : ''}
+              view all {commentCount} comment{commentCount !== 1 ? 's' : ''}
             </button>
           )}
         </div>

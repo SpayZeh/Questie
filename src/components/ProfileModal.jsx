@@ -1,4 +1,7 @@
 import React, { useState, useRef } from 'react';
+import { signOut, updateProfile } from 'firebase/auth';
+import { doc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase.js';
 import QuestlineSheet from './QuestlineSheet.jsx';
 
 const MOCK_FRIENDS = [
@@ -7,25 +10,28 @@ const MOCK_FRIENDS = [
   { id: 'f3', username: 'soph.snaps',  avatar: 'https://i.pravatar.cc/150?img=32' },
 ];
 
-export default function ProfileModal({ questline, onClose }) {
-  const [name, setName] = useState('you');
+export default function ProfileModal({ user, userProfile, questline, onClose }) {
+  const [name, setName] = useState(userProfile?.username || user?.displayName || 'you');
   const [showQuestline, setShowQuestline] = useState(false);
-  const [avatar, setAvatar] = useState('https://i.pravatar.cc/150?img=5');
-  const [preview, setPreview] = useState(null);
   const [searchVal, setSearchVal] = useState('');
   const [friends, setFriends] = useState(MOCK_FRIENDS);
   const [added, setAdded] = useState({});
   const [removing, setRemoving] = useState(null);
   const fileRef = useRef(null);
 
-  function handleFile(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-    setPreview(URL.createObjectURL(file));
+  async function handleSave() {
+    try {
+      if (user && name !== userProfile?.username) {
+        await updateDoc(doc(db, 'users', user.uid), { username: name });
+      }
+    } catch (e) {
+      console.error('save failed:', e);
+    }
+    onClose();
   }
 
-  function handleSave() {
-    if (preview) setAvatar(preview);
+  async function handleSignOut() {
+    await signOut(auth);
     onClose();
   }
 
@@ -54,12 +60,13 @@ export default function ProfileModal({ questline, onClose }) {
         </div>
 
         <div className="profile-avatar-section">
-          <div className="profile-avatar-wrap" onClick={() => fileRef.current?.click()}>
-            <img src={preview || avatar} alt="avatar" className="profile-big-avatar" />
-            <div className="profile-avatar-overlay">change</div>
+          <div className="profile-avatar-wrap">
+            {user?.photoURL
+              ? <img src={user.photoURL} alt="avatar" className="profile-big-avatar" referrerPolicy="no-referrer" />
+              : <div className="profile-big-avatar profile-big-avatar--initials">{name[0].toUpperCase()}</div>
+            }
           </div>
-          <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleFile} />
-          <p className="profile-avatar-hint">tap to change photo</p>
+          <p className="profile-avatar-hint">{user?.email}</p>
         </div>
 
         <div className="profile-field">
@@ -74,6 +81,7 @@ export default function ProfileModal({ questline, onClose }) {
 
         <button className="modal-post-btn" onClick={handleSave}>save</button>
         <button className="profile-questline-btn" onClick={() => setShowQuestline(true)}>my questline</button>
+        <button className="profile-signout-btn" onClick={handleSignOut}>sign out</button>
 
         <div className="profile-divider" />
 

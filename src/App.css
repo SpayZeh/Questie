@@ -25,6 +25,79 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── Google Login ── */
+.google-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  padding: 16px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.google-login-btn:hover { border-color: var(--sub); }
+.google-login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Feed empty state ── */
+.feed-empty {
+  text-align: center;
+  color: var(--sub);
+  font-size: 13px;
+  padding: 60px 20px;
+  line-height: 1.6;
+}
+
+/* ── Avatar initials fallback ── */
+.post-avatar--initials,
+.comment-avatar--initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.profile-big-avatar--initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 32px;
+  font-weight: 900;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+/* ── Sign out ── */
+.profile-signout-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  padding: 12px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sub);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.profile-signout-btn:hover { border-color: #e05252; color: #e05252; }
+
 /* ── Splash ── */
 .splash-screen {
   display: flex;

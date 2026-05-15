@@ -22,12 +22,11 @@ function compressImage(file) {
   });
 }
 
-export default function PostModal({ quest, onPost, onClose }) {
+export default function PostModal({ quest, onPost, posting, onClose }) {
   const [preview, setPreview] = useState(null);
   const [compressed, setCompressed] = useState(null);
   const [caption, setCaption] = useState('');
   const [visibility, setVisibility] = useState('questies');
-  const [posted, setPosted] = useState(false);
   const [compressing, setCompressing] = useState(false);
   const fileRef = useRef(null);
 
@@ -42,12 +41,11 @@ export default function PostModal({ quest, onPost, onClose }) {
   }
 
   function handlePost() {
-    if (!compressed) return;
-    setPosted(true);
-    setTimeout(() => onPost(compressed, caption, visibility), 900);
+    if (!compressed || posting) return;
+    onPost(compressed, caption, visibility);
   }
 
-  const ready = compressed && !compressing;
+  const ready = compressed && !compressing && !posting;
 
   return (
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
@@ -103,11 +101,11 @@ export default function PostModal({ quest, onPost, onClose }) {
         </div>
 
         <button
-          className={`modal-post-btn ${!ready ? 'modal-post-btn--disabled' : ''} ${posted ? 'modal-post-btn--done' : ''}`}
+          className={`modal-post-btn ${!ready ? 'modal-post-btn--disabled' : ''}`}
           onClick={handlePost}
           disabled={!ready}
         >
-          {posted ? 'posted!' : compressing ? 'processing...' : 'post to feed'}
+          {posting ? 'uploading...' : compressing ? 'processing...' : 'post to feed'}
         </button>
       </div>
     </div>
