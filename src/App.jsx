@@ -234,6 +234,7 @@ export default function App() {
               showAddQuestie={isFuture && post.userId !== user?.uid && !following.includes(post.userId)}
               currentUser={user}
               currentUsername={userProfile?.username}
+              onAddQuestie={(uid) => setUserProfile((prev) => ({ ...prev, following: [...(prev?.following || []), uid] }))}
             />
           ))}
         </main>

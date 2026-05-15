@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { doc, updateDoc, increment, addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { doc, updateDoc, increment, addDoc, collection, serverTimestamp, arrayUnion } from 'firebase/firestore';
 import { db, auth } from '../firebase.js';
 import CommentSheet from './CommentSheet.jsx';
 
-export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser, currentUsername }) {
+export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser, currentUsername, onAddQuestie }) {
   const [reactions, setReactions] = useState({ ...post.reactions });
   const [tapped, setTapped] = useState({});
   const [showComments, setShowComments] = useState(false);
@@ -61,7 +61,27 @@ export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser
           {showAddQuestie && (
             <button
               className={`post-add-btn ${added ? 'post-add-btn--done' : ''}`}
-              onClick={() => setAdded(true)}
+              onClick={async () => {
+                if (added || !currentUser) return;
+                setAdded(true);
+                try {
+                  await updateDoc(doc(db, 'users', currentUser.uid), {
+                    following: arrayUnion(post.userId),
+                  });
+                  await addDoc(collection(db, 'users', post.userId, 'notifications'), {
+                    type: 'follow',
+                    fromUid: currentUser.uid,
+                    fromUsername: currentUsername || currentUser.displayName || 'someone',
+                    fromAvatar: currentUser.photoURL || '',
+                    text: 'added you as a questie',
+                    unread: true,
+                    createdAt: serverTimestamp(),
+                  });
+                  onAddQuestie?.(post.userId);
+                } catch (e) {
+                  console.error('add questie failed:', e);
+                }
+              }}
             >
               {added ? '✓ added' : (
                 <>
