@@ -231,7 +231,7 @@ export default function App() {
               key={post.id}
               post={post}
               questEmoji={quest.emoji}
-              showAddQuestie={isFuture && post.userId !== user?.uid && !following.includes(post.userId)}
+              showAddQuestie={!!user && isFuture && post.userId !== user?.uid && !following.includes(post.userId)}
               currentUser={user}
               currentUsername={userProfile?.username}
               onAddQuestie={(uid) => setUserProfile((prev) => ({ ...prev, following: [...(prev?.following || []), uid] }))}
