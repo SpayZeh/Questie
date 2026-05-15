@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { signOut } from 'firebase/auth';
-import { doc, updateDoc, getDoc, collection, getDocs, addDoc, arrayUnion, arrayRemove, serverTimestamp } from 'firebase/firestore';
+import { doc, updateDoc, getDoc, collection, getDocs, addDoc, arrayUnion, arrayRemove, serverTimestamp, query, where, onSnapshot } from 'firebase/firestore';
 import { auth, db } from '../firebase.js';
 import QuestlineSheet from './QuestlineSheet.jsx';
 
@@ -43,6 +43,7 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
   const [removing, setRemoving] = useState(null);
   const [saving, setSaving] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [pendingRequests, setPendingRequests] = useState([]);
   const avatarInputRef = useRef(null);
 
   async function handleAvatarChange(e) {
@@ -59,6 +60,14 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
     }
     setAvatarSaving(false);
   }
+
+  useEffect(() => {
+    if (!user) return;
+    const q = query(collection(db, 'friendRequests'), where('to', '==', user.uid));
+    return onSnapshot(q, (snap) => {
+      setPendingRequests(snap.docs.map((d) => ({ id: d.id, ...d.data() })).filter((r) => r.status === 'pending'));
+    });
+  }, [user]);
 
   useEffect(() => {
     if (!user || !userProfile?.following?.length) return;
@@ -107,11 +116,37 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
     onClose();
   }
 
+  async function handleAcceptRequest(req) {
+    try {
+      await updateDoc(doc(db, 'friendRequests', req.id), { status: 'accepted' });
+      await updateDoc(doc(db, 'users', user.uid), { following: arrayUnion(req.from) });
+      await updateDoc(doc(db, 'users', req.from), { following: arrayUnion(user.uid) });
+      await addDoc(collection(db, 'users', req.from, 'notifications'), {
+        type: 'accepted',
+        fromUid: user.uid,
+        fromUsername: userProfile?.username || 'someone',
+        fromAvatar: userProfile?.photoURL || user.photoURL || '',
+        text: 'accepted your questie request',
+        unread: true,
+        createdAt: serverTimestamp(),
+      });
+    } catch (e) {
+      console.error('accept failed:', e);
+    }
+  }
+
+  async function handleDeclineRequest(req) {
+    try {
+      await updateDoc(doc(db, 'friendRequests', req.id), { status: 'declined' });
+    } catch (e) {
+      console.error('decline failed:', e);
+    }
+  }
+
   async function handleAdd(r) {
     if (added[r.id] || friends.some((f) => f.id === r.id)) return;
     setAdded((p) => ({ ...p, [r.id]: true }));
     try {
-      await updateDoc(doc(db, 'users', user.uid), { following: arrayUnion(r.id) });
       const reqRef = await addDoc(collection(db, 'friendRequests'), {
         from: user.uid,
         fromUsername: userProfile?.username || user.displayName || 'someone',
@@ -131,7 +166,6 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
         unread: true,
         createdAt: serverTimestamp(),
       });
-      setFriends((prev) => [...prev, r]);
     } catch (e) {
       console.error('add failed:', e);
     }
@@ -236,6 +270,26 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
             >
               {added[r.id] || friends.some((f) => f.id === r.id) ? 'added' : '+ add'}
             </button>
+          </div>
+        ))}
+
+        <div className="profile-divider" />
+
+        <p className="profile-section-title">potential questies ({pendingRequests.length})</p>
+        {pendingRequests.length === 0 && (
+          <p className="comment-empty">no pending requests.</p>
+        )}
+        {pendingRequests.map((req) => (
+          <div key={req.id} className="profile-friend-row">
+            {req.fromAvatar
+              ? <img src={req.fromAvatar} alt={req.fromUsername} className="comment-avatar" referrerPolicy="no-referrer" />
+              : <div className="comment-avatar post-avatar--initials">{(req.fromUsername || 'u')[0].toUpperCase()}</div>
+            }
+            <span className="profile-friend-name">{req.fromUsername}</span>
+            <div className="profile-remove-confirm">
+              <button className="notif-btn notif-btn--accept" onClick={() => handleAcceptRequest(req)}>accept</button>
+              <button className="notif-btn notif-btn--decline" onClick={() => handleDeclineRequest(req)}>decline</button>
+            </div>
           </div>
         ))}
 

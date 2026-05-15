@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { doc, updateDoc, increment, addDoc, collection, serverTimestamp, arrayUnion } from 'firebase/firestore';
+import { doc, updateDoc, increment, addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../firebase.js';
 import CommentSheet from './CommentSheet.jsx';
 
@@ -65,25 +65,38 @@ export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser
                 if (added || !currentUser) return;
                 setAdded(true);
                 try {
-                  await updateDoc(doc(db, 'users', currentUser.uid), {
-                    following: arrayUnion(post.userId),
+                  const REQUEST_TEXTS = [
+                    'wants to be your new questie',
+                    'really wants to be your questie',
+                    'is desperately trying to become your questie',
+                    'really really wants to quest with you',
+                  ];
+                  const text = REQUEST_TEXTS[Math.floor(Math.random() * REQUEST_TEXTS.length)];
+                  const reqRef = await addDoc(collection(db, 'friendRequests'), {
+                    from: currentUser.uid,
+                    fromUsername: currentUsername || currentUser.displayName || 'someone',
+                    fromAvatar: currentUser.photoURL || '',
+                    to: post.userId,
+                    status: 'pending',
+                    createdAt: serverTimestamp(),
                   });
                   await addDoc(collection(db, 'users', post.userId, 'notifications'), {
-                    type: 'follow',
+                    type: 'request',
                     fromUid: currentUser.uid,
                     fromUsername: currentUsername || currentUser.displayName || 'someone',
                     fromAvatar: currentUser.photoURL || '',
-                    text: 'added you as a questie',
+                    text,
+                    requestId: reqRef.id,
                     unread: true,
                     createdAt: serverTimestamp(),
                   });
-                  onAddQuestie?.(post.userId);
                 } catch (e) {
                   console.error('add questie failed:', e);
+                  setAdded(false);
                 }
               }}
             >
-              {added ? '✓ added' : (
+              {added ? '✓ requested' : (
                 <>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
                   add questie
