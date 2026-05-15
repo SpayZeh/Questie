@@ -41,15 +41,6 @@ export default function App() {
           </button>
         </header>
 
-        {isFuture && (
-          <div className="global-action-bar">
-            <span className="global-action-label">explore questies</span>
-            <button className="global-add-btn" onClick={() => setShowProfile(true)}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
-              add questie
-            </button>
-          </div>
-        )}
 
         <main className="feed">
           {(isFuture ? discoveryPosts : friendPosts).map((post) => (
@@ -68,12 +59,9 @@ export default function App() {
         <button className={`bottom-tab ${tab === 'best' ? 'bottom-tab--active' : ''}`} onClick={() => setTab('best')}>
           my best questies
         </button>
-        <button className="bottom-add-btn" onClick={() => setShowProfile(true)}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
-          add questie
-        </button>
         <button className="bottom-profile-btn" onClick={() => setShowProfile(true)}>
           <img src="https://i.pravatar.cc/150?img=5" alt="profile" className="bottom-profile-avatar" />
+          <span className="bottom-profile-label">you and your questies</span>
         </button>
         <button className={`bottom-tab ${tab === 'potential' ? 'bottom-tab--active' : ''}`} onClick={() => setTab('potential')}>
           future questies

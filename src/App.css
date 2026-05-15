@@ -267,41 +267,6 @@ body {
   stroke-linejoin: round;
 }
 
-/* ── Global Action Bar ── */
-.global-action-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
-}
-
-.global-action-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--sub);
-  letter-spacing: 0.04em;
-  text-transform: lowercase;
-}
-
-.global-add-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 7px 14px;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--accent);
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-
-.global-add-btn:active { border-color: var(--accent); }
 
 /* ── Profile Sheet ── */
 .profile-sheet { gap: 12px; }
@@ -685,22 +650,6 @@ body {
   letter-spacing: 0.01em;
 }
 
-.bottom-add-btn {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--accent);
-  padding: 0 6px;
-  flex-shrink: 0;
-}
-
 .bottom-tab--active { color: var(--text); }
 
 .bottom-profile-btn {
@@ -709,6 +658,10 @@ body {
   cursor: pointer;
   padding: 0 6px;
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .bottom-profile-avatar {
@@ -718,6 +671,14 @@ body {
   object-fit: cover;
   border: 1.5px solid var(--border);
   display: block;
+}
+
+.bottom-profile-label {
+  font-size: 8px;
+  font-weight: 600;
+  color: var(--sub);
+  white-space: nowrap;
+  letter-spacing: 0.01em;
 }
 
 /* ── Post add questie btn ── */
