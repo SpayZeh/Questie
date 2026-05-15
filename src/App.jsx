@@ -1,13 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import FeedPost from './components/FeedPost.jsx';
-import { getTodaysQuest } from './data/quests.js';
+import PostModal from './components/PostModal.jsx';
 import { feedPosts } from './data/posts.js';
 
 const quest = { emoji: '🌿', tagline: 'Touch Grass', description: 'Literally, touch grass and capture it.', color: '#34C759' };
 
 export default function App() {
   const [tab, setTab] = useState('best');
-  const fileRef = useRef(null);
+  const [showPost, setShowPost] = useState(false);
 
   return (
     <div className="app">
@@ -20,16 +20,15 @@ export default function App() {
               <span className="quest-tagline">{quest.tagline}</span>
               <span className="quest-desc">{quest.description}</span>
             </div>
-            <button className="quest-post-btn" onClick={() => fileRef.current?.click()}>
-              Post
+            <button className="quest-post-btn" onClick={() => setShowPost(true)}>
+              Complete Quest
             </button>
-            <input ref={fileRef} type="file" accept="image/*,video/*" capture="environment" style={{ display: 'none' }} />
           </div>
         </header>
 
         <main className="feed">
           {feedPosts.map((post) => (
-            <FeedPost key={post.id} post={post} />
+            <FeedPost key={post.id} post={post} questEmoji={quest.emoji} />
           ))}
         </main>
 
@@ -46,6 +45,8 @@ export default function App() {
           Potential Questies
         </button>
       </nav>
+
+      {showPost && <PostModal quest={quest} onClose={() => setShowPost(false)} />}
     </div>
   );
 }

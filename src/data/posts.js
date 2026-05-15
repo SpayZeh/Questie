@@ -4,15 +4,13 @@ export const feedPosts = [
     username: 'irene.daily',
     avatar: 'https://i.pravatar.cc/150?img=47',
     photo: 'https://picsum.photos/seed/quest-irene/600/800',
-    selfie: 'https://picsum.photos/seed/irene-face/200/200',
     caption: 'Just completed my first quest yaaay!!!',
     timeAgo: '2m',
     isNew: true,
-    reactions: [
-      { emoji: '❤️', count: 12 },
-      { emoji: '🔥', count: 8 },
-      { emoji: '😂', count: 5 },
-      { emoji: '👏', count: 3 },
+    reactions: { quest: 14, heart: 8, laugh: 5 },
+    comments: [
+      { id: 1, username: 'joel.g', avatar: 'https://i.pravatar.cc/150?img=12', text: 'so cute omg 🌿', timeAgo: '1m' },
+      { id: 2, username: 'soph.snaps', avatar: 'https://i.pravatar.cc/150?img=32', text: 'yesss queen!!!', timeAgo: '30s' },
     ],
   },
   {
@@ -20,13 +18,12 @@ export const feedPosts = [
     username: 'joel.g',
     avatar: 'https://i.pravatar.cc/150?img=12',
     photo: 'https://picsum.photos/seed/quest-joel/600/800',
-    selfie: 'https://picsum.photos/seed/joel-face/200/200',
-    caption: 'found the reddest thing in my apartment lol',
+    caption: 'found the softest patch of grass in the park',
     timeAgo: '14m',
     isNew: false,
-    reactions: [
-      { emoji: '🔥', count: 21 },
-      { emoji: '😂', count: 9 },
+    reactions: { quest: 21, heart: 13, laugh: 4 },
+    comments: [
+      { id: 1, username: 'irene.daily', avatar: 'https://i.pravatar.cc/150?img=47', text: 'that looks so lush 😭', timeAgo: '10m' },
     ],
   },
   {
@@ -34,14 +31,13 @@ export const feedPosts = [
     username: 'soph.snaps',
     avatar: 'https://i.pravatar.cc/150?img=32',
     photo: 'https://picsum.photos/seed/quest-soph/600/800',
-    selfie: 'https://picsum.photos/seed/soph-face/200/200',
-    caption: 'does my lip gloss count as red??',
+    caption: 'fake grass from the store counts right??',
     timeAgo: '22m',
     isNew: false,
-    reactions: [
-      { emoji: '😍', count: 41 },
-      { emoji: '❤️', count: 18 },
-      { emoji: '🔥', count: 7 },
+    reactions: { quest: 9, heart: 41, laugh: 38 },
+    comments: [
+      { id: 1, username: 'zara.clicks', avatar: 'https://i.pravatar.cc/150?img=25', text: 'absolutely not 😂', timeAgo: '18m' },
+      { id: 2, username: 'nomad.chris', avatar: 'https://i.pravatar.cc/150?img=61', text: 'lmaoo you tried it', timeAgo: '15m' },
     ],
   },
   {
@@ -49,28 +45,23 @@ export const feedPosts = [
     username: 'nomad.chris',
     avatar: 'https://i.pravatar.cc/150?img=61',
     photo: 'https://picsum.photos/seed/quest-chris/600/800',
-    selfie: 'https://picsum.photos/seed/chris-face/200/200',
-    caption: 'red cup on a red day ☕',
+    caption: 'rooftop garden. close enough.',
     timeAgo: '45m',
     isNew: false,
-    reactions: [
-      { emoji: '❤️', count: 7 },
-      { emoji: '😂', count: 3 },
-    ],
+    reactions: { quest: 7, heart: 19, laugh: 2 },
+    comments: [],
   },
   {
     id: 5,
     username: 'zara.clicks',
     avatar: 'https://i.pravatar.cc/150?img=25',
     photo: 'https://picsum.photos/seed/quest-zara/600/800',
-    selfie: 'https://picsum.photos/seed/zara-face/200/200',
-    caption: 'my whole wardrobe is red apparently',
+    caption: 'barefoot on the lawn 🌿',
     timeAgo: '1h',
     isNew: false,
-    reactions: [
-      { emoji: '🔥', count: 55 },
-      { emoji: '😍', count: 38 },
-      { emoji: '❤️', count: 22 },
+    reactions: { quest: 55, heart: 38, laugh: 6 },
+    comments: [
+      { id: 1, username: 'irene.daily', avatar: 'https://i.pravatar.cc/150?img=47', text: 'the dedication!!', timeAgo: '50m' },
     ],
   },
 ];

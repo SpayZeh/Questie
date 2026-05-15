@@ -240,6 +240,230 @@ body {
   stroke-linejoin: round;
 }
 
+/* ── Modal / Sheet ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.modal-sheet {
+  background: #111;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  max-width: 430px;
+  padding: 20px 20px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 92dvh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.modal-sub {
+  font-size: 13px;
+  color: #555;
+  margin-top: 2px;
+}
+
+.modal-close {
+  background: #1e1e1e;
+  border: none;
+  color: #888;
+  font-size: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-upload {
+  border: 2px dashed #2a2a2a;
+  border-radius: 16px;
+  aspect-ratio: 4/5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  background: #0d0d0d;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.modal-upload:hover { border-color: #444; }
+.modal-upload--filled { border-style: solid; border-color: #2a2a2a; cursor: default; }
+
+.modal-camera-icon { font-size: 40px; opacity: 0.5; }
+
+.modal-upload-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.modal-upload-sub {
+  font-size: 12px;
+  color: #555;
+}
+
+.modal-preview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.modal-caption {
+  background: #1a1a1a;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  resize: none;
+  outline: none;
+  width: 100%;
+}
+
+.modal-caption::placeholder { color: #444; }
+
+.modal-post-btn {
+  background: linear-gradient(135deg, #7c3aed, #db2777);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  padding: 16px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  letter-spacing: 0.01em;
+}
+
+.modal-post-btn--disabled { opacity: 0.35; cursor: not-allowed; }
+.modal-post-btn--done { background: #34C759; }
+
+/* ── Comment Sheet ── */
+.comment-sheet { max-height: 75dvh; }
+
+.comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 80px;
+  overflow-y: auto;
+}
+
+.comment-empty {
+  color: #444;
+  font-size: 13px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.comment-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.comment-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.comment-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.comment-username {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.comment-text {
+  font-size: 13px;
+  color: #aaa;
+  line-height: 1.4;
+}
+
+.comment-time {
+  font-size: 11px;
+  color: #444;
+  flex-shrink: 0;
+}
+
+.comment-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-top: 1px solid #1e1e1e;
+  padding-top: 14px;
+}
+
+.comment-input {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid #222;
+  border-radius: 20px;
+  padding: 10px 14px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+}
+
+.comment-input::placeholder { color: #444; }
+
+.comment-send {
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+
+.comment-send:disabled { opacity: 0.3; cursor: not-allowed; }
+
 /* ── Bottom Nav ── */
 .bottom-nav {
   position: fixed;
