@@ -3,6 +3,7 @@ import FeedPost from './components/FeedPost.jsx';
 import PostModal from './components/PostModal.jsx';
 import ProfileModal from './components/ProfileModal.jsx';
 import NotifSheet from './components/NotifSheet.jsx';
+import LoginScreen from './components/LoginScreen.jsx';
 import { friendPosts as initialFriendPosts, discoveryPosts } from './data/posts.js';
 import { msUntilReset } from './data/quests.js';
 
@@ -17,6 +18,7 @@ function formatCountdown(ms) {
 }
 
 export default function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
   const [tab, setTab] = useState('best');
   const [showPost, setShowPost] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -53,6 +55,8 @@ export default function App() {
   }, []);
 
   const isFuture = tab === 'potential';
+
+  if (!loggedIn) return <LoginScreen onLogin={() => setLoggedIn(true)} />;
 
   return (
     <div className="app">
