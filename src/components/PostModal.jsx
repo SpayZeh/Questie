@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 
-export default function PostModal({ quest, onClose }) {
+export default function PostModal({ quest, onPost, onClose }) {
   const [preview, setPreview] = useState(null);
   const [caption, setCaption] = useState('');
   const [posted, setPosted] = useState(false);
@@ -15,7 +15,7 @@ export default function PostModal({ quest, onClose }) {
   function handlePost() {
     if (!preview) return;
     setPosted(true);
-    setTimeout(onClose, 1200);
+    setTimeout(() => onPost(preview, caption), 900);
   }
 
   return (

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import FeedPost from './components/FeedPost.jsx';
 import PostModal from './components/PostModal.jsx';
 import ProfileModal from './components/ProfileModal.jsx';
-import { friendPosts, discoveryPosts } from './data/posts.js';
+import { friendPosts as initialFriendPosts, discoveryPosts } from './data/posts.js';
 import { msUntilReset } from './data/quests.js';
 
 const quest = { emoji: '🌿', tagline: 'Touch Grass', description: 'literally, touch grass and capture it.', color: '#F97316' };
@@ -20,6 +20,24 @@ export default function App() {
   const [showPost, setShowPost] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [msLeft, setMsLeft] = useState(msUntilReset());
+  const [friendPosts, setFriendPosts] = useState(initialFriendPosts);
+
+  function handlePost(photo, caption) {
+    const newPost = {
+      id: Date.now(),
+      username: 'you',
+      avatar: 'https://i.pravatar.cc/150?img=5',
+      photo,
+      caption,
+      timeAgo: '',
+      isNew: true,
+      reactions: { quest: 0, heart: 0, laugh: 0 },
+      comments: [],
+    };
+    setFriendPosts((prev) => [newPost, ...prev]);
+    setTab('best');
+    setShowPost(false);
+  }
 
   useEffect(() => {
     const id = setInterval(() => setMsLeft(msUntilReset()), 1000);
@@ -68,7 +86,7 @@ export default function App() {
         </button>
       </nav>
 
-      {showPost    && <PostModal    quest={quest} onClose={() => setShowPost(false)} />}
+      {showPost    && <PostModal    quest={quest} onPost={handlePost} onClose={() => setShowPost(false)} />}
       {showProfile && <ProfileModal              onClose={() => setShowProfile(false)} />}
     </div>
   );
