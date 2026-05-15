@@ -93,7 +93,7 @@ export const quests = [
     id: 9,
     emoji: '📚',
     title: 'Show us your bookshelf',
-    description: 'Real books, ebooks, or even one single book counts. Show what you're reading!',
+    description: "Real books, ebooks, or even one single book counts. Show what you're reading!",
     color: '#FF2D55',
     colorLight: '#FFF0F3',
     colorMid: '#FFD0D8',
