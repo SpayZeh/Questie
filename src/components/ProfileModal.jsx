@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import QuestlineSheet from './QuestlineSheet.jsx';
 
 const MOCK_FRIENDS = [
   { id: 'f1', username: 'irene.daily', avatar: 'https://i.pravatar.cc/150?img=47' },
@@ -6,8 +7,9 @@ const MOCK_FRIENDS = [
   { id: 'f3', username: 'soph.snaps',  avatar: 'https://i.pravatar.cc/150?img=32' },
 ];
 
-export default function ProfileModal({ username, onClose }) {
-  const [name, setName] = useState(username || 'you');
+export default function ProfileModal({ onClose }) {
+  const [name, setName] = useState('you');
+  const [showQuestline, setShowQuestline] = useState(false);
   const [avatar, setAvatar] = useState('https://i.pravatar.cc/150?img=5');
   const [preview, setPreview] = useState(null);
   const [searchVal, setSearchVal] = useState('');
@@ -69,7 +71,10 @@ export default function ProfileModal({ username, onClose }) {
           />
         </div>
 
-        <button className="modal-post-btn" onClick={handleSave}>save</button>
+        <div className="profile-btn-row">
+          <button className="modal-post-btn profile-save-btn" onClick={handleSave}>save</button>
+          <button className="profile-questline-btn" onClick={() => setShowQuestline(true)}>my questline</button>
+        </div>
 
         <div className="profile-divider" />
 
@@ -118,5 +123,7 @@ export default function ProfileModal({ username, onClose }) {
         ))}
       </div>
     </div>
+
+    {showQuestline && <QuestlineSheet onClose={() => setShowQuestline(false)} />}
   );
 }

@@ -25,6 +25,19 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── Splash ── */
+.splash-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  background: var(--bg);
+  opacity: 1;
+  transition: opacity 0.6s ease;
+}
+
+.splash-screen--fade { opacity: 0; }
+
 /* ── Login ── */
 .login-screen {
   display: flex;
@@ -536,6 +549,88 @@ body {
   gap: 6px;
   flex-shrink: 0;
 }
+
+.profile-btn-row {
+  display: flex;
+  gap: 8px;
+}
+
+.profile-save-btn { flex: 1; }
+
+.profile-questline-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  padding: 16px 20px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s;
+}
+
+.profile-questline-btn:active { border-color: var(--accent); }
+
+/* ── Questline ── */
+.questline-sheet {
+  max-height: 85dvh;
+  overflow-y: auto;
+}
+
+.questline-timeline {
+  position: relative;
+  padding: 8px 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.questline-line {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--accent);
+  transform: translateX(-50%);
+  opacity: 0.5;
+}
+
+.questline-item {
+  width: 46%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.questline-item--left  { align-self: flex-start; }
+.questline-item--right { align-self: flex-end; margin-top: 24px; }
+
+.questline-quest {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+.questline-item--right .questline-quest { text-align: right; }
+
+.questline-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+}
+
+.questline-date {
+  font-size: 10px;
+  color: var(--sub);
+  font-weight: 500;
+}
+
+.questline-item--right .questline-date { text-align: right; }
 
 
 .modal-overlay {

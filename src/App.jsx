@@ -3,7 +3,7 @@ import FeedPost from './components/FeedPost.jsx';
 import PostModal from './components/PostModal.jsx';
 import ProfileModal from './components/ProfileModal.jsx';
 import NotifSheet from './components/NotifSheet.jsx';
-import LoginScreen from './components/LoginScreen.jsx';
+import SplashScreen from './components/SplashScreen.jsx';
 import { friendPosts as initialFriendPosts, discoveryPosts } from './data/posts.js';
 import { msUntilReset } from './data/quests.js';
 
@@ -18,7 +18,7 @@ function formatCountdown(ms) {
 }
 
 export default function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [splash, setSplash] = useState(true);
   const [tab, setTab] = useState('best');
   const [showPost, setShowPost] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -40,9 +40,9 @@ export default function App() {
       reactions: { quest: 0, heart: 0, laugh: 0 },
       comments: [],
     };
-    setFriendPosts((prev) => [{ ...newPost, username: currentUser }, ...prev]);
+    setFriendPosts((prev) => [newPost, ...prev]);
     if (visibility === 'everyone') {
-      setDiscoveryPostsList((prev) => [{ ...newPost, username: currentUser }, ...prev]);
+      setDiscoveryPostsList((prev) => [newPost, ...prev]);
     }
     setHasPosted(true);
     setTab('best');
@@ -56,7 +56,7 @@ export default function App() {
 
   const isFuture = tab === 'potential';
 
-  if (!currentUser) return <LoginScreen onLogin={(username) => setCurrentUser(username)} />;
+  if (splash) return <SplashScreen onDone={() => setSplash(false)} />;
 
   return (
     <div className="app">
@@ -101,7 +101,7 @@ export default function App() {
           my best questies
         </button>
         <button className="bottom-profile-btn" onClick={() => setShowProfile(true)}>
-          <div className="bottom-profile-initials">{currentUser[0].toUpperCase()}</div>
+          <img src="https://i.pravatar.cc/150?img=5" alt="profile" className="bottom-profile-avatar" />
         </button>
         <button className={`bottom-tab ${tab === 'potential' ? 'bottom-tab--active' : ''}`} onClick={() => setTab('potential')}>
           world wide questies
@@ -109,7 +109,7 @@ export default function App() {
       </nav>
 
       {showPost    && <PostModal    quest={quest} onPost={handlePost} onClose={() => setShowPost(false)} />}
-      {showProfile && <ProfileModal username={currentUser} onClose={() => setShowProfile(false)} />}
+      {showProfile && <ProfileModal onClose={() => setShowProfile(false)} />}
       {showNotifs  && <NotifSheet                onClose={() => setShowNotifs(false)} />}
     </div>
   );
