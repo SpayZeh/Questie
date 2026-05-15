@@ -227,8 +227,8 @@ export default function App() {
       </nav>
 
       {showPost    && <PostModal quest={quest} onPost={handlePost} posting={posting} onClose={() => setShowPost(false)} />}
-      {showProfile && <ProfileModal user={user} userProfile={userProfile} questline={questline} onClose={() => setShowProfile(false)} />}
-      {showNotifs  && <NotifSheet onClose={() => setShowNotifs(false)} />}
+      {showProfile && <ProfileModal user={user} userProfile={userProfile} questline={questline} onClose={() => setShowProfile(false)} onProfileUpdate={(update) => setUserProfile((prev) => ({ ...prev, ...update }))} />}
+      {showNotifs  && <NotifSheet user={user} onClose={() => setShowNotifs(false)} />}
       {showLogin   && <LoginSheet onClose={() => { setShowLogin(false); setPendingPost(false); }} />}
     </div>
   );

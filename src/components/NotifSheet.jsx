@@ -1,25 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { collection, query, orderBy, onSnapshot, updateDoc, doc, addDoc, arrayUnion, serverTimestamp } from 'firebase/firestore';
+import { auth, db } from '../firebase.js';
 
-const mockNotifs = [
-  { id: 1, type: 'reaction',  avatar: 'https://i.pravatar.cc/150?img=12', username: 'joel.g',      text: 'reacted to your quest',                        timeAgo: '2m',  unread: true },
-  { id: 2, type: 'request',   avatar: 'https://i.pravatar.cc/150?img=47', username: 'irene.daily', text: 'wants to be your new questie',                  timeAgo: '8m',  unread: true },
-  { id: 3, type: 'reaction',  avatar: 'https://i.pravatar.cc/150?img=32', username: 'soph.snaps',  text: 'reacted to your quest',                        timeAgo: '21m', unread: true },
-  { id: 4, type: 'request',   avatar: 'https://i.pravatar.cc/150?img=15', username: 'marcus.out',  text: 'is desperately trying to become your questie',  timeAgo: '1h',  unread: false },
-  { id: 5, type: 'reaction',  avatar: 'https://i.pravatar.cc/150?img=60', username: 'dana.clicks', text: 'reacted to your quest',                        timeAgo: '3h',  unread: false },
-  { id: 6, type: 'request',   avatar: 'https://i.pravatar.cc/150?img=22', username: 'leon.w',      text: 'really really wants to quest with you',         timeAgo: '5h',  unread: false },
-];
+function timeAgo(timestamp) {
+  if (!timestamp) return 'just now';
+  const seconds = Math.floor((Date.now() - timestamp.toMillis()) / 1000);
+  if (seconds < 60) return 'just now';
+  if (seconds < 3600) return `${Math.floor(seconds / 60)}m`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)}h`;
+  return `${Math.floor(seconds / 86400)}d`;
+}
 
-export default function NotifSheet({ onClose }) {
-  const [notifs, setNotifs] = useState(mockNotifs);
+export default function NotifSheet({ user, onClose }) {
+  const [notifs, setNotifs] = useState([]);
 
-  function markAllRead() {
-    setNotifs((prev) => prev.map((n) => ({ ...n, unread: false })));
+  useEffect(() => {
+    if (!user) return;
+    const q = query(
+      collection(db, 'users', user.uid, 'notifications'),
+      orderBy('createdAt', 'desc')
+    );
+    return onSnapshot(q, (snap) => {
+      setNotifs(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
+    });
+  }, [user]);
+
+  async function markAllRead() {
+    if (!user) return;
+    await Promise.all(
+      notifs
+        .filter((n) => n.unread)
+        .map((n) => updateDoc(doc(db, 'users', user.uid, 'notifications', n.id), { unread: false }))
+    );
   }
 
-  function respond(id, accepted) {
-    setNotifs((prev) => prev.map((n) =>
-      n.id === id ? { ...n, status: accepted ? 'accepted' : 'declined', unread: false } : n
-    ));
+  async function respond(notif, accepted) {
+    if (!user) return;
+    await updateDoc(doc(db, 'users', user.uid, 'notifications', notif.id), {
+      status: accepted ? 'accepted' : 'declined',
+      unread: false,
+    });
+    if (accepted && notif.fromUid) {
+      try {
+        await updateDoc(doc(db, 'friendRequests', notif.requestId), { status: 'accepted' });
+      } catch {}
+      await updateDoc(doc(db, 'users', user.uid), { following: arrayUnion(notif.fromUid) });
+      await updateDoc(doc(db, 'users', notif.fromUid), { following: arrayUnion(user.uid) });
+      await addDoc(collection(db, 'users', notif.fromUid, 'notifications'), {
+        type: 'accepted',
+        fromUid: user.uid,
+        fromUsername: auth.currentUser?.displayName || 'someone',
+        fromAvatar: auth.currentUser?.photoURL || '',
+        text: 'accepted your questie request',
+        unread: true,
+        createdAt: serverTimestamp(),
+      });
+    } else if (!accepted && notif.requestId) {
+      try {
+        await updateDoc(doc(db, 'friendRequests', notif.requestId), { status: 'declined' });
+      } catch {}
+    }
   }
 
   const hasUnread = notifs.some((n) => n.unread);
@@ -38,22 +78,28 @@ export default function NotifSheet({ onClose }) {
         </div>
 
         <div className="notif-list">
+          {notifs.length === 0 && (
+            <p className="comment-empty">no notifications yet.</p>
+          )}
           {notifs.map((n) => (
             <div key={n.id} className={`notif-row${n.unread ? ' notif-row--unread' : ''}`}>
-              <img src={n.avatar} alt={n.username} className="comment-avatar" />
+              {n.fromAvatar
+                ? <img src={n.fromAvatar} alt={n.fromUsername} className="comment-avatar" referrerPolicy="no-referrer" />
+                : <div className="comment-avatar post-avatar--initials">{(n.fromUsername || 'u')[0].toUpperCase()}</div>
+              }
               <div className="notif-body">
-                <p className="notif-text"><strong>{n.username}</strong> {n.text}</p>
+                <p className="notif-text"><strong>{n.fromUsername}</strong> {n.text}</p>
                 {n.type === 'request' && !n.status && (
                   <div className="notif-actions">
-                    <button className="notif-btn notif-btn--accept" onClick={() => respond(n.id, true)}>accept</button>
-                    <button className="notif-btn notif-btn--decline" onClick={() => respond(n.id, false)}>decline</button>
+                    <button className="notif-btn notif-btn--accept" onClick={() => respond(n, true)}>accept</button>
+                    <button className="notif-btn notif-btn--decline" onClick={() => respond(n, false)}>decline</button>
                   </div>
                 )}
                 {n.status && (
                   <span className="notif-status">{n.status === 'accepted' ? 'added as questie' : 'declined'}</span>
                 )}
               </div>
-              <span className="comment-time">{n.timeAgo}</span>
+              <span className="comment-time">{n.createdAt ? timeAgo(n.createdAt) : 'just now'}</span>
             </div>
           ))}
         </div>

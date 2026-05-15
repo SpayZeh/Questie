@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { doc, updateDoc, increment } from 'firebase/firestore';
+import { doc, updateDoc, increment, addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../firebase.js';
 import CommentSheet from './CommentSheet.jsx';
 
@@ -17,6 +17,19 @@ export default function FeedPost({ post, questEmoji, showAddQuestie }) {
       await updateDoc(doc(db, 'posts', post.id), {
         [`reactions.${key}`]: increment(1),
       });
+      const currentUser = auth.currentUser;
+      if (currentUser && post.userId && post.userId !== currentUser.uid) {
+        await addDoc(collection(db, 'users', post.userId, 'notifications'), {
+          type: 'reaction',
+          fromUid: currentUser.uid,
+          fromUsername: currentUser.displayName || 'someone',
+          fromAvatar: currentUser.photoURL || '',
+          text: 'reacted to your quest',
+          postId: post.id,
+          unread: true,
+          createdAt: serverTimestamp(),
+        });
+      }
     } catch (e) {
       // no-op for mock posts without a real Firestore id
     }
