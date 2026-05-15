@@ -52,6 +52,38 @@ body {
   align-items: center;
   text-align: center;
   gap: 8px;
+  transition: padding 0.3s ease;
+}
+
+.quest-bar-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.quest-bar--done {
+  padding: 12px 20px 14px;
+  gap: 5px;
+}
+
+.quest-bar--done .quest-tagline {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.quest-bar--done .quest-emoji {
+  font-size: 18px;
+}
+
+.quest-bar--done .quest-timer-pill {
+  margin-bottom: 2px;
+}
+
+.quest-bar--done .quest-desc {
+  margin-bottom: 0;
+  font-size: 11px;
 }
 
 .quest-emoji {

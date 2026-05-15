@@ -21,6 +21,7 @@ export default function App() {
   const [showProfile, setShowProfile] = useState(false);
   const [msLeft, setMsLeft] = useState(msUntilReset());
   const [friendPosts, setFriendPosts] = useState(initialFriendPosts);
+  const [hasPosted, setHasPosted] = useState(false);
 
   function handlePost(photo, caption) {
     const newPost = {
@@ -35,6 +36,7 @@ export default function App() {
       comments: [],
     };
     setFriendPosts((prev) => [newPost, ...prev]);
+    setHasPosted(true);
     setTab('best');
     setShowPost(false);
   }
@@ -50,13 +52,17 @@ export default function App() {
     <div className="app">
       <div className="app-inner">
 
-        <header className="quest-bar">
-          <div className="quest-timer-pill">{formatCountdown(msLeft)}</div>
-          <p className="quest-tagline"><span className="quest-emoji">{quest.emoji}</span> {quest.tagline}</p>
-          <p className="quest-desc">{quest.description}</p>
-          <button className="quest-post-btn" onClick={() => setShowPost(true)}>
-            complete quest
-          </button>
+        <header className={`quest-bar${hasPosted ? ' quest-bar--done' : ''}`}>
+          <div className="quest-bar-top">
+            <div className="quest-timer-pill">{formatCountdown(msLeft)}</div>
+            <p className="quest-tagline"><span className="quest-emoji">{quest.emoji}</span> {quest.tagline}</p>
+            <p className="quest-desc">{quest.description}</p>
+          </div>
+          {!hasPosted && (
+            <button className="quest-post-btn" onClick={() => setShowPost(true)}>
+              complete quest
+            </button>
+          )}
         </header>
 
 
