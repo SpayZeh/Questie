@@ -8,6 +8,7 @@ import ProfileModal from './components/ProfileModal.jsx';
 import NotifSheet from './components/NotifSheet.jsx';
 import SplashScreen from './components/SplashScreen.jsx';
 import LoginSheet from './components/LoginSheet.jsx';
+import QuestComplete from './components/QuestComplete.jsx';
 import { msUntilReset, getLastResetTime } from './data/quests.js';
 
 const quest = { emoji: '💧', tagline: 'Hydrate!', description: 'take a picture of you hydrating.', color: '#3B82F6' };
@@ -45,6 +46,7 @@ export default function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [pendingPost, setPendingPost] = useState(false);
   const [hasUnreadNotifs, setHasUnreadNotifs] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   // Auth
   useEffect(() => {
@@ -160,6 +162,7 @@ export default function App() {
       }));
 
       setShowPost(false);
+      setShowCelebration(true);
     } catch (e) {
       console.error('post failed:', e);
       alert('failed to post. check your connection and try again.');
@@ -241,6 +244,7 @@ export default function App() {
       {showProfile && <ProfileModal user={user} userProfile={userProfile} questline={questline} onClose={() => setShowProfile(false)} onProfileUpdate={(update) => setUserProfile((prev) => ({ ...prev, ...update }))} />}
       {showNotifs  && <NotifSheet user={user} onClose={() => setShowNotifs(false)} />}
       {showLogin   && <LoginSheet onClose={() => { setShowLogin(false); setPendingPost(false); }} />}
+      {showCelebration && <QuestComplete onDone={() => setShowCelebration(false)} />}
     </div>
   );
 }
