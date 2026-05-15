@@ -14,26 +14,18 @@ export default function App() {
     <div className="app">
       <div className="app-inner">
 
-        <header className="header">
-          <nav className="tabs">
-            <button
-              className={`tab ${tab === 'best' ? 'tab--active' : ''}`}
-              onClick={() => setTab('best')}
-            >
-              Best Questies
-            </button>
-            <button
-              className={`tab ${tab === 'potential' ? 'tab--active' : ''}`}
-              onClick={() => setTab('potential')}
-            >
-              Potential Questies
-            </button>
-          </nav>
-          <button className="profile-btn">
-            <img src="https://i.pravatar.cc/150?img=5" alt="Profile" className="profile-avatar" />
-            <span className="profile-label">Profile</span>
+        {/* Quest bar at top */}
+        <div className="quest-bar" style={{ '--qcolor': todaysQuest.color }}>
+          <span className="quest-bar-emoji">{todaysQuest.emoji}</span>
+          <div className="quest-bar-text">
+            <p className="quest-bar-title">{todaysQuest.title}</p>
+            <p className="quest-bar-next">Next: {nextQuest.emoji} {nextQuest.title}</p>
+          </div>
+          <button className="quest-bar-btn" onClick={() => fileRef.current?.click()}>
+            Post
           </button>
-        </header>
+          <input ref={fileRef} type="file" accept="image/*,video/*" capture="environment" style={{ display: 'none' }} />
+        </div>
 
         <main className="feed">
           {feedPosts.map((post) => (
@@ -43,18 +35,24 @@ export default function App() {
 
       </div>
 
-      {/* Bottom quest bar */}
-      <div className="quest-bar" style={{ '--qcolor': todaysQuest.color }}>
-        <span className="quest-bar-emoji">{todaysQuest.emoji}</span>
-        <div className="quest-bar-text">
-          <p className="quest-bar-title">{todaysQuest.title}</p>
-          <p className="quest-bar-next">Next: {nextQuest.emoji} {nextQuest.title}</p>
-        </div>
-        <button className="quest-bar-btn" onClick={() => fileRef.current?.click()}>
-          Post
+      {/* Bottom nav */}
+      <nav className="bottom-nav">
+        <button
+          className={`bottom-tab ${tab === 'best' ? 'bottom-tab--active' : ''}`}
+          onClick={() => setTab('best')}
+        >
+          My Best Questies
         </button>
-        <input ref={fileRef} type="file" accept="image/*,video/*" capture="environment" style={{ display: 'none' }} />
-      </div>
+        <button className="bottom-profile-btn">
+          <img src="https://i.pravatar.cc/150?img=5" alt="Profile" className="bottom-profile-avatar" />
+        </button>
+        <button
+          className={`bottom-tab ${tab === 'potential' ? 'bottom-tab--active' : ''}`}
+          onClick={() => setTab('potential')}
+        >
+          Potential Questies
+        </button>
+      </nav>
 
     </div>
   );
