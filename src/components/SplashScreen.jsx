@@ -13,7 +13,7 @@ export default function SplashScreen({ onDone }) {
     <div className={`splash-screen${fading ? ' splash-screen--fade' : ''}`}>
       <div className="login-brand">
         <p className="login-logo">questie</p>
-        <p className="login-sub">your daily quest awaits.</p>
+        <p className="login-sub">do you wanna be my questie?</p>
       </div>
     </div>
   );
