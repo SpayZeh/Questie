@@ -28,18 +28,16 @@ export default function App() {
     <div className="app">
       <div className="app-inner">
 
-        <header className="quest-bar" style={{ '--qcolor': quest.color }}>
-          <div className="quest-module">
-            <div className="quest-module-top">
-              <span className="quest-emoji">{quest.emoji}</span>
-              <div className="quest-timer-pill">{formatCountdown(msLeft)}</div>
-            </div>
-            <p className="quest-tagline">{quest.tagline}</p>
-            <p className="quest-desc">{quest.description}</p>
-            <button className="quest-post-btn" onClick={() => setShowPost(true)}>
-              Complete Quest
-            </button>
+        <header className="quest-bar">
+          <div className="quest-module-top">
+            <span className="quest-emoji">{quest.emoji}</span>
+            <div className="quest-timer-pill">{formatCountdown(msLeft)}</div>
           </div>
+          <p className="quest-tagline">{quest.tagline}</p>
+          <p className="quest-desc">{quest.description}</p>
+          <button className="quest-post-btn" onClick={() => setShowPost(true)}>
+            Complete Quest
+          </button>
         </header>
 
         <main className="feed">

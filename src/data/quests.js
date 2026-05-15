@@ -96,13 +96,12 @@ function getResetDateFor(date) {
 // Returns ms until the next quest reset
 export function msUntilReset() {
   const now = new Date();
-  let reset = getResetDateFor(now);
-  if (reset <= now) {
-    const tomorrow = new Date(now);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    reset = getResetDateFor(tomorrow);
-  }
-  return reset - now;
+  const todayReset = getResetDateFor(now);
+  if (todayReset > now) return todayReset - now;
+  // Past today's reset — roll to same time tomorrow, always < 24h
+  const next = new Date(todayReset);
+  next.setDate(next.getDate() + 1);
+  return next - now;
 }
 
 export function getTodaysQuest() {
