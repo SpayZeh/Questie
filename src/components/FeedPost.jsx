@@ -3,10 +3,6 @@ import React, { useState } from 'react';
 export default function FeedPost({ post }) {
   const [reactions, setReactions] = useState(post.reactions);
   const [tapped, setTapped] = useState({});
-  const [swapped, setSwapped] = useState(false);
-
-  const mainPhoto = swapped ? post.selfie : post.photo;
-  const pipPhoto  = swapped ? post.photo  : post.selfie;
 
   function handleReaction(emoji) {
     if (tapped[emoji]) return;
@@ -28,10 +24,7 @@ export default function FeedPost({ post }) {
       </div>
 
       <div className="post-photo-wrap">
-        <img src={mainPhoto} alt="" className="post-photo" loading="lazy" />
-        <div className="post-pip" onClick={() => setSwapped((s) => !s)}>
-          <img src={pipPhoto} alt="" className="post-pip-img" loading="lazy" />
-        </div>
+        <img src={post.photo} alt="" className="post-photo" loading="lazy" />
       </div>
 
       <div className="post-footer">
