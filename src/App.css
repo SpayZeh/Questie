@@ -3,14 +3,19 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:      #0a0a0a;
-  --surface: #141414;
-  --border:  #1e1e1e;
-  --muted:   #2e2e2e;
+  --bg:      #0c0c0c;
+  --surface: #161616;
+  --border:  #222222;
+  --muted:   #303030;
   --text:    #f2f2f2;
   --sub:     #505050;
-  --accent:  #E8941A;
-  --accent-dim: #1e1208;
+  --accent:  #FF6B00;
+  --accent-dim: #1f1000;
+
+  /* quest bar panel */
+  --qbg:     #FF6B00;
+  --qtext:   #0c0c0c;
+  --qsub:    rgba(0,0,0,0.45);
 }
 
 body {
@@ -39,9 +44,8 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--bg);
+  background: var(--qbg);
   padding: 22px 20px 20px;
-  border-bottom: 1px solid var(--border);
 }
 
 .quest-module-top {
@@ -54,20 +58,18 @@ body {
 .quest-emoji {
   font-size: 18px;
   line-height: 1;
-  opacity: 0.8;
 }
 
 .quest-timer-pill {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.18);
   border-radius: 20px;
   padding: 5px 12px;
   font-size: 11px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--qtext);
   letter-spacing: 0.06em;
   font-variant-numeric: tabular-nums;
 }
@@ -77,14 +79,15 @@ body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--qtext);
+  opacity: 0.6;
   flex-shrink: 0;
 }
 
 .quest-tagline {
   font-size: 36px;
   font-weight: 900;
-  color: var(--text);
+  color: var(--qtext);
   letter-spacing: -0.03em;
   line-height: 1.0;
   margin-bottom: 8px;
@@ -92,7 +95,7 @@ body {
 
 .quest-desc {
   font-size: 13px;
-  color: var(--sub);
+  color: var(--qsub);
   line-height: 1.5;
   margin-bottom: 18px;
 }
@@ -100,8 +103,8 @@ body {
 .quest-post-btn {
   display: inline-flex;
   align-items: center;
-  background: var(--text);
-  color: var(--bg);
+  background: var(--qtext);
+  color: var(--qbg);
   border: none;
   border-radius: 40px;
   padding: 13px 24px;
