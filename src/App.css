@@ -13,9 +13,9 @@
   --accent-dim: #1e1a08;
 
   /* quest bar panel */
-  --qbg:     #F5C842;
-  --qtext:   #111111;
-  --qsub:    rgba(0,0,0,0.4);
+  --qbg:     #0c0c0c;
+  --qtext:   #f2f2f2;
+  --qsub:    #505050;
 }
 
 body {
@@ -44,7 +44,8 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--qbg);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
   padding: 22px 20px 20px;
 }
 
@@ -64,12 +65,13 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: rgba(0,0,0,0.18);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 5px 12px;
   font-size: 11px;
   font-weight: 700;
-  color: var(--qtext);
+  color: var(--accent);
   letter-spacing: 0.06em;
   font-variant-numeric: tabular-nums;
 }
@@ -79,15 +81,14 @@ body {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--qtext);
-  opacity: 0.6;
+  background: var(--accent);
   flex-shrink: 0;
 }
 
 .quest-tagline {
   font-size: 36px;
   font-weight: 900;
-  color: var(--qtext);
+  color: var(--text);
   letter-spacing: -0.03em;
   line-height: 1.0;
   margin-bottom: 8px;
@@ -95,7 +96,7 @@ body {
 
 .quest-desc {
   font-size: 13px;
-  color: var(--qsub);
+  color: var(--sub);
   line-height: 1.5;
   margin-bottom: 18px;
 }
@@ -103,8 +104,8 @@ body {
 .quest-post-btn {
   display: inline-flex;
   align-items: center;
-  background: var(--qtext);
-  color: var(--qbg);
+  background: var(--accent);
+  color: #111;
   border: none;
   border-radius: 40px;
   padding: 13px 24px;
@@ -132,25 +133,24 @@ body {
 
 .post-header {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 16px 18px 12px;
-  text-align: center;
+  gap: 10px;
+  padding: 14px 16px 10px;
 }
 
 .post-avatar {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .post-meta {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 2px;
-  align-items: center;
 }
 
 .post-username {
@@ -164,6 +164,23 @@ body {
   font-size: 10px;
   color: var(--sub);
   font-weight: 500;
+}
+
+.post-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.post-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ade80;
+  flex-shrink: 0;
 }
 
 /* ── Photo ── */
@@ -182,25 +199,40 @@ body {
 
 /* ── Footer ── */
 .post-footer {
-  padding: 14px 18px 18px;
+  padding: 12px 16px 16px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.post-actions { display: flex; }
+
+.post-reactions {
+  display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 6px;
 }
 
 .post-caption {
   font-size: 13px;
-  color: var(--sub);
+  color: var(--text);
   line-height: 1.5;
-  text-align: center;
 }
 
-.post-actions {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+.post-caption-user {
+  font-weight: 800;
+  color: var(--text);
+}
+
+.view-comments {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--sub);
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
 }
 
 .reaction-btn {
@@ -227,9 +259,7 @@ body {
   color: var(--accent);
 }
 
-.reaction-count {
-  font-size: 11px;
-}
+.reaction-count { font-size: 11px; }
 
 .comment-btn {
   background: var(--surface);
@@ -242,7 +272,6 @@ body {
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: border-color 0.15s;
 }
 
 .comment-icon {
@@ -490,7 +519,8 @@ body {
   transform: translateX(-50%);
   width: 100%;
   max-width: 430px;
-  background: var(--qbg);
+  background: var(--bg);
+  border-top: 1px solid var(--border);
   padding: 14px 20px 30px;
   display: flex;
   align-items: center;
@@ -505,7 +535,7 @@ body {
   font-family: inherit;
   font-size: 12px;
   font-weight: 700;
-  color: var(--qsub);
+  color: var(--sub);
   padding: 0;
   flex: 1;
   text-align: center;
@@ -513,7 +543,7 @@ body {
   letter-spacing: 0.01em;
 }
 
-.bottom-tab--active { color: var(--qtext); }
+.bottom-tab--active { color: var(--text); }
 
 .bottom-profile-btn {
   background: none;
@@ -528,7 +558,6 @@ body {
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--qtext);
-  opacity: 0.7;
+  border: 1.5px solid var(--border);
   display: block;
 }
