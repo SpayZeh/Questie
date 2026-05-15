@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { signOut } from 'firebase/auth';
-import { doc, updateDoc, getDoc, collection, query, where, getDocs, addDoc, arrayUnion, arrayRemove, serverTimestamp } from 'firebase/firestore';
+import { doc, updateDoc, getDoc, collection, getDocs, addDoc, arrayUnion, arrayRemove, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../firebase.js';
 import QuestlineSheet from './QuestlineSheet.jsx';
 
@@ -37,17 +37,12 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
     if (!searchVal.trim()) { setSearchResults([]); return; }
     const timer = setTimeout(async () => {
       setSearchLoading(true);
-      const val = searchVal.trim();
-      const q = query(
-        collection(db, 'users'),
-        where('username', '>=', val),
-        where('username', '<=', val + '')
-      );
-      const snap = await getDocs(q);
+      const val = searchVal.trim().toLowerCase();
+      const snap = await getDocs(collection(db, 'users'));
       setSearchResults(
         snap.docs
           .map((d) => ({ id: d.id, ...d.data() }))
-          .filter((u) => u.id !== user?.uid)
+          .filter((u) => u.id !== user?.uid && u.username?.toLowerCase().includes(val))
       );
       setSearchLoading(false);
     }, 400);
