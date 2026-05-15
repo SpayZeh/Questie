@@ -76,6 +76,35 @@ function getDayOfYear(date) {
   return Math.floor((date - start) / 86400000);
 }
 
+function seeded(n) {
+  const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
+  return x - Math.floor(x);
+}
+
+// Returns the reset Date for a given calendar date
+// Hour is seeded from day-of-year so it's consistent globally but unpredictable
+function getResetDateFor(date) {
+  const day = getDayOfYear(date);
+  const hour   = Math.floor(seeded(day * 3)  * 24);
+  const minute = Math.floor(seeded(day * 7)  * 60);
+  const second = Math.floor(seeded(day * 13) * 60);
+  const reset = new Date(date);
+  reset.setHours(hour, minute, second, 0);
+  return reset;
+}
+
+// Returns ms until the next quest reset
+export function msUntilReset() {
+  const now = new Date();
+  let reset = getResetDateFor(now);
+  if (reset <= now) {
+    const tomorrow = new Date(now);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    reset = getResetDateFor(tomorrow);
+  }
+  return reset - now;
+}
+
 export function getTodaysQuest() {
   return quests[getDayOfYear(new Date()) % quests.length];
 }

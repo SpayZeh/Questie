@@ -87,6 +87,29 @@ body {
 }
 .quest-post-btn:active { opacity: 0.75; }
 
+.quest-timer {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid color-mix(in srgb, var(--qcolor) 15%, #1e1e1e);
+}
+
+.quest-timer-count {
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
+}
+
+.quest-timer-label {
+  font-size: 11px;
+  color: color-mix(in srgb, var(--qcolor) 60%, #666);
+  font-weight: 500;
+}
+
 /* ── Feed ── */
 .feed {
   display: flex;
