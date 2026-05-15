@@ -25,9 +25,8 @@ export default function FeedPost({ post, questEmoji }) {
           <img src={post.avatar} alt={post.username} className="post-avatar" />
           <div className="post-meta">
             <span className="post-username">{post.username}</span>
-            <span className="post-time">{post.timeAgo}</span>
+            <span className="post-time">{post.isNew ? 'Just completed' : post.timeAgo}</span>
           </div>
-          {post.isNew && <span className="post-new-badge">New!</span>}
         </div>
 
         <div className="post-photo-wrap">
@@ -38,17 +37,15 @@ export default function FeedPost({ post, questEmoji }) {
           {post.caption && <p className="post-caption">{post.caption}</p>}
 
           <div className="post-actions">
-            <div className="post-reactions">
-              {pills.map(({ key, emoji }) => (
-                <button
-                  key={key}
-                  className={`reaction-btn${tapped[key] ? ' reaction-btn--tapped' : ''}`}
-                  onClick={() => tap(key)}
-                >
-                  {emoji} <span className="reaction-count">{reactions[key]}</span>
-                </button>
-              ))}
-            </div>
+            {pills.map(({ key, emoji }) => (
+              <button
+                key={key}
+                className={`reaction-btn${tapped[key] ? ' reaction-btn--tapped' : ''}`}
+                onClick={() => tap(key)}
+              >
+                {emoji} <span className="reaction-count">{reactions[key]}</span>
+              </button>
+            ))}
 
             <button className="comment-btn" onClick={() => setShowComments(true)} aria-label="Comment">
               <svg className="comment-icon" viewBox="0 0 24 24">
