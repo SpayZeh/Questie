@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { collection, query, orderBy, onSnapshot, addDoc, doc, setDoc, getDoc, updateDoc, serverTimestamp, limit, arrayUnion, increment } from 'firebase/firestore';
-import { ref, uploadString, getDownloadURL } from 'firebase/storage';
-import { auth, db, storage } from './firebase.js';
+import { auth, db } from './firebase.js';
 import FeedPost from './components/FeedPost.jsx';
 import PostModal from './components/PostModal.jsx';
 import ProfileModal from './components/ProfileModal.jsx';
@@ -104,10 +103,7 @@ export default function App() {
     if (posting) return;
     setPosting(true);
     try {
-      const storageRef = ref(storage, `posts/${user.uid}/${Date.now()}.jpg`);
-      await uploadString(storageRef, compressedDataUrl, 'data_url');
-      const photo = await getDownloadURL(storageRef);
-
+      const photo = compressedDataUrl;
       const newStreak = (userProfile?.streak || 0) + 1;
 
       await addDoc(collection(db, 'posts'), {
