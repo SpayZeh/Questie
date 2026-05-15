@@ -52,7 +52,7 @@ export default function LoginSheet({ onClose }) {
       <div className="modal-sheet login-sheet">
         <div className="modal-header">
           <div>
-            <h2 className="modal-title">{mode === 'login' ? 'welcome back' : 'join questie'}</h2>
+            <h2 className="modal-title">{mode === 'login' ? 'welcome back' : 'become a questie'}</h2>
             <p className="modal-sub">sign in to complete and share your quest</p>
           </div>
           {onClose && <button className="modal-close" onClick={onClose}>✕</button>}
