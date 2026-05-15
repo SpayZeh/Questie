@@ -47,6 +47,26 @@ body {
 .google-login-btn:hover { border-color: var(--sub); }
 .google-login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+.inapp-browser-warning {
+  background: #2a1a1a;
+  border: 1px solid #ff4444;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.inapp-browser-warning p {
+  font-size: 13px;
+  color: #ff8888;
+  margin: 0 0 8px;
+}
+.inapp-browser-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: underline;
+}
+
 /* ── Login Sheet ── */
 .login-divider {
   display: flex;
