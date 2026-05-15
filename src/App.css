@@ -310,13 +310,15 @@ body {
 .post-streak {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   color: var(--accent);
   font-size: 12px;
   font-weight: 800;
   margin-left: auto;
   flex-shrink: 0;
 }
+
+.post-streak-icon { font-size: 11px; }
 
 /* ── Photo ── */
 .post-photo-wrap {
