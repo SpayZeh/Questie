@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 const mockNotifs = [
-  { id: 1, type: 'reaction',  avatar: 'https://i.pravatar.cc/150?img=12', username: 'joel.g',      text: 'reacted 🌿 to your quest',   timeAgo: '2m',  unread: true },
-  { id: 2, type: 'request',   avatar: 'https://i.pravatar.cc/150?img=47', username: 'irene.daily', text: 'wants to be your questie',    timeAgo: '8m',  unread: true },
-  { id: 3, type: 'reaction',  avatar: 'https://i.pravatar.cc/150?img=32', username: 'soph.snaps',  text: 'reacted ❤️ to your quest',   timeAgo: '21m', unread: true },
-  { id: 4, type: 'request',   avatar: 'https://i.pravatar.cc/150?img=15', username: 'marcus.out',  text: 'wants to be your questie',    timeAgo: '1h',  unread: false },
-  { id: 5, type: 'reaction',  avatar: 'https://i.pravatar.cc/150?img=60', username: 'dana.clicks', text: 'reacted 😂 to your quest',   timeAgo: '3h',  unread: false },
-  { id: 6, type: 'request',   avatar: 'https://i.pravatar.cc/150?img=22', username: 'leon.w',      text: 'wants to be your questie',    timeAgo: '5h',  unread: false },
+  { id: 1, type: 'reaction',  avatar: 'https://i.pravatar.cc/150?img=12', username: 'joel.g',      text: 'reacted 🌿 to your quest',                    timeAgo: '2m',  unread: true },
+  { id: 2, type: 'request',   avatar: 'https://i.pravatar.cc/150?img=47', username: 'irene.daily', text: 'wants to be your new questie 👀',              timeAgo: '8m',  unread: true },
+  { id: 3, type: 'reaction',  avatar: 'https://i.pravatar.cc/150?img=32', username: 'soph.snaps',  text: 'reacted ❤️ to your quest',                    timeAgo: '21m', unread: true },
+  { id: 4, type: 'request',   avatar: 'https://i.pravatar.cc/150?img=15', username: 'marcus.out',  text: 'is desperately trying to become your questie 🙏', timeAgo: '1h',  unread: false },
+  { id: 5, type: 'reaction',  avatar: 'https://i.pravatar.cc/150?img=60', username: 'dana.clicks', text: 'reacted 😂 to your quest',                    timeAgo: '3h',  unread: false },
+  { id: 6, type: 'request',   avatar: 'https://i.pravatar.cc/150?img=22', username: 'leon.w',      text: 'really really wants to be your questie 😅',   timeAgo: '5h',  unread: false },
 ];
 
 export default function NotifSheet({ onClose }) {
