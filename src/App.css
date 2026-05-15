@@ -55,6 +55,39 @@ body {
   transition: padding 0.3s ease;
 }
 
+.quest-bar-icons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.quest-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+  position: relative;
+}
+
+.quest-icon-btn:active { color: var(--text); }
+
+.quest-notif-dot {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 1.5px solid var(--bg);
+}
+
 .quest-bar-top {
   display: flex;
   flex-direction: column;
@@ -649,6 +682,47 @@ body {
 }
 
 .comment-send:disabled { opacity: 0.2; cursor: not-allowed; }
+
+/* ── Notification Sheet ── */
+.notif-sheet { max-height: 75dvh; }
+
+.notif-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+}
+
+.notif-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 4px;
+  border-radius: 10px;
+  transition: background 0.15s;
+}
+
+.notif-row--unread { background: var(--accent-dim); }
+
+.notif-text {
+  flex: 1;
+  font-size: 12px;
+  color: var(--sub);
+  line-height: 1.4;
+}
+
+.notif-row--unread .notif-text { color: var(--text); }
+
+.notif-mark-read {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sub);
+  cursor: pointer;
+  padding: 0;
+}
 
 /* ── Bottom Nav ── */
 .bottom-nav {
