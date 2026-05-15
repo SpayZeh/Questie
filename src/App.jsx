@@ -8,7 +8,7 @@ import ProfileModal from './components/ProfileModal.jsx';
 import NotifSheet from './components/NotifSheet.jsx';
 import SplashScreen from './components/SplashScreen.jsx';
 import LoginSheet from './components/LoginSheet.jsx';
-import { msUntilReset } from './data/quests.js';
+import { msUntilReset, getLastResetTime } from './data/quests.js';
 
 const quest = { emoji: '💧', tagline: 'Hydrate!', description: 'take a picture of you hydrating.', color: '#3B82F6' };
 
@@ -35,6 +35,7 @@ export default function App() {
   const [userProfile, setUserProfile] = useState(null);
   const [allPosts, setAllPosts] = useState([]);
   const [tab, setTab] = useState('potential');
+  const lastReset = getLastResetTime();
   const [showPost, setShowPost] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showNotifs, setShowNotifs] = useState(false);
@@ -112,6 +113,7 @@ export default function App() {
         };
       });
       setAllPosts(all);
+      setHasPosted(all.some((p) => p.userId === user.uid && p.createdAt && p.createdAt.toMillis() > lastReset.getTime()));
     });
     return unsub;
   }, [user]);
@@ -157,8 +159,6 @@ export default function App() {
         questline: [newEntry, ...(prev?.questline || [])],
       }));
 
-      setHasPosted(true);
-      setTab('best');
       setShowPost(false);
     } catch (e) {
       console.error('post failed:', e);

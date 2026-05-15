@@ -93,6 +93,16 @@ function getResetDateFor(date) {
   return reset;
 }
 
+// Returns the Date of the most recent reset
+export function getLastResetTime() {
+  const now = new Date();
+  const todayReset = getResetDateFor(now);
+  if (todayReset <= now) return todayReset;
+  const yesterday = new Date(now);
+  yesterday.setDate(yesterday.getDate() - 1);
+  return getResetDateFor(yesterday);
+}
+
 // Returns ms until the next quest reset
 export function msUntilReset() {
   const now = new Date();

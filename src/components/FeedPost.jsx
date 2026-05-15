@@ -52,7 +52,7 @@ export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser
           }
           <div className="post-meta">
             <span className="post-username">{post.username}</span>
-            <span className="post-time">{post.isNew ? 'just completed' : post.timeAgo}</span>
+            <span className="post-time">completed {post.questName} · {post.isNew ? 'just now' : post.timeAgo}</span>
           </div>
           <div className="post-streak">
             <span className="post-streak-icon">⚡</span>
@@ -78,6 +78,7 @@ export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser
         </div>
 
         <div className="post-footer">
+          <p className="post-cta">cheer them on!</p>
           <div className="post-actions">
             <div className="post-reactions">
               {pills.map(({ key, emoji }) => (
