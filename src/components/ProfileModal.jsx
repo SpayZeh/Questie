@@ -1,8 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { signOut } from 'firebase/auth';
 import { doc, updateDoc, getDoc, collection, getDocs, addDoc, arrayUnion, arrayRemove, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../firebase.js';
 import QuestlineSheet from './QuestlineSheet.jsx';
+
+function compressAvatar(file) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const size = Math.min(400, Math.max(img.width, img.height));
+      const scale = size / Math.max(img.width, img.height);
+      const w = Math.round(img.width * scale);
+      const h = Math.round(img.height * scale);
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', 0.82));
+    };
+    img.src = url;
+  });
+}
 
 const REQUEST_TEXTS = [
   'wants to be your new questie',
@@ -13,6 +33,8 @@ const REQUEST_TEXTS = [
 
 export default function ProfileModal({ user, userProfile, questline, onClose, onProfileUpdate }) {
   const [name, setName] = useState(userProfile?.username || user?.displayName || 'you');
+  const [avatarUrl, setAvatarUrl] = useState(userProfile?.photoURL || user?.photoURL || '');
+  const [avatarSaving, setAvatarSaving] = useState(false);
   const [showQuestline, setShowQuestline] = useState(false);
   const [searchVal, setSearchVal] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -21,6 +43,22 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
   const [removing, setRemoving] = useState(null);
   const [saving, setSaving] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
+  const avatarInputRef = useRef(null);
+
+  async function handleAvatarChange(e) {
+    const file = e.target.files[0];
+    if (!file || !user) return;
+    setAvatarSaving(true);
+    try {
+      const dataUrl = await compressAvatar(file);
+      await updateDoc(doc(db, 'users', user.uid), { photoURL: dataUrl });
+      setAvatarUrl(dataUrl);
+      onProfileUpdate?.({ photoURL: dataUrl });
+    } catch (err) {
+      console.error('avatar update failed:', err);
+    }
+    setAvatarSaving(false);
+  }
 
   useEffect(() => {
     if (!user || !userProfile?.following?.length) return;
@@ -121,11 +159,30 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
         </div>
 
         <div className="profile-avatar-section">
-          <div className="profile-avatar-wrap">
-            {user?.photoURL
-              ? <img src={user.photoURL} alt="avatar" className="profile-big-avatar" referrerPolicy="no-referrer" />
+          <div
+            className={`profile-avatar-wrap profile-avatar-wrap--editable${avatarSaving ? ' profile-avatar-wrap--saving' : ''}`}
+            onClick={() => !avatarSaving && avatarInputRef.current?.click()}
+            title="change photo"
+          >
+            {avatarUrl
+              ? <img src={avatarUrl} alt="avatar" className="profile-big-avatar" referrerPolicy="no-referrer" />
               : <div className="profile-big-avatar profile-big-avatar--initials">{name[0]?.toUpperCase()}</div>
             }
+            <div className="profile-avatar-overlay">
+              {avatarSaving ? '...' : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                  <circle cx="12" cy="13" r="4"/>
+                </svg>
+              )}
+            </div>
+            <input
+              ref={avatarInputRef}
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleAvatarChange}
+            />
           </div>
           <p className="profile-avatar-hint">{user?.email}</p>
         </div>

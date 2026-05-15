@@ -230,8 +230,8 @@ export default function App() {
           my best questies
         </button>
         <button className="bottom-profile-btn" onClick={() => user ? setShowProfile(true) : setShowLogin(true)}>
-          {user?.photoURL
-            ? <img src={user.photoURL} alt="profile" className="bottom-profile-avatar" referrerPolicy="no-referrer" />
+          {(userProfile?.photoURL || user?.photoURL)
+            ? <img src={userProfile?.photoURL || user?.photoURL} alt="profile" className="bottom-profile-avatar" referrerPolicy="no-referrer" />
             : <div className="bottom-profile-initials">{user ? (userProfile?.username || 'u')[0].toUpperCase() : '?'}</div>
           }
         </button>
