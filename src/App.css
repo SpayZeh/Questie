@@ -28,39 +28,44 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: #0a0a0a;
-  border-bottom: 1px solid #1a1a1a;
-  padding: 10px 16px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--qcolor) 14%, #000) 0%, #0a0a0a 100%);
+  border-bottom: 1px solid color-mix(in srgb, var(--qcolor) 20%, #1a1a1a);
+  padding: 16px 18px;
 }
 
 .quest-bar-inner {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
 
-.quest-emoji { font-size: 18px; flex-shrink: 0; }
+.quest-emoji {
+  font-size: 30px;
+  flex-shrink: 0;
+  line-height: 1;
+}
 
 .quest-text {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 3px;
 }
 
 .quest-tagline {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 800;
-  color: var(--qcolor, #fff);
+  color: #fff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  letter-spacing: -0.01em;
 }
 
 .quest-desc {
   font-size: 11px;
-  color: #4a4a4a;
+  color: color-mix(in srgb, var(--qcolor) 60%, #888);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -70,14 +75,15 @@ body {
   background: var(--qcolor, #34C759);
   color: #fff;
   border: none;
-  border-radius: 20px;
-  padding: 7px 16px;
+  border-radius: 22px;
+  padding: 10px 18px;
   font-family: inherit;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   flex-shrink: 0;
   transition: opacity 0.15s;
+  letter-spacing: 0.01em;
 }
 .quest-post-btn:active { opacity: 0.75; }
 
