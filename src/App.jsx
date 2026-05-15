@@ -213,7 +213,7 @@ export default function App() {
               key={post.id}
               post={post}
               questEmoji={quest.emoji}
-              showAddQuestie={isFuture}
+              showAddQuestie={isFuture && post.userId !== user?.uid && !following.includes(post.userId)}
             />
           ))}
         </main>
