@@ -3,14 +3,14 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:      #0b0d0c;
-  --surface: #131614;
-  --border:  #1e2220;
-  --muted:   #3a3f3c;
-  --text:    #e8eae8;
-  --sub:     #4d5450;
-  --accent:  #F97316;
-  --accent-light: #2a1a0a;
+  --bg:      #080808;
+  --surface: #111111;
+  --border:  #1c1c1c;
+  --muted:   #333333;
+  --text:    #f0f0f0;
+  --sub:     #444444;
+  --accent:  #E8941A;
+  --accent-dim: #1e1208;
 }
 
 body {
@@ -39,62 +39,62 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: var(--surface);
+  background: var(--bg);
+  padding: 20px 20px 22px;
   border-bottom: 1px solid var(--border);
-  padding: 18px 20px 20px;
 }
 
 .quest-module-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 
 .quest-emoji {
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1;
+  opacity: 0.9;
 }
 
 .quest-timer-pill {
-  background: var(--accent-light);
-  border-radius: 20px;
-  padding: 5px 12px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--accent);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   font-variant-numeric: tabular-nums;
 }
 
 .quest-tagline {
-  font-size: 22px;
+  font-size: 34px;
   font-weight: 800;
   color: var(--text);
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  margin-bottom: 4px;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 8px;
 }
 
 .quest-desc {
   font-size: 12px;
   color: var(--sub);
-  line-height: 1.4;
-  margin-bottom: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
 }
 
 .quest-post-btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   background: var(--accent);
   color: #fff;
   border: none;
   border-radius: 22px;
-  padding: 10px 20px;
+  padding: 11px 22px;
   font-family: inherit;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   transition: opacity 0.15s;
 }
 .quest-post-btn:active { opacity: 0.8; }
@@ -107,9 +107,9 @@ body {
 
 /* ── Feed Post ── */
 .feed-post {
-  background: var(--surface);
+  background: var(--bg);
   border-bottom: 1px solid var(--border);
-  margin-top: 12px;
+  margin-top: 16px;
 }
 
 .post-header {
@@ -117,21 +117,22 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  padding: 18px 18px 12px;
+  padding: 16px 18px 12px;
   text-align: center;
 }
 
 .post-avatar {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   object-fit: cover;
+  opacity: 0.95;
 }
 
 .post-meta {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   align-items: center;
 }
 
@@ -144,7 +145,7 @@ body {
 
 .post-time {
   font-size: 10px;
-  color: var(--muted);
+  color: var(--sub);
   font-weight: 500;
 }
 
@@ -186,7 +187,7 @@ body {
 }
 
 .reaction-btn {
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 6px 11px;
@@ -198,13 +199,13 @@ body {
   color: var(--sub);
   font-family: inherit;
   font-weight: 600;
-  transition: border-color 0.15s, background 0.15s;
+  transition: border-color 0.15s, color 0.15s;
 }
 
 .reaction-btn:active { transform: scale(0.93); }
 
 .reaction-btn--tapped {
-  background: var(--accent-light);
+  background: var(--accent-dim);
   border-color: var(--accent);
   color: var(--accent);
 }
@@ -212,7 +213,7 @@ body {
 .reaction-count { font-size: 10px; }
 
 .comment-btn {
-  background: var(--bg);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 50%;
   width: 30px;
@@ -228,7 +229,7 @@ body {
   width: 13px;
   height: 13px;
   fill: none;
-  stroke: var(--muted);
+  stroke: var(--sub);
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -238,12 +239,12 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.75);
   z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
   padding: 24px 16px;
 }
 
@@ -269,7 +270,7 @@ body {
 }
 
 .modal-title {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--text);
 }
@@ -281,9 +282,9 @@ body {
 }
 
 .modal-close {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--muted);
+  background: var(--border);
+  border: none;
+  color: var(--sub);
   font-size: 12px;
   width: 28px;
   height: 28px;
@@ -313,7 +314,7 @@ body {
 .modal-upload:hover { border-color: var(--accent); }
 .modal-upload--filled { border-style: solid; cursor: default; }
 
-.modal-camera-icon { font-size: 34px; opacity: 0.25; }
+.modal-camera-icon { font-size: 34px; opacity: 0.2; }
 
 .modal-upload-title {
   font-size: 15px;
@@ -361,8 +362,8 @@ body {
   transition: opacity 0.15s;
 }
 
-.modal-post-btn--disabled { opacity: 0.25; cursor: not-allowed; }
-.modal-post-btn--done { background: #4caf72; }
+.modal-post-btn--disabled { opacity: 0.2; cursor: not-allowed; }
+.modal-post-btn--done { background: #3a7a50; }
 
 /* ── Comment Sheet ── */
 .comment-sheet { max-height: 75dvh; }
@@ -376,7 +377,7 @@ body {
 }
 
 .comment-empty {
-  color: var(--muted);
+  color: var(--sub);
   font-size: 12px;
   text-align: center;
   padding: 16px 0;
@@ -441,7 +442,7 @@ body {
   outline: none;
 }
 
-.comment-input::placeholder { color: var(--muted); }
+.comment-input::placeholder { color: var(--sub); }
 
 .comment-send {
   background: var(--accent);
@@ -467,7 +468,7 @@ body {
   transform: translateX(-50%);
   width: 100%;
   max-width: 430px;
-  background: var(--surface);
+  background: var(--bg);
   border-top: 1px solid var(--border);
   padding: 12px 20px 28px;
   display: flex;
@@ -483,7 +484,7 @@ body {
   font-family: inherit;
   font-size: 12px;
   font-weight: 600;
-  color: var(--muted);
+  color: var(--sub);
   padding: 0;
   flex: 1;
   text-align: center;
