@@ -43,6 +43,18 @@ export default function CommentSheet({ post, onClose }) {
         createdAt: serverTimestamp(),
       });
       await updateDoc(doc(db, 'posts', post.id), { commentCount: increment(1) });
+      if (user && post.userId && post.userId !== user.uid) {
+        await addDoc(collection(db, 'users', post.userId, 'notifications'), {
+          type: 'comment',
+          fromUid: user.uid,
+          fromUsername: user.displayName?.toLowerCase().replace(/\s+/g, '.') || 'someone',
+          fromAvatar: user.photoURL || '',
+          text: `commented: "${commentText.length > 40 ? commentText.slice(0, 40) + '…' : commentText}"`,
+          postId: post.id,
+          unread: true,
+          createdAt: serverTimestamp(),
+        });
+      }
     } catch (e) {
       console.error('comment failed:', e);
     }
