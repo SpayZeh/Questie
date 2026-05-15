@@ -4,7 +4,7 @@ import PostModal from './components/PostModal.jsx';
 import { friendPosts, discoveryPosts } from './data/posts.js';
 import { msUntilReset } from './data/quests.js';
 
-const quest = { emoji: '🌿', tagline: 'Touch Grass', description: 'Literally, touch grass and capture it.', color: '#34C759' };
+const quest = { emoji: '🌿', tagline: 'Touch Grass', description: 'Literally, touch grass and capture it.', color: '#5a9e6f' };
 
 function formatCountdown(ms) {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -29,19 +29,16 @@ export default function App() {
       <div className="app-inner">
 
         <header className="quest-bar" style={{ '--qcolor': quest.color }}>
-          <div className="quest-bar-inner">
-            <span className="quest-emoji">{quest.emoji}</span>
-            <div className="quest-text">
-              <span className="quest-tagline">{quest.tagline}</span>
-              <span className="quest-desc">{quest.description}</span>
+          <div className="quest-module">
+            <div className="quest-module-top">
+              <span className="quest-emoji">{quest.emoji}</span>
+              <div className="quest-timer-pill">{formatCountdown(msLeft)}</div>
             </div>
+            <p className="quest-tagline">{quest.tagline}</p>
+            <p className="quest-desc">{quest.description}</p>
             <button className="quest-post-btn" onClick={() => setShowPost(true)}>
               Complete Quest
             </button>
-          </div>
-          <div className="quest-timer">
-            <span className="quest-timer-count">{formatCountdown(msLeft)}</span>
-            <span className="quest-timer-label">until next quest</span>
           </div>
         </header>
 

@@ -2,9 +2,18 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+:root {
+  --bg:      #0b0f0e;
+  --surface: #141918;
+  --border:  #1e2622;
+  --muted:   #3a4440;
+  --text:    #e8ede9;
+  --sub:     #4a5550;
+}
+
 body {
-  background: #000;
-  color: #fff;
+  background: var(--bg);
+  color: var(--text);
   font-family: 'Plus Jakarta Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
@@ -28,97 +37,84 @@ body {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: linear-gradient(160deg, color-mix(in srgb, var(--qcolor) 14%, #000) 0%, #000 100%);
-  padding: 14px 18px 12px;
-  border-bottom: 1px solid color-mix(in srgb, var(--qcolor) 15%, #111);
+  background: var(--bg);
+  padding: 12px 14px 0;
 }
 
-.quest-bar-inner {
+.quest-module {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.quest-module-top {
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
 }
 
 .quest-emoji {
-  font-size: 26px;
-  flex-shrink: 0;
+  font-size: 24px;
   line-height: 1;
 }
 
-.quest-text {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+.quest-timer-pill {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
 }
 
 .quest-tagline {
-  font-size: 15px;
+  font-size: 22px;
   font-weight: 800;
-  color: #fff;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
 }
 
 .quest-desc {
-  font-size: 11px;
-  color: color-mix(in srgb, var(--qcolor) 55%, #666);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 12px;
+  color: var(--sub);
+  line-height: 1.4;
 }
 
 .quest-post-btn {
-  background: var(--qcolor);
+  align-self: flex-start;
+  margin-top: 4px;
+  background: var(--qcolor, #5a9e6f);
   color: #fff;
   border: none;
   border-radius: 22px;
-  padding: 9px 16px;
+  padding: 10px 20px;
   font-family: inherit;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  flex-shrink: 0;
   letter-spacing: 0.02em;
   transition: opacity 0.15s;
 }
 .quest-post-btn:active { opacity: 0.75; }
 
-.quest-timer {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top: 1px solid color-mix(in srgb, var(--qcolor) 12%, #111);
-}
-
-.quest-timer-count {
-  font-size: 14px;
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: 0.06em;
-  font-variant-numeric: tabular-nums;
-}
-
-.quest-timer-label {
-  font-size: 11px;
-  color: color-mix(in srgb, var(--qcolor) 55%, #555);
-  font-weight: 500;
-}
-
 /* ── Feed ── */
 .feed {
   display: flex;
   flex-direction: column;
+  padding-top: 8px;
 }
 
 /* ── Feed Post ── */
 .feed-post {
-  padding: 28px 0 0;
+  padding: 24px 0 0;
 }
 
 .post-header {
@@ -126,13 +122,13 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  padding: 0 18px 12px;
+  padding: 0 18px 10px;
   text-align: center;
 }
 
 .post-avatar {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -147,13 +143,13 @@ body {
 .post-username {
   font-size: 12px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
   letter-spacing: 0.01em;
 }
 
 .post-time {
   font-size: 10px;
-  color: #3a3a3a;
+  color: var(--muted);
   font-weight: 500;
 }
 
@@ -182,7 +178,7 @@ body {
 
 .post-caption {
   font-size: 12px;
-  color: #555;
+  color: var(--sub);
   line-height: 1.5;
   text-align: center;
 }
@@ -195,16 +191,16 @@ body {
 }
 
 .reaction-btn {
-  background: none;
-  border: 1px solid #1c1c1c;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 5px 10px;
+  padding: 6px 11px;
   font-size: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #555;
+  color: var(--sub);
   font-family: inherit;
   font-weight: 600;
   transition: border-color 0.15s, color 0.15s;
@@ -213,17 +209,15 @@ body {
 .reaction-btn:active { transform: scale(0.93); }
 
 .reaction-btn--tapped {
-  border-color: #2e1f50;
-  color: #fff;
+  border-color: #2e3d35;
+  color: var(--text);
 }
 
-.reaction-count {
-  font-size: 10px;
-}
+.reaction-count { font-size: 10px; }
 
 .comment-btn {
-  background: none;
-  border: 1px solid #1c1c1c;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -232,37 +226,35 @@ body {
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: border-color 0.15s;
 }
-
-.comment-btn:active { border-color: #333; }
 
 .comment-icon {
   width: 13px;
   height: 13px;
   fill: none;
-  stroke: #444;
+  stroke: var(--muted);
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-/* ── Modal / Sheet ── */
+/* ── Modal ── */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.75);
+  background: rgba(0,0,0,0.7);
   z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
   padding: 24px 16px;
 }
 
 .modal-sheet {
-  background: #111;
-  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 24px;
   width: 100%;
   max-width: 400px;
   padding: 20px 20px 24px;
@@ -283,20 +275,20 @@ body {
 .modal-title {
   font-size: 17px;
   font-weight: 800;
-  color: #fff;
+  color: var(--text);
 }
 
 .modal-sub {
   font-size: 12px;
-  color: #555;
+  color: var(--sub);
   margin-top: 3px;
 }
 
 .modal-close {
-  background: #1e1e1e;
-  border: none;
-  color: #666;
-  font-size: 13px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -308,8 +300,8 @@ body {
 }
 
 .modal-upload {
-  border: 1.5px dashed #222;
-  border-radius: 14px;
+  border: 1.5px dashed var(--border);
+  border-radius: 16px;
   aspect-ratio: 4/5;
   display: flex;
   flex-direction: column;
@@ -317,25 +309,25 @@ body {
   justify-content: center;
   gap: 10px;
   cursor: pointer;
-  background: #0a0a0a;
+  background: var(--bg);
   overflow: hidden;
   transition: border-color 0.2s;
 }
 
-.modal-upload:hover { border-color: #333; }
+.modal-upload:hover { border-color: var(--muted); }
 .modal-upload--filled { border-style: solid; cursor: default; }
 
-.modal-camera-icon { font-size: 36px; opacity: 0.35; }
+.modal-camera-icon { font-size: 34px; opacity: 0.3; }
 
 .modal-upload-title {
   font-size: 15px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
 }
 
 .modal-upload-sub {
   font-size: 11px;
-  color: #444;
+  color: var(--sub);
 }
 
 .modal-preview {
@@ -346,11 +338,11 @@ body {
 }
 
 .modal-caption {
-  background: #0d0d0d;
-  border: 1px solid #1e1e1e;
-  border-radius: 10px;
-  padding: 11px 13px;
-  color: #fff;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 11px 14px;
+  color: var(--text);
   font-family: inherit;
   font-size: 13px;
   resize: none;
@@ -358,13 +350,13 @@ body {
   width: 100%;
 }
 
-.modal-caption::placeholder { color: #333; }
+.modal-caption::placeholder { color: var(--muted); }
 
 .modal-post-btn {
-  background: linear-gradient(135deg, #7c3aed, #db2777);
+  background: linear-gradient(135deg, #6b4fd8, #b03070);
   color: #fff;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 15px;
   font-family: inherit;
   font-size: 14px;
@@ -373,8 +365,8 @@ body {
   transition: opacity 0.15s;
 }
 
-.modal-post-btn--disabled { opacity: 0.25; cursor: not-allowed; }
-.modal-post-btn--done { background: #34C759; }
+.modal-post-btn--disabled { opacity: 0.2; cursor: not-allowed; }
+.modal-post-btn--done { background: #5a9e6f; }
 
 /* ── Comment Sheet ── */
 .comment-sheet { max-height: 75dvh; }
@@ -388,7 +380,7 @@ body {
 }
 
 .comment-empty {
-  color: #333;
+  color: var(--muted);
   font-size: 12px;
   text-align: center;
   padding: 16px 0;
@@ -418,18 +410,18 @@ body {
 .comment-username {
   font-size: 11px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text);
 }
 
 .comment-text {
   font-size: 12px;
-  color: #777;
+  color: var(--sub);
   line-height: 1.4;
 }
 
 .comment-time {
   font-size: 10px;
-  color: #333;
+  color: var(--muted);
   flex-shrink: 0;
 }
 
@@ -437,28 +429,28 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  border-top: 1px solid #1a1a1a;
+  border-top: 1px solid var(--border);
   padding-top: 12px;
 }
 
 .comment-input {
   flex: 1;
-  background: #0d0d0d;
-  border: 1px solid #1e1e1e;
+  background: var(--bg);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 9px 13px;
-  color: #fff;
+  color: var(--text);
   font-family: inherit;
   font-size: 12px;
   outline: none;
 }
 
-.comment-input::placeholder { color: #333; }
+.comment-input::placeholder { color: var(--muted); }
 
 .comment-send {
-  background: #7c3aed;
-  color: #fff;
-  border: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
   border-radius: 20px;
   padding: 8px 14px;
   font-family: inherit;
@@ -479,8 +471,8 @@ body {
   transform: translateX(-50%);
   width: 100%;
   max-width: 430px;
-  background: #000;
-  border-top: 1px solid #111;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
   padding: 12px 20px 28px;
   display: flex;
   align-items: center;
@@ -495,7 +487,7 @@ body {
   font-family: inherit;
   font-size: 12px;
   font-weight: 600;
-  color: #2e2e2e;
+  color: var(--muted);
   padding: 0;
   flex: 1;
   text-align: center;
@@ -503,7 +495,7 @@ body {
   letter-spacing: 0.01em;
 }
 
-.bottom-tab--active { color: #fff; }
+.bottom-tab--active { color: var(--text); }
 
 .bottom-profile-btn {
   background: none;
@@ -518,6 +510,6 @@ body {
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid #222;
+  border: 1.5px solid var(--border);
   display: block;
 }
