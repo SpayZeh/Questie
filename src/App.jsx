@@ -106,7 +106,7 @@ export default function App() {
 
   // Feed subscription
   useEffect(() => {
-    if (!user) return;
+    if (user === undefined) return;
     const q = query(collection(db, 'posts'), orderBy('createdAt', 'desc'), limit(100));
     const unsub = onSnapshot(q, (snap) => {
       const all = snap.docs.map((d) => {
