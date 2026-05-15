@@ -33,9 +33,8 @@ export default function App() {
   const [splash, setSplash] = useState(true);
   const [user, setUser] = useState(undefined);
   const [userProfile, setUserProfile] = useState(null);
-  const [friendPosts, setFriendPosts] = useState([]);
-  const [worldPosts, setWorldPosts] = useState([]);
-  const [tab, setTab] = useState('best');
+  const [allPosts, setAllPosts] = useState([]);
+  const [tab, setTab] = useState('potential');
   const [showPost, setShowPost] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [showNotifs, setShowNotifs] = useState(false);
@@ -112,8 +111,7 @@ export default function App() {
           isNew: data.createdAt ? (Date.now() - data.createdAt.toMillis()) < 300000 : false,
         };
       });
-      setFriendPosts(all.filter((p) => p.userId === user.uid));
-      setWorldPosts(all.filter((p) => p.visibility === 'everyone'));
+      setAllPosts(all);
     });
     return unsub;
   }, [user]);
@@ -170,6 +168,9 @@ export default function App() {
   }
 
   const isFuture = tab === 'potential';
+  const following = userProfile?.following || [];
+  const friendPosts = allPosts.filter((p) => p.userId === user?.uid || following.includes(p.userId));
+  const worldPosts = allPosts.filter((p) => p.visibility === 'everyone');
   const questline = [...(userProfile?.questline || [])].reverse();
 
   if (splash || user === undefined) return <SplashScreen onDone={() => setSplash(false)} />;

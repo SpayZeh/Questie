@@ -26,7 +26,7 @@ export default function PostModal({ quest, onPost, posting, onClose }) {
   const [preview, setPreview] = useState(null);
   const [compressed, setCompressed] = useState(null);
   const [caption, setCaption] = useState('');
-  const [visibility, setVisibility] = useState('questies');
+  const [visibility, setVisibility] = useState('everyone');
   const [compressing, setCompressing] = useState(false);
   const fileRef = useRef(null);
 
@@ -96,7 +96,7 @@ export default function PostModal({ quest, onPost, posting, onClose }) {
             className={`visibility-opt${visibility === 'everyone' ? ' visibility-opt--active' : ''}`}
             onClick={() => setVisibility('everyone')}
           >
-            everyone
+            all questies
           </button>
         </div>
 
