@@ -3,6 +3,7 @@ import React, { useState, useRef } from 'react';
 export default function PostModal({ quest, onPost, onClose }) {
   const [preview, setPreview] = useState(null);
   const [caption, setCaption] = useState('');
+  const [visibility, setVisibility] = useState('questies');
   const [posted, setPosted] = useState(false);
   const fileRef = useRef(null);
 
@@ -15,7 +16,7 @@ export default function PostModal({ quest, onPost, onClose }) {
   function handlePost() {
     if (!preview) return;
     setPosted(true);
-    setTimeout(() => onPost(preview, caption), 900);
+    setTimeout(() => onPost(preview, caption, visibility), 900);
   }
 
   return (
@@ -52,6 +53,21 @@ export default function PostModal({ quest, onPost, onClose }) {
           onChange={(e) => setCaption(e.target.value)}
           rows={2}
         />
+
+        <div className="visibility-toggle">
+          <button
+            className={`visibility-opt${visibility === 'questies' ? ' visibility-opt--active' : ''}`}
+            onClick={() => setVisibility('questies')}
+          >
+            my questies only
+          </button>
+          <button
+            className={`visibility-opt${visibility === 'everyone' ? ' visibility-opt--active' : ''}`}
+            onClick={() => setVisibility('everyone')}
+          >
+            everyone
+          </button>
+        </div>
 
         <button
           className={`modal-post-btn ${!preview ? 'modal-post-btn--disabled' : ''} ${posted ? 'modal-post-btn--done' : ''}`}

@@ -22,10 +22,11 @@ export default function App() {
   const [showProfile, setShowProfile] = useState(false);
   const [msLeft, setMsLeft] = useState(msUntilReset());
   const [friendPosts, setFriendPosts] = useState(initialFriendPosts);
+  const [discoveryPostsList, setDiscoveryPostsList] = useState(discoveryPosts);
   const [hasPosted, setHasPosted] = useState(false);
   const [showNotifs, setShowNotifs] = useState(false);
 
-  function handlePost(photo, caption) {
+  function handlePost(photo, caption, visibility) {
     const newPost = {
       id: Date.now(),
       username: 'you',
@@ -38,6 +39,9 @@ export default function App() {
       comments: [],
     };
     setFriendPosts((prev) => [newPost, ...prev]);
+    if (visibility === 'everyone') {
+      setDiscoveryPostsList((prev) => [newPost, ...prev]);
+    }
     setHasPosted(true);
     setTab('best');
     setShowPost(false);
@@ -76,7 +80,7 @@ export default function App() {
 
 
         <main className="feed">
-          {(isFuture ? discoveryPosts : friendPosts).map((post) => (
+          {(isFuture ? discoveryPostsList : friendPosts).map((post) => (
             <FeedPost
               key={post.id}
               post={post}
