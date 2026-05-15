@@ -17,13 +17,13 @@ export default function CommentSheet({ post, onClose }) {
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className="modal-sheet comment-sheet">
         <div className="modal-header">
-          <h2 className="modal-title">Comments</h2>
+          <h2 className="modal-title">comments</h2>
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
 
         <div className="comment-list">
           {comments.length === 0 && (
-            <p className="comment-empty">No comments yet. Be the first!</p>
+            <p className="comment-empty">no comments yet. be the first!</p>
           )}
           {comments.map((c) => (
             <div key={c.id} className="comment-row">
@@ -41,12 +41,12 @@ export default function CommentSheet({ post, onClose }) {
           <img src="https://i.pravatar.cc/150?img=5" alt="you" className="comment-avatar" />
           <input
             className="comment-input"
-            placeholder="Add a comment..."
+            placeholder="add a comment..."
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
           />
-          <button className="comment-send" onClick={handleSend} disabled={!text.trim()}>Send</button>
+          <button className="comment-send" onClick={handleSend} disabled={!text.trim()}>send</button>
         </div>
       </div>
     </div>

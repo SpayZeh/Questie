@@ -23,7 +23,7 @@ export default function PostModal({ quest, onClose }) {
       <div className="modal-sheet">
         <div className="modal-header">
           <div>
-            <h2 className="modal-title">Complete Quest</h2>
+            <h2 className="modal-title">complete quest</h2>
             <p className="modal-sub">{quest.emoji} {quest.description}</p>
           </div>
           <button className="modal-close" onClick={onClose}>✕</button>
@@ -38,8 +38,8 @@ export default function PostModal({ quest, onClose }) {
           ) : (
             <>
               <div className="modal-camera-icon">📷</div>
-              <p className="modal-upload-title">Add photo or video</p>
-              <p className="modal-upload-sub">Show the world your completion!</p>
+              <p className="modal-upload-title">add photo or video</p>
+              <p className="modal-upload-sub">show the world your completion!</p>
             </>
           )}
           <input ref={fileRef} type="file" accept="image/*,video/*" capture="environment" style={{ display: 'none' }} onChange={handleFile} />
@@ -47,7 +47,7 @@ export default function PostModal({ quest, onClose }) {
 
         <textarea
           className="modal-caption"
-          placeholder="Add a caption... (optional)"
+          placeholder="add a caption... (optional)"
           value={caption}
           onChange={(e) => setCaption(e.target.value)}
           rows={2}
@@ -58,7 +58,7 @@ export default function PostModal({ quest, onClose }) {
           onClick={handlePost}
           disabled={!preview}
         >
-          {posted ? 'Posted! 🎉' : 'Post to Feed 🎯'}
+          {posted ? 'posted! 🎉' : 'post to feed 🎯'}
         </button>
       </div>
     </div>

@@ -685,21 +685,60 @@ body {
   letter-spacing: 0.01em;
 }
 
+.bottom-add-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  padding: 0 6px;
+  flex-shrink: 0;
+}
+
 .bottom-tab--active { color: var(--text); }
 
 .bottom-profile-btn {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0 14px;
+  padding: 0 6px;
   flex-shrink: 0;
 }
 
 .bottom-profile-avatar {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   object-fit: cover;
   border: 1.5px solid var(--border);
   display: block;
+}
+
+/* ── Post add questie btn ── */
+.post-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.15s;
+}
+
+.post-add-btn--done {
+  color: var(--sub);
+  border-color: var(--border);
 }
