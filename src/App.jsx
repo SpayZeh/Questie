@@ -7,10 +7,10 @@ import PostModal from './components/PostModal.jsx';
 import ProfileModal from './components/ProfileModal.jsx';
 import NotifSheet from './components/NotifSheet.jsx';
 import SplashScreen from './components/SplashScreen.jsx';
-import LoginScreen from './components/LoginScreen.jsx';
+import LoginSheet from './components/LoginSheet.jsx';
 import { msUntilReset } from './data/quests.js';
 
-const quest = { emoji: '🌿', tagline: 'Touch Grass', description: 'literally, touch grass and capture it.', color: '#F97316' };
+const quest = { emoji: '💧', tagline: 'Hydrate!', description: 'take a picture of you hydrating.', color: '#3B82F6' };
 
 function formatCountdown(ms) {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -42,6 +42,8 @@ export default function App() {
   const [hasPosted, setHasPosted] = useState(false);
   const [msLeft, setMsLeft] = useState(msUntilReset());
   const [posting, setPosting] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [pendingPost, setPendingPost] = useState(false);
 
   // Auth
   useEffect(() => {
@@ -72,6 +74,15 @@ export default function App() {
       }
     });
   }, []);
+
+  // Auto-open post modal if user just logged in via quest button
+  useEffect(() => {
+    if (user && pendingPost) {
+      setPendingPost(false);
+      setShowLogin(false);
+      setShowPost(true);
+    }
+  }, [user, pendingPost]);
 
   // Timer
   useEffect(() => {
@@ -153,9 +164,7 @@ export default function App() {
   const isFuture = tab === 'potential';
   const questline = [...(userProfile?.questline || [])].reverse();
 
-  if (splash) return <SplashScreen onDone={() => setSplash(false)} />;
-  if (user === undefined) return <SplashScreen onDone={() => {}} />;
-  if (!user) return <LoginScreen />;
+  if (splash || user === undefined) return <SplashScreen onDone={() => setSplash(false)} />;
 
   return (
     <div className="app">
@@ -175,7 +184,10 @@ export default function App() {
           <p className="quest-tagline"><span className="quest-emoji">{quest.emoji}</span> {quest.tagline}</p>
           <p className="quest-desc">{quest.description}</p>
           {!hasPosted && (
-            <button className="quest-post-btn" onClick={() => setShowPost(true)}>
+            <button className="quest-post-btn" onClick={() => {
+              if (!user) { setPendingPost(true); setShowLogin(true); }
+              else setShowPost(true);
+            }}>
               complete quest
             </button>
           )}
@@ -203,10 +215,10 @@ export default function App() {
         <button className={`bottom-tab ${tab === 'best' ? 'bottom-tab--active' : ''}`} onClick={() => setTab('best')}>
           my best questies
         </button>
-        <button className="bottom-profile-btn" onClick={() => setShowProfile(true)}>
-          {user.photoURL
+        <button className="bottom-profile-btn" onClick={() => user ? setShowProfile(true) : setShowLogin(true)}>
+          {user?.photoURL
             ? <img src={user.photoURL} alt="profile" className="bottom-profile-avatar" referrerPolicy="no-referrer" />
-            : <div className="bottom-profile-initials">{(userProfile?.username || 'u')[0].toUpperCase()}</div>
+            : <div className="bottom-profile-initials">{user ? (userProfile?.username || 'u')[0].toUpperCase() : '?'}</div>
           }
         </button>
         <button className={`bottom-tab ${tab === 'potential' ? 'bottom-tab--active' : ''}`} onClick={() => setTab('potential')}>
@@ -217,6 +229,7 @@ export default function App() {
       {showPost    && <PostModal quest={quest} onPost={handlePost} posting={posting} onClose={() => setShowPost(false)} />}
       {showProfile && <ProfileModal user={user} userProfile={userProfile} questline={questline} onClose={() => setShowProfile(false)} />}
       {showNotifs  && <NotifSheet onClose={() => setShowNotifs(false)} />}
+      {showLogin   && <LoginSheet onClose={() => { setShowLogin(false); setPendingPost(false); }} />}
     </div>
   );
 }

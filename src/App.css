@@ -47,6 +47,36 @@ body {
 .google-login-btn:hover { border-color: var(--sub); }
 .google-login-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+/* ── Login Sheet ── */
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--sub);
+  font-size: 11px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.login-toggle {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--sub);
+  cursor: pointer;
+  text-align: center;
+  padding: 0;
+}
+
+.login-toggle:hover { color: var(--text); }
+
 /* ── Feed empty state ── */
 .feed-empty {
   text-align: center;
