@@ -835,6 +835,15 @@ body {
 
 .questline-item--right .questline-date { text-align: right; }
 
+.questline-caption {
+  font-size: 12px;
+  color: var(--text);
+  margin: 4px 0 2px;
+  line-height: 1.4;
+}
+
+.questline-item--right .questline-caption { text-align: right; }
+
 
 .modal-overlay {
   position: fixed;
