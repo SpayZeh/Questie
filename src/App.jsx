@@ -3,7 +3,7 @@ import FeedPost from './components/FeedPost.jsx';
 import { getTodaysQuest } from './data/quests.js';
 import { feedPosts } from './data/posts.js';
 
-const quest = getTodaysQuest();
+const quest = { emoji: '🌿', tagline: 'Touch Grass', description: 'Literally, touch grass and capture it.', color: '#34C759' };
 
 export default function App() {
   const [tab, setTab] = useState('best');

@@ -29,16 +29,26 @@ export default function FeedPost({ post }) {
 
       <div className="post-footer">
         {post.caption && <p className="post-caption">{post.caption}</p>}
-        <div className="post-reactions">
-          {reactions.map((r) => (
-            <button
-              key={r.emoji}
-              className={`reaction-btn${tapped[r.emoji] ? ' reaction-btn--tapped' : ''}`}
-              onClick={() => handleReaction(r.emoji)}
-            >
-              {r.emoji}
-            </button>
-          ))}
+
+        <div className="post-actions">
+          <div className="post-reactions">
+            {reactions.map((r) => (
+              <button
+                key={r.emoji}
+                className={`reaction-btn${tapped[r.emoji] ? ' reaction-btn--tapped' : ''}`}
+                onClick={() => handleReaction(r.emoji)}
+              >
+                {r.emoji}
+                <span className="reaction-count">{r.count}</span>
+              </button>
+            ))}
+          </div>
+
+          <button className="comment-btn" aria-label="Comment">
+            <svg className="comment-icon" viewBox="0 0 24 24">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+          </button>
         </div>
       </div>
     </article>
