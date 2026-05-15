@@ -404,6 +404,13 @@ body {
 }
 .quest-post-btn:active { opacity: 0.85; }
 
+.quest-closed {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--sub);
+  text-align: center;
+}
+
 .quest-notif-prompt {
   margin-top: 8px;
   background: none;

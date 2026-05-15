@@ -76,42 +76,41 @@ function getDayOfYear(date) {
   return Math.floor((date - start) / 86400000);
 }
 
-function seeded(n) {
-  const x = Math.sin(n * 127.1 + 311.7) * 43758.5453;
-  return x - Math.floor(x);
+// CET = UTC+1. We use a fixed offset (CEST is UTC+2 but fixed +1 is close enough).
+const CET = 1;
+
+function cetNow() {
+  return new Date(Date.now() + CET * 3600000);
 }
 
-// Returns the reset Date for a given calendar date
-// Hour is seeded from day-of-year so it's consistent globally but unpredictable
-function getResetDateFor(date) {
-  const day = getDayOfYear(date);
-  const hour   = Math.floor(seeded(day * 3)  * 24);
-  const minute = Math.floor(seeded(day * 7)  * 60);
-  const second = Math.floor(seeded(day * 13) * 60);
-  const reset = new Date(date);
-  reset.setHours(hour, minute, second, 0);
-  return reset;
+// Quest window: 8am–10pm CET every day.
+export function isQuestActive() {
+  const h = cetNow().getUTCHours();
+  return h >= 8 && h < 22;
 }
 
-// Returns the Date of the most recent reset
+// During active hours:   counts down to 10pm CET (quest deadline).
+// During inactive hours: counts down to 8am CET (next quest drops).
+export function msUntilReset() {
+  const now = cetNow();
+  const h = now.getUTCHours();
+  const target = new Date(now);
+  if (h >= 8 && h < 22) {
+    target.setUTCHours(22, 0, 0, 0);
+  } else {
+    if (h >= 22) target.setUTCDate(target.getUTCDate() + 1);
+    target.setUTCHours(8, 0, 0, 0);
+  }
+  return Math.max(0, target - now);
+}
+
+// Returns the UTC Date of the most recent quest start (8am CET = 7am UTC).
 export function getLastResetTime() {
   const now = new Date();
-  const todayReset = getResetDateFor(now);
-  if (todayReset <= now) return todayReset;
-  const yesterday = new Date(now);
-  yesterday.setDate(yesterday.getDate() - 1);
-  return getResetDateFor(yesterday);
-}
-
-// Returns ms until the next quest reset
-export function msUntilReset() {
-  const now = new Date();
-  const todayReset = getResetDateFor(now);
-  if (todayReset > now) return todayReset - now;
-  // Past today's reset — roll to same time tomorrow, always < 24h
-  const next = new Date(todayReset);
-  next.setDate(next.getDate() + 1);
-  return next - now;
+  const last = new Date(now);
+  last.setUTCHours(8 - CET, 0, 0, 0);
+  if (now.getUTCHours() < 8 - CET) last.setUTCDate(last.getUTCDate() - 1);
+  return last;
 }
 
 export function getTodaysQuest() {
