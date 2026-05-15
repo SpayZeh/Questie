@@ -28,12 +28,6 @@ export default function FeedPost({ post, questEmoji }) {
             <span className="post-username">{post.username}</span>
             <span className="post-time">{post.isNew ? 'Just completed' : post.timeAgo}</span>
           </div>
-          {post.isNew && (
-            <div className="post-status">
-              <span className="post-status-dot" />
-              On Time
-            </div>
-          )}
         </div>
 
         <div className="post-photo-wrap">

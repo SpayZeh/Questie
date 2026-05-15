@@ -29,11 +29,8 @@ export default function App() {
       <div className="app-inner">
 
         <header className="quest-bar">
-          <div className="quest-module-top">
-            <span className="quest-emoji">{quest.emoji}</span>
-            <div className="quest-timer-pill">{formatCountdown(msLeft)}</div>
-          </div>
-          <p className="quest-tagline">{quest.tagline}</p>
+          <div className="quest-timer-pill">{formatCountdown(msLeft)}</div>
+          <p className="quest-tagline"><span className="quest-emoji">{quest.emoji}</span> {quest.tagline}</p>
           <p className="quest-desc">{quest.description}</p>
           <button className="quest-post-btn" onClick={() => setShowPost(true)}>
             Complete Quest

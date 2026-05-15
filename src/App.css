@@ -47,18 +47,17 @@ body {
   background: var(--bg);
   border-bottom: 1px solid var(--border);
   padding: 22px 20px 20px;
-}
-
-.quest-module-top {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
+  text-align: center;
+  gap: 8px;
 }
 
 .quest-emoji {
-  font-size: 18px;
-  line-height: 1;
+  font-size: 32px;
+  vertical-align: middle;
+  margin-right: 4px;
 }
 
 .quest-timer-pill {
@@ -74,6 +73,7 @@ body {
   color: var(--accent);
   letter-spacing: 0.06em;
   font-variant-numeric: tabular-nums;
+  margin-bottom: 6px;
 }
 
 .quest-timer-pill::before {
@@ -86,19 +86,18 @@ body {
 }
 
 .quest-tagline {
-  font-size: 36px;
+  font-size: 34px;
   font-weight: 900;
   color: var(--text);
   letter-spacing: -0.03em;
-  line-height: 1.0;
-  margin-bottom: 8px;
+  line-height: 1.05;
 }
 
 .quest-desc {
   font-size: 13px;
   color: var(--sub);
   line-height: 1.5;
-  margin-bottom: 18px;
+  margin-bottom: 6px;
 }
 
 .quest-post-btn {
@@ -108,7 +107,7 @@ body {
   color: #111;
   border: none;
   border-radius: 40px;
-  padding: 13px 24px;
+  padding: 13px 28px;
   font-family: inherit;
   font-size: 13px;
   font-weight: 800;
@@ -166,22 +165,6 @@ body {
   font-weight: 500;
 }
 
-.post-status {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  font-weight: 700;
-  color: #4ade80;
-}
-
-.post-status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #4ade80;
-  flex-shrink: 0;
-}
 
 /* ── Photo ── */
 .post-photo-wrap {
