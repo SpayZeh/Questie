@@ -13,8 +13,8 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 
 messaging.onBackgroundMessage((payload) => {
-  const title = payload.notification?.title || 'new quest available!';
-  const body  = payload.notification?.body  || 'a new daily quest just dropped. complete it before time runs out!';
+  const title = payload.notification?.title || 'hey questie!';
+  const body  = payload.notification?.body  || 'new quest just dropped!';
   self.registration.showNotification(title, {
     body,
     icon: '/icon-192.png',
