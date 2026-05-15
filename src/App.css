@@ -3,14 +3,14 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg:      #efefef;
-  --surface: #ffffff;
-  --border:  #e0e0e0;
-  --muted:   #aaaaaa;
-  --text:    #111111;
-  --sub:     #888888;
+  --bg:      #0b0d0c;
+  --surface: #131614;
+  --border:  #1e2220;
+  --muted:   #3a3f3c;
+  --text:    #e8eae8;
+  --sub:     #4d5450;
   --accent:  #F97316;
-  --accent-light: #fff0e6;
+  --accent-light: #2a1a0a;
 }
 
 body {
@@ -238,7 +238,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.7);
   z-index: 100;
   display: flex;
   align-items: center;
