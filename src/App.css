@@ -724,7 +724,21 @@ body {
 }
 
 .modal-upload:hover { border-color: var(--accent); }
-.modal-upload--filled { border-style: solid; cursor: default; }
+.modal-upload--filled { border-style: solid; cursor: default; position: relative; }
+
+.modal-compressing {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
 
 .modal-camera-icon { font-size: 36px; opacity: 0.2; }
 

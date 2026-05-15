@@ -1,23 +1,53 @@
 import React, { useState, useRef } from 'react';
 
+const MAX_PX = 1200;
+const QUALITY = 0.8;
+
+function compressImage(file) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const scale = Math.min(1, MAX_PX / Math.max(img.width, img.height));
+      const w = Math.round(img.width * scale);
+      const h = Math.round(img.height * scale);
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      resolve(canvas.toDataURL('image/jpeg', QUALITY));
+    };
+    img.src = url;
+  });
+}
+
 export default function PostModal({ quest, onPost, onClose }) {
   const [preview, setPreview] = useState(null);
+  const [compressed, setCompressed] = useState(null);
   const [caption, setCaption] = useState('');
   const [visibility, setVisibility] = useState('questies');
   const [posted, setPosted] = useState(false);
+  const [compressing, setCompressing] = useState(false);
   const fileRef = useRef(null);
 
-  function handleFile(e) {
+  async function handleFile(e) {
     const file = e.target.files[0];
     if (!file) return;
     setPreview(URL.createObjectURL(file));
+    setCompressing(true);
+    const dataUrl = await compressImage(file);
+    setCompressed(dataUrl);
+    setCompressing(false);
   }
 
   function handlePost() {
-    if (!preview) return;
+    if (!compressed) return;
     setPosted(true);
-    setTimeout(() => onPost(preview, caption, visibility), 900);
+    setTimeout(() => onPost(compressed, caption, visibility), 900);
   }
+
+  const ready = compressed && !compressing;
 
   return (
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
@@ -35,7 +65,10 @@ export default function PostModal({ quest, onPost, onClose }) {
           onClick={() => !preview && fileRef.current?.click()}
         >
           {preview ? (
-            <img src={preview} alt="preview" className="modal-preview" onClick={() => fileRef.current?.click()} />
+            <>
+              <img src={preview} alt="preview" className="modal-preview" onClick={() => fileRef.current?.click()} />
+              {compressing && <div className="modal-compressing">compressing...</div>}
+            </>
           ) : (
             <>
               <div className="modal-camera-icon">📷</div>
@@ -43,7 +76,7 @@ export default function PostModal({ quest, onPost, onClose }) {
               <p className="modal-upload-sub">show the world your completion!</p>
             </>
           )}
-          <input ref={fileRef} type="file" accept="image/*,video/*" capture="environment" style={{ display: 'none' }} onChange={handleFile} />
+          <input ref={fileRef} type="file" accept="image/*" capture="environment" style={{ display: 'none' }} onChange={handleFile} />
         </div>
 
         <textarea
@@ -70,11 +103,11 @@ export default function PostModal({ quest, onPost, onClose }) {
         </div>
 
         <button
-          className={`modal-post-btn ${!preview ? 'modal-post-btn--disabled' : ''} ${posted ? 'modal-post-btn--done' : ''}`}
+          className={`modal-post-btn ${!ready ? 'modal-post-btn--disabled' : ''} ${posted ? 'modal-post-btn--done' : ''}`}
           onClick={handlePost}
-          disabled={!preview}
+          disabled={!ready}
         >
-          {posted ? 'posted! 🎉' : 'post to feed 🎯'}
+          {posted ? 'posted!' : compressing ? 'processing...' : 'post to feed'}
         </button>
       </div>
     </div>
