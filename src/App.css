@@ -9,13 +9,13 @@
   --muted:   #303030;
   --text:    #f2f2f2;
   --sub:     #505050;
-  --accent:  #FF6B00;
-  --accent-dim: #1f1000;
+  --accent:  #F5C842;
+  --accent-dim: #1e1a08;
 
   /* quest bar panel */
-  --qbg:     #FF6B00;
-  --qtext:   #0c0c0c;
-  --qsub:    rgba(0,0,0,0.45);
+  --qbg:     #F5C842;
+  --qtext:   #111111;
+  --qsub:    rgba(0,0,0,0.4);
 }
 
 body {
@@ -490,8 +490,7 @@ body {
   transform: translateX(-50%);
   width: 100%;
   max-width: 430px;
-  background: var(--bg);
-  border-top: 1px solid var(--border);
+  background: var(--qbg);
   padding: 14px 20px 30px;
   display: flex;
   align-items: center;
@@ -506,7 +505,7 @@ body {
   font-family: inherit;
   font-size: 12px;
   font-weight: 700;
-  color: var(--sub);
+  color: var(--qsub);
   padding: 0;
   flex: 1;
   text-align: center;
@@ -514,7 +513,7 @@ body {
   letter-spacing: 0.01em;
 }
 
-.bottom-tab--active { color: var(--text); }
+.bottom-tab--active { color: var(--qtext); }
 
 .bottom-profile-btn {
   background: none;
@@ -529,6 +528,7 @@ body {
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid var(--border);
+  border: 2px solid var(--qtext);
+  opacity: 0.7;
   display: block;
 }
