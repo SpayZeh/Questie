@@ -1,10 +1,9 @@
 import React, { useState, useRef } from 'react';
 import FeedPost from './components/FeedPost.jsx';
-import { getTodaysQuest, getNextQuest } from './data/quests.js';
+import { getTodaysQuest } from './data/quests.js';
 import { feedPosts } from './data/posts.js';
 
 const todaysQuest = getTodaysQuest();
-const nextQuest = getNextQuest();
 
 export default function App() {
   const [tab, setTab] = useState('best');
@@ -14,18 +13,14 @@ export default function App() {
     <div className="app">
       <div className="app-inner">
 
-        {/* Quest bar at top */}
-        <div className="quest-bar" style={{ '--qcolor': todaysQuest.color }}>
-          <span className="quest-bar-emoji">{todaysQuest.emoji}</span>
-          <div className="quest-bar-text">
-            <p className="quest-bar-title">{todaysQuest.title}</p>
-            <p className="quest-bar-next">Next: {nextQuest.emoji} {nextQuest.title}</p>
-          </div>
+        <header className="quest-bar" style={{ '--qcolor': todaysQuest.color }}>
+          <p className="quest-bar-label">Today's Quest</p>
+          <p className="quest-bar-title">{todaysQuest.emoji} {todaysQuest.title}</p>
           <button className="quest-bar-btn" onClick={() => fileRef.current?.click()}>
-            Post
+            Complete Quest
           </button>
           <input ref={fileRef} type="file" accept="image/*,video/*" capture="environment" style={{ display: 'none' }} />
-        </div>
+        </header>
 
         <main className="feed">
           {feedPosts.map((post) => (
@@ -35,7 +30,6 @@ export default function App() {
 
       </div>
 
-      {/* Bottom nav */}
       <nav className="bottom-nav">
         <button
           className={`bottom-tab ${tab === 'best' ? 'bottom-tab--active' : ''}`}

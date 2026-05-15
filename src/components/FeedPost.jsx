@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 export default function FeedPost({ post }) {
   const [reactions, setReactions] = useState(post.reactions);
   const [tapped, setTapped] = useState({});
+  const [swapped, setSwapped] = useState(false);
+
+  const mainPhoto = swapped ? post.selfie : post.photo;
+  const pipPhoto  = swapped ? post.photo  : post.selfie;
 
   function handleReaction(emoji) {
     if (tapped[emoji]) return;
@@ -18,32 +22,31 @@ export default function FeedPost({ post }) {
         <img src={post.avatar} alt={post.username} className="post-avatar" />
         <div className="post-meta">
           <span className="post-username">{post.username}</span>
-          <span className="post-sub">Quest completed</span>
+          <span className="post-time">{post.timeAgo}</span>
         </div>
         {post.isNew && <span className="post-new-badge">New!</span>}
       </div>
 
       <div className="post-photo-wrap">
-        <img
-          src={post.photo}
-          alt="quest completion"
-          className="post-photo"
-          loading="lazy"
-        />
+        <img src={mainPhoto} alt="" className="post-photo" loading="lazy" />
+        <div className="post-pip" onClick={() => setSwapped((s) => !s)}>
+          <img src={pipPhoto} alt="" className="post-pip-img" loading="lazy" />
+        </div>
       </div>
 
-      {post.caption && <p className="post-caption">{post.caption}</p>}
-
-      <div className="post-reactions">
-        {reactions.map((r) => (
-          <button
-            key={r.emoji}
-            className={`reaction-btn${tapped[r.emoji] ? ' reaction-btn--tapped' : ''}`}
-            onClick={() => handleReaction(r.emoji)}
-          >
-            {r.emoji}
-          </button>
-        ))}
+      <div className="post-footer">
+        {post.caption && <p className="post-caption">{post.caption}</p>}
+        <div className="post-reactions">
+          {reactions.map((r) => (
+            <button
+              key={r.emoji}
+              className={`reaction-btn${tapped[r.emoji] ? ' reaction-btn--tapped' : ''}`}
+              onClick={() => handleReaction(r.emoji)}
+            >
+              {r.emoji}
+            </button>
+          ))}
+        </div>
       </div>
     </article>
   );
