@@ -55,17 +55,17 @@ export default function App() {
       <div className="app-inner">
 
         <header className={`quest-bar${hasPosted ? ' quest-bar--done' : ''}`}>
-          <div className="quest-timer-pill">{formatCountdown(msLeft)}</div>
-          <div className="quest-tagline-row">
+          <div className="quest-bar-top-row">
             <button className="quest-icon-btn" onClick={() => setShowProfile(true)} aria-label="add friends">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
             </button>
-            <p className="quest-tagline"><span className="quest-emoji">{quest.emoji}</span> {quest.tagline}</p>
+            <div className="quest-timer-pill">{formatCountdown(msLeft)}</div>
             <button className="quest-icon-btn" onClick={() => setShowNotifs(true)} aria-label="notifications">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
               <span className="quest-notif-dot" />
             </button>
           </div>
+          <p className="quest-tagline"><span className="quest-emoji">{quest.emoji}</span> {quest.tagline}</p>
           <p className="quest-desc">{quest.description}</p>
           {!hasPosted && (
             <button className="quest-post-btn" onClick={() => setShowPost(true)}>

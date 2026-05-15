@@ -55,11 +55,10 @@ body {
   transition: padding 0.3s ease;
 }
 
-.quest-tagline-row {
+.quest-bar-top-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
+  justify-content: space-between;
   width: 100%;
 }
 
