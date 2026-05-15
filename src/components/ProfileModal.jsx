@@ -6,8 +6,8 @@ const MOCK_FRIENDS = [
   { id: 'f3', username: 'soph.snaps',  avatar: 'https://i.pravatar.cc/150?img=32' },
 ];
 
-export default function ProfileModal({ onClose }) {
-  const [name, setName] = useState('you');
+export default function ProfileModal({ username, onClose }) {
+  const [name, setName] = useState(username || 'you');
   const [avatar, setAvatar] = useState('https://i.pravatar.cc/150?img=5');
   const [preview, setPreview] = useState(null);
   const [searchVal, setSearchVal] = useState('');

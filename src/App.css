@@ -925,6 +925,21 @@ body {
   display: block;
 }
 
+.bottom-profile-initials {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: 0;
+}
+
 /* ── Post add questie btn ── */
 .post-add-btn {
   display: inline-flex;

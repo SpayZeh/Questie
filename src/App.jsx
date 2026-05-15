@@ -18,7 +18,7 @@ function formatCountdown(ms) {
 }
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
   const [tab, setTab] = useState('best');
   const [showPost, setShowPost] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -40,9 +40,9 @@ export default function App() {
       reactions: { quest: 0, heart: 0, laugh: 0 },
       comments: [],
     };
-    setFriendPosts((prev) => [newPost, ...prev]);
+    setFriendPosts((prev) => [{ ...newPost, username: currentUser }, ...prev]);
     if (visibility === 'everyone') {
-      setDiscoveryPostsList((prev) => [newPost, ...prev]);
+      setDiscoveryPostsList((prev) => [{ ...newPost, username: currentUser }, ...prev]);
     }
     setHasPosted(true);
     setTab('best');
@@ -56,7 +56,7 @@ export default function App() {
 
   const isFuture = tab === 'potential';
 
-  if (!loggedIn) return <LoginScreen onLogin={() => setLoggedIn(true)} />;
+  if (!currentUser) return <LoginScreen onLogin={(username) => setCurrentUser(username)} />;
 
   return (
     <div className="app">
@@ -101,7 +101,7 @@ export default function App() {
           my best questies
         </button>
         <button className="bottom-profile-btn" onClick={() => setShowProfile(true)}>
-          <img src="https://i.pravatar.cc/150?img=5" alt="profile" className="bottom-profile-avatar" />
+          <div className="bottom-profile-initials">{currentUser[0].toUpperCase()}</div>
         </button>
         <button className={`bottom-tab ${tab === 'potential' ? 'bottom-tab--active' : ''}`} onClick={() => setTab('potential')}>
           world wide questies
@@ -109,7 +109,7 @@ export default function App() {
       </nav>
 
       {showPost    && <PostModal    quest={quest} onPost={handlePost} onClose={() => setShowPost(false)} />}
-      {showProfile && <ProfileModal              onClose={() => setShowProfile(false)} />}
+      {showProfile && <ProfileModal username={currentUser} onClose={() => setShowProfile(false)} />}
       {showNotifs  && <NotifSheet                onClose={() => setShowNotifs(false)} />}
     </div>
   );
