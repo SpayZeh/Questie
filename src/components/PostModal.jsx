@@ -1,4 +1,6 @@
 import React, { useState, useRef } from 'react';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { auth, storage } from '../firebase.js';
 
 const MAX_PX = 1200;
 const QUALITY = 0.8;
@@ -16,7 +18,7 @@ function compressImage(file) {
       canvas.width = w;
       canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      resolve(canvas.toDataURL('image/jpeg', QUALITY));
+      canvas.toBlob(resolve, 'image/jpeg', QUALITY);
     };
     img.src = url;
   });
@@ -24,10 +26,11 @@ function compressImage(file) {
 
 export default function PostModal({ quest, onPost, posting, onClose }) {
   const [preview, setPreview] = useState(null);
-  const [compressed, setCompressed] = useState(null);
+  const [blob, setBlob] = useState(null);
   const [caption, setCaption] = useState('');
   const [visibility, setVisibility] = useState('everyone');
   const [compressing, setCompressing] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const fileRef = useRef(null);
 
   async function handleFile(e) {
@@ -35,17 +38,28 @@ export default function PostModal({ quest, onPost, posting, onClose }) {
     if (!file) return;
     setPreview(URL.createObjectURL(file));
     setCompressing(true);
-    const dataUrl = await compressImage(file);
-    setCompressed(dataUrl);
+    const compressed = await compressImage(file);
+    setBlob(compressed);
     setCompressing(false);
   }
 
-  function handlePost() {
-    if (!compressed || posting) return;
-    onPost(compressed, caption, visibility);
+  async function handlePost() {
+    if (!blob || uploading || posting) return;
+    setUploading(true);
+    try {
+      const uid = auth.currentUser?.uid;
+      const path = `posts/${uid}/${Date.now()}.jpg`;
+      const snapshot = await uploadBytes(ref(storage, path), blob);
+      const url = await getDownloadURL(snapshot.ref);
+      onPost(url, caption, visibility);
+    } catch (e) {
+      console.error('upload failed:', e);
+      alert('upload failed. check your connection and try again.');
+      setUploading(false);
+    }
   }
 
-  const ready = compressed && !compressing && !posting;
+  const ready = blob && !compressing && !uploading && !posting;
 
   return (
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
@@ -105,7 +119,7 @@ export default function PostModal({ quest, onPost, posting, onClose }) {
           onClick={handlePost}
           disabled={!ready}
         >
-          {posting ? 'uploading...' : compressing ? 'processing...' : 'post to feed'}
+          {uploading || posting ? 'uploading...' : compressing ? 'processing...' : blob ? 'post to feed' : 'pick a photo first'}
         </button>
       </div>
     </div>

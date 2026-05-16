@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { signOut } from 'firebase/auth';
 import { doc, updateDoc, getDoc, collection, getDocs, addDoc, arrayUnion, arrayRemove, serverTimestamp, query, where, onSnapshot } from 'firebase/firestore';
-import { auth, db } from '../firebase.js';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { auth, db, storage } from '../firebase.js';
 import QuestlineSheet from './QuestlineSheet.jsx';
 
 function compressAvatar(file) {
@@ -18,7 +19,7 @@ function compressAvatar(file) {
       canvas.width = w;
       canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      resolve(canvas.toDataURL('image/jpeg', 0.82));
+      canvas.toBlob(resolve, 'image/jpeg', 0.82);
     };
     img.src = url;
   });
@@ -51,10 +52,12 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
     if (!file || !user) return;
     setAvatarSaving(true);
     try {
-      const dataUrl = await compressAvatar(file);
-      await updateDoc(doc(db, 'users', user.uid), { photoURL: dataUrl });
-      setAvatarUrl(dataUrl);
-      onProfileUpdate?.({ photoURL: dataUrl });
+      const blob = await compressAvatar(file);
+      const snapshot = await uploadBytes(ref(storage, `avatars/${user.uid}.jpg`), blob);
+      const url = await getDownloadURL(snapshot.ref);
+      await updateDoc(doc(db, 'users', user.uid), { photoURL: url });
+      setAvatarUrl(url);
+      onProfileUpdate?.({ photoURL: url });
     } catch (err) {
       console.error('avatar update failed:', err);
     }
