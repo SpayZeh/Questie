@@ -9,6 +9,7 @@ import NotifSheet from './components/NotifSheet.jsx';
 import SplashScreen from './components/SplashScreen.jsx';
 import LoginSheet from './components/LoginSheet.jsx';
 import QuestComplete from './components/QuestComplete.jsx';
+import UsernameSetup from './components/UsernameSetup.jsx';
 import { requestNotificationPermission, notificationsSupported, notificationsBlocked } from './hooks/useNotifications.js';
 import { msUntilReset, getLastResetTime, getTodaysQuest } from './data/quests.js';
 
@@ -48,6 +49,7 @@ export default function App() {
   const [pendingPost, setPendingPost] = useState(false);
   const [hasUnreadNotifs, setHasUnreadNotifs] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [showUsernameSetup, setShowUsernameSetup] = useState(false);
   const [notifStatus, setNotifStatus] = useState(() =>
     'Notification' in window ? Notification.permission : 'unsupported'
   );
@@ -65,15 +67,15 @@ export default function App() {
           const profile = {
             uid: firebaseUser.uid,
             displayName: firebaseUser.displayName,
-            username: (firebaseUser.displayName || 'user').toLowerCase().replace(/\s+/g, '.'),
+            username: '',
             photoURL: firebaseUser.photoURL || '',
             streak: 0,
-            questline: [],
             following: [],
             createdAt: serverTimestamp(),
           };
           await setDoc(userRef, profile);
           setUserProfile(profile);
+          setShowUsernameSetup(true);
         }
         // Real-time subscription so following, streak, etc. always stay current
         unsubProfile = onSnapshot(userRef, (s) => {
@@ -274,6 +276,13 @@ export default function App() {
       {showNotifs  && <NotifSheet user={user} onClose={() => setShowNotifs(false)} />}
       {showLogin   && <LoginSheet onClose={() => { setShowLogin(false); setPendingPost(false); }} />}
       {showCelebration && <QuestComplete onDone={() => setShowCelebration(false)} />}
+      {showUsernameSetup && (
+        <UsernameSetup onConfirm={async (username) => {
+          await updateDoc(doc(db, 'users', user.uid), { username });
+          setUserProfile((prev) => ({ ...prev, username }));
+          setShowUsernameSetup(false);
+        }} />
+      )}
     </div>
   );
 }
