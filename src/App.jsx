@@ -216,12 +216,20 @@ export default function App() {
               complete quest
             </button>
           )}
-          {user && notificationsSupported() && (notifStatus === 'default' || notifStatus === 'granted') && (
+          {user && notificationsSupported() && notifStatus !== 'denied' && notifStatus !== 'unsupported' && (
             <button className="quest-notif-prompt" onClick={async () => {
-              const result = await requestNotificationPermission(user.uid);
-              setNotifStatus(result === 'granted' ? 'granted' : 'denied');
+              setNotifStatus('loading');
+              try {
+                const result = await requestNotificationPermission(user.uid);
+                setNotifStatus(result);
+                if (result === 'error') alert('notification setup failed. check console for details.');
+              } catch (e) {
+                console.error('notif button error:', e);
+                alert('notification error: ' + e.message);
+                setNotifStatus('default');
+              }
             }}>
-              want a nudge when the next quest drops?
+              {notifStatus === 'loading' ? 'setting up...' : notifStatus === 'granted' ? 'notifications on ✓' : 'want a nudge when the next quest drops?'}
             </button>
           )}
         </header>
