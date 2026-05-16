@@ -208,16 +208,13 @@ export default function App() {
               complete quest
             </button>
           )}
-          {user && notificationsSupported() && notifStatus === 'default' && (
+          {user && notificationsSupported() && (notifStatus === 'default' || notifStatus === 'granted') && (
             <button className="quest-notif-prompt" onClick={async () => {
               const result = await requestNotificationPermission(user.uid);
               setNotifStatus(result === 'granted' ? 'granted' : 'denied');
             }}>
-              notify me when quests drop
+              {notifStatus === 'granted' ? 'notifications on — tap to re-register' : 'notify me when quests drop'}
             </button>
-          )}
-          {user && notifStatus === 'granted' && !hasPosted && (
-            <p className="quest-notif-on">notifications on — we'll ping you every day</p>
           )}
         </header>
 
