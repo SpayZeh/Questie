@@ -97,6 +97,12 @@ export default function App() {
     return () => clearInterval(id);
   }, []);
 
+  // Auto-register FCM token when user is logged in and permission already granted
+  useEffect(() => {
+    if (!user || notifStatus !== 'granted') return;
+    requestNotificationPermission(user.uid).catch(() => {});
+  }, [user]);
+
   // Unread notifications
   useEffect(() => {
     if (!user) { setHasUnreadNotifs(false); return; }
@@ -213,7 +219,7 @@ export default function App() {
               const result = await requestNotificationPermission(user.uid);
               setNotifStatus(result === 'granted' ? 'granted' : 'denied');
             }}>
-              {notifStatus === 'granted' ? 'notifications on — tap to re-register' : 'notify me when quests drop'}
+              want a nudge when the next quest drops?
             </button>
           )}
         </header>
