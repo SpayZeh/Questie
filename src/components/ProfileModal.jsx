@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { signOut } from 'firebase/auth';
-import { doc, updateDoc, getDoc, collection, getDocs, addDoc, arrayUnion, arrayRemove, serverTimestamp, query, where, onSnapshot, writeBatch } from 'firebase/firestore';
+import { doc, updateDoc, getDoc, collection, getDocs, addDoc, arrayUnion, arrayRemove, serverTimestamp, query, where, onSnapshot, writeBatch, limit } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { auth, db, storage } from '../firebase.js';
 import QuestlineSheet from './QuestlineSheet.jsx';
@@ -99,11 +99,20 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
     return () => clearTimeout(timer);
   }, [searchVal, user]);
 
+  const [saveError, setSaveError] = useState('');
+
   async function handleSave() {
     setSaving(true);
+    setSaveError('');
     const cleanName = name.trim().toLowerCase();
     try {
       if (user && cleanName !== userProfile?.username) {
+        const taken = await getDocs(query(collection(db, 'users'), where('username', '==', cleanName), limit(1)));
+        if (!taken.empty) {
+          setSaveError('username already taken');
+          setSaving(false);
+          return;
+        }
         const batch = writeBatch(db);
         batch.update(doc(db, 'users', user.uid), { username: cleanName });
         const postsSnap = await getDocs(query(collection(db, 'posts'), where('userId', '==', user.uid)));
@@ -235,11 +244,12 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
           <input
             className="profile-input"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => { setName(e.target.value); setSaveError(''); }}
             placeholder="your username"
             autoCapitalize="none"
             autoCorrect="off"
           />
+          {saveError && <p style={{ color: 'var(--accent)', fontSize: 13, margin: '4px 0 0' }}>{saveError}</p>}
         </div>
 
         <button className="modal-post-btn" onClick={handleSave} disabled={saving}>
