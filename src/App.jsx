@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { collection, query, orderBy, onSnapshot, addDoc, doc, setDoc, getDoc, updateDoc, serverTimestamp, limit, arrayUnion, increment, where } from 'firebase/firestore';
+import { collection, query, orderBy, onSnapshot, addDoc, doc, setDoc, getDoc, updateDoc, serverTimestamp, limit, where } from 'firebase/firestore';
 import { auth, db } from './firebase.js';
 import FeedPost from './components/FeedPost.jsx';
 import PostModal from './components/PostModal.jsx';
@@ -157,27 +157,9 @@ export default function App() {
         commentCount: 0,
       });
 
-      const now = new Date();
-      const newEntry = {
-        id: Date.now(),
-        quest: quest.tagline.toLowerCase(),
-        questEmoji: quest.emoji,
-        photo,
-        caption,
-        date: now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        time: now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase(),
-      };
+      await updateDoc(doc(db, 'users', user.uid), { streak: newStreak });
 
-      await updateDoc(doc(db, 'users', user.uid), {
-        streak: newStreak,
-        questline: arrayUnion(newEntry),
-      });
-
-      setUserProfile((prev) => ({
-        ...prev,
-        streak: newStreak,
-        questline: [newEntry, ...(prev?.questline || [])],
-      }));
+      setUserProfile((prev) => ({ ...prev, streak: newStreak }));
 
       setShowPost(false);
       setShowCelebration(true);
@@ -192,7 +174,18 @@ export default function App() {
   const following = userProfile?.following || [];
   const friendPosts = allPosts.filter((p) => p.userId === user?.uid || following.includes(p.userId));
   const worldPosts = allPosts.filter((p) => p.visibility === 'everyone');
-  const questline = [...(userProfile?.questline || [])].reverse();
+  const questline = allPosts
+    .filter((p) => p.userId === user?.uid)
+    .map((p) => ({
+      id: p.id,
+      quest: p.questName,
+      questEmoji: p.questEmoji,
+      photo: p.photo,
+      caption: p.caption,
+      date: p.createdAt ? p.createdAt.toDate().toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '',
+      time: p.createdAt ? p.createdAt.toDate().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }).toLowerCase() : '',
+    }))
+    .reverse();
 
   if (splash || user === undefined) return <SplashScreen onDone={() => setSplash(false)} />;
 
