@@ -108,6 +108,15 @@ export default function App() {
     requestNotificationPermission(user.uid).catch(() => {});
   }, [user]);
 
+  const [pendingSent, setPendingSent] = useState([]);
+
+  // Pending sent questie requests
+  useEffect(() => {
+    if (!user) { setPendingSent([]); return; }
+    const q = query(collection(db, 'friendRequests'), where('from', '==', user.uid), where('status', '==', 'pending'));
+    return onSnapshot(q, (snap) => setPendingSent(snap.docs.map((d) => d.data().to)));
+  }, [user]);
+
   // Unread notifications
   useEffect(() => {
     if (!user) { setHasUnreadNotifs(false); return; }
@@ -244,7 +253,8 @@ export default function App() {
               key={post.id}
               post={post}
               questEmoji={post.questEmoji || quest.emoji}
-              showAddQuestie={!!user && isFuture && post.userId !== user?.uid && !following.includes(post.userId)}
+              showAddQuestie={!!user && isFuture && post.userId !== user?.uid && !following.includes(post.userId) && !pendingSent.includes(post.userId)}
+              requested={pendingSent.includes(post.userId)}
               currentUser={user}
               currentUsername={userProfile?.username}
               onAddQuestie={(uid) => setUserProfile((prev) => ({ ...prev, following: [...(prev?.following || []), uid] }))}

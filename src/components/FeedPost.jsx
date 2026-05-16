@@ -3,11 +3,10 @@ import { doc, updateDoc, increment, addDoc, collection, serverTimestamp } from '
 import { db, auth } from '../firebase.js';
 import CommentSheet from './CommentSheet.jsx';
 
-export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser, currentUsername, onAddQuestie }) {
+export default function FeedPost({ post, questEmoji, showAddQuestie, requested, currentUser, currentUsername, onAddQuestie }) {
   const [reactions, setReactions] = useState({ ...post.reactions });
   const [tapped, setTapped] = useState({});
   const [showComments, setShowComments] = useState(false);
-  const [added, setAdded] = useState(false);
 
   async function tap(key) {
     if (tapped[key]) return;
@@ -59,12 +58,11 @@ export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser
             <span className="post-streak-icon">⚡</span>
             <span>{post.streak || 0}</span>
           </div>
-          {showAddQuestie && (
+          {(showAddQuestie || requested) && (
             <button
-              className={`post-add-btn ${added ? 'post-add-btn--done' : ''}`}
+              className={`post-add-btn ${requested ? 'post-add-btn--done' : ''}`}
               onClick={async () => {
-                if (added || !currentUser) return;
-                setAdded(true);
+                if (requested || !currentUser) return;
                 try {
                   const REQUEST_TEXTS = [
                     'wants to be your new questie',
@@ -94,11 +92,10 @@ export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser
                   });
                 } catch (e) {
                   console.error('add questie failed:', e);
-                  setAdded(false);
                 }
               }}
             >
-              {added ? '✓ requested' : (
+              {requested ? '✓ requested' : (
                 <>
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
                   add questie
