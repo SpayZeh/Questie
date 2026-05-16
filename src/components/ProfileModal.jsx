@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { signOut } from 'firebase/auth';
-import { doc, updateDoc, getDoc, collection, getDocs, addDoc, arrayUnion, arrayRemove, serverTimestamp, query, where, onSnapshot } from 'firebase/firestore';
+import { doc, updateDoc, getDoc, collection, getDocs, addDoc, arrayUnion, arrayRemove, serverTimestamp, query, where, onSnapshot, writeBatch } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { auth, db, storage } from '../firebase.js';
 import QuestlineSheet from './QuestlineSheet.jsx';
@@ -104,7 +104,11 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
     const cleanName = name.trim().toLowerCase();
     try {
       if (user && cleanName !== userProfile?.username) {
-        await updateDoc(doc(db, 'users', user.uid), { username: cleanName });
+        const batch = writeBatch(db);
+        batch.update(doc(db, 'users', user.uid), { username: cleanName });
+        const postsSnap = await getDocs(query(collection(db, 'posts'), where('userId', '==', user.uid)));
+        postsSnap.forEach((d) => batch.update(d.ref, { username: cleanName }));
+        await batch.commit();
         onProfileUpdate?.({ username: cleanName });
       }
     } catch (e) {
