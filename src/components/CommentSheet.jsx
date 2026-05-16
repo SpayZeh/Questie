@@ -52,6 +52,7 @@ export default function CommentSheet({ post, currentUsername, onClose }) {
           text: `commented: "${commentText.length > 40 ? commentText.slice(0, 40) + '…' : commentText}"`,
           postId: post.id,
           unread: true,
+          pushed: false,
           createdAt: serverTimestamp(),
         });
       }
