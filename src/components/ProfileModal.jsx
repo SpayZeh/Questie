@@ -237,6 +237,18 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
           {saving ? 'saving...' : 'save'}
         </button>
         <button className="profile-questline-btn" onClick={() => setShowQuestline(true)}>my questline</button>
+        {userProfile?.notificationsEnabled && (
+          <button className="profile-signout-btn" style={{ color: 'var(--sub)', fontSize: 13 }} onClick={async () => {
+            try {
+              await updateDoc(doc(db, 'users', user.uid), { notificationsEnabled: false, fcmToken: null });
+              onProfileUpdate?.({ notificationsEnabled: false });
+            } catch (e) {
+              console.error('opt out failed:', e);
+            }
+          }}>
+            turn off quest notifications
+          </button>
+        )}
         <button className="profile-signout-btn" onClick={handleSignOut}>sign out</button>
 
         <div className="profile-divider" />
