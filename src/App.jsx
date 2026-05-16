@@ -10,9 +10,9 @@ import SplashScreen from './components/SplashScreen.jsx';
 import LoginSheet from './components/LoginSheet.jsx';
 import QuestComplete from './components/QuestComplete.jsx';
 import { requestNotificationPermission, notificationsSupported, notificationsBlocked } from './hooks/useNotifications.js';
-import { msUntilReset, getLastResetTime } from './data/quests.js';
+import { msUntilReset, getLastResetTime, getTodaysQuest } from './data/quests.js';
 
-const quest = { emoji: '💧', tagline: 'Hydrate!', description: 'take a picture of you hydrating.', color: '#3B82F6' };
+const quest = getTodaysQuest();
 
 function formatCountdown(ms) {
   const total = Math.max(0, Math.floor(ms / 1000));
