@@ -49,7 +49,6 @@ export default function App() {
   const [pendingPost, setPendingPost] = useState(false);
   const [hasUnreadNotifs, setHasUnreadNotifs] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
-  const [showUsernameSetup, setShowUsernameSetup] = useState(false);
   const [notifStatus, setNotifStatus] = useState(() =>
     'Notification' in window ? Notification.permission : 'unsupported'
   );
@@ -75,7 +74,6 @@ export default function App() {
           };
           await setDoc(userRef, profile);
           setUserProfile(profile);
-          setShowUsernameSetup(true);
         }
         // Real-time subscription so following, streak, etc. always stay current
         unsubProfile = onSnapshot(userRef, (s) => {
@@ -276,11 +274,10 @@ export default function App() {
       {showNotifs  && <NotifSheet user={user} onClose={() => setShowNotifs(false)} />}
       {showLogin   && <LoginSheet onClose={() => { setShowLogin(false); setPendingPost(false); }} />}
       {showCelebration && <QuestComplete onDone={() => setShowCelebration(false)} />}
-      {showUsernameSetup && (
+      {user && userProfile && !userProfile.username && (
         <UsernameSetup onConfirm={async (username) => {
           await updateDoc(doc(db, 'users', user.uid), { username });
           setUserProfile((prev) => ({ ...prev, username }));
-          setShowUsernameSetup(false);
         }} />
       )}
     </div>
