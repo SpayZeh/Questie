@@ -214,7 +214,7 @@ export default function App() {
               complete quest
             </button>
           )}
-          {user && notificationsSupported() && notifStatus === 'default' && (
+          {user && notificationsSupported() && (notifStatus === 'default' || notifStatus === 'granted') && (
             <button className="quest-notif-prompt" onClick={async () => {
               const result = await requestNotificationPermission(user.uid);
               setNotifStatus(result === 'granted' ? 'granted' : 'denied');
