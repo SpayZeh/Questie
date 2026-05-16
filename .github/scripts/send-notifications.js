@@ -1,4 +1,4 @@
-const admin = require('firebase-admin');
+import admin from 'firebase-admin';
 
 const quests = [
   { emoji: '🔴', tagline: "I'm Red" },
@@ -54,17 +54,11 @@ function getTodaysQuest() {
 async function main() {
   const now = new Date();
   const todayReset = getResetDateFor(utcMidnight(now));
-  const diffMinutes = Math.abs(now - todayReset) / 60000;
+  const diffMinutes = (now - todayReset) / 60000;
 
-  // Only send if we're within 30 minutes of the reset time
-  if (diffMinutes > 30) {
-    console.log(`Not quest time yet. Reset at ${todayReset.toISOString()}, now is ${now.toISOString()}, diff: ${diffMinutes.toFixed(1)}min`);
-    process.exit(0);
-  }
-
-  // Only send if quest just dropped (not in the past more than 30min)
-  if (now < todayReset) {
-    console.log('Quest has not dropped yet.');
+  // Only send if quest dropped within the last 60 minutes
+  if (diffMinutes < 0 || diffMinutes > 60) {
+    console.log(`Not quest time. Reset at ${todayReset.toISOString()}, now ${now.toISOString()}, diff: ${diffMinutes.toFixed(1)}min`);
     process.exit(0);
   }
 
@@ -78,9 +72,7 @@ async function main() {
     .where('notificationsEnabled', '==', true)
     .get();
 
-  const tokens = snapshot.docs
-    .map(d => d.data().fcmToken)
-    .filter(Boolean);
+  const tokens = snapshot.docs.map(d => d.data().fcmToken).filter(Boolean);
 
   if (tokens.length === 0) {
     console.log('No users with notifications enabled.');
@@ -89,15 +81,14 @@ async function main() {
 
   console.log(`Sending to ${tokens.length} users: ${quest.emoji} ${quest.tagline}`);
 
-  const message = {
+  const response = await admin.messaging().sendEachForMulticast({
     notification: {
       title: `${quest.emoji} new quest dropped!`,
       body: quest.tagline,
     },
     tokens,
-  };
+  });
 
-  const response = await admin.messaging().sendEachForMulticast(message);
   console.log(`Sent: ${response.successCount} success, ${response.failureCount} failed`);
 }
 
