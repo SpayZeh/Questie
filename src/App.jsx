@@ -145,6 +145,7 @@ export default function App() {
         caption,
         visibility,
         questName: quest.tagline.toLowerCase(),
+        questEmoji: quest.emoji,
         createdAt: serverTimestamp(),
         streak: newStreak,
         reactions: { quest: 0, heart: 0, laugh: 0 },
@@ -155,6 +156,7 @@ export default function App() {
       const newEntry = {
         id: Date.now(),
         quest: quest.tagline.toLowerCase(),
+        questEmoji: quest.emoji,
         photo,
         caption,
         date: now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
@@ -234,7 +236,7 @@ export default function App() {
             <FeedPost
               key={post.id}
               post={post}
-              questEmoji={quest.emoji}
+              questEmoji={post.questEmoji || quest.emoji}
               showAddQuestie={!!user && isFuture && post.userId !== user?.uid && !following.includes(post.userId)}
               currentUser={user}
               currentUsername={userProfile?.username}
