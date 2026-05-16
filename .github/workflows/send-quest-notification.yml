@@ -1,24 +1,35 @@
-name: Send daily quest notification
+name: Send notifications
 
 on:
   schedule:
-    - cron: '0 * * * *'  # runs every hour, script decides if it's time
-  workflow_dispatch:       # allow manual trigger
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
 
 jobs:
-  notify:
+  quest-notify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
       - name: Install dependencies
-        run: npm install firebase-admin node-fetch
-
-      - name: Send notifications
+        run: npm install firebase-admin
+      - name: Send quest drop notification
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: node .github/scripts/send-notifications.js
+
+  social-notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: npm install firebase-admin
+      - name: Send social notifications
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node .github/scripts/send-social-notifications.js

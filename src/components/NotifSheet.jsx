@@ -53,6 +53,7 @@ export default function NotifSheet({ user, onClose }) {
         fromAvatar: auth.currentUser?.photoURL || '',
         text: 'accepted your questie request',
         unread: true,
+        pushed: false,
         createdAt: serverTimestamp(),
       });
     } else if (!accepted && notif.requestId) {

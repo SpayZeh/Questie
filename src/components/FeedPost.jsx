@@ -26,6 +26,7 @@ export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser
           text: 'reacted to your quest',
           postId: post.id,
           unread: true,
+          pushed: false,
           createdAt: serverTimestamp(),
         });
       }
@@ -88,6 +89,7 @@ export default function FeedPost({ post, questEmoji, showAddQuestie, currentUser
                     text,
                     requestId: reqRef.id,
                     unread: true,
+                    pushed: false,
                     createdAt: serverTimestamp(),
                   });
                 } catch (e) {

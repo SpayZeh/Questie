@@ -128,6 +128,7 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
         fromAvatar: userProfile?.photoURL || user.photoURL || '',
         text: 'accepted your questie request',
         unread: true,
+        pushed: false,
         createdAt: serverTimestamp(),
       });
     } catch (e) {
@@ -164,6 +165,7 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
         text,
         requestId: reqRef.id,
         unread: true,
+        pushed: false,
         createdAt: serverTimestamp(),
       });
     } catch (e) {
