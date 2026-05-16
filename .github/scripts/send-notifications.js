@@ -56,11 +56,8 @@ async function main() {
   const todayReset = getResetDateFor(utcMidnight(now));
   const diffMinutes = (now - todayReset) / 60000;
 
-  // Only send if quest dropped within the last 60 minutes
-  if (diffMinutes < 0 || diffMinutes > 60) {
-    console.log(`Not quest time. Reset at ${todayReset.toISOString()}, now ${now.toISOString()}, diff: ${diffMinutes.toFixed(1)}min`);
-    process.exit(0);
-  }
+  // Time check disabled for manual send
+  // if (diffMinutes < 0 || diffMinutes > 60) { process.exit(0); }
 
   const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
   admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
