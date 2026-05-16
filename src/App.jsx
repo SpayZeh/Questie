@@ -54,7 +54,9 @@ export default function App() {
 
   // Auth
   useEffect(() => {
-    return onAuthStateChanged(auth, async (firebaseUser) => {
+    let unsubProfile = null;
+    const unsubAuth = onAuthStateChanged(auth, async (firebaseUser) => {
+      if (unsubProfile) { unsubProfile(); unsubProfile = null; }
       if (firebaseUser) {
         setUser(firebaseUser);
         const userRef = doc(db, 'users', firebaseUser.uid);
@@ -72,14 +74,17 @@ export default function App() {
           };
           await setDoc(userRef, profile);
           setUserProfile(profile);
-        } else {
-          setUserProfile(snap.data());
         }
+        // Real-time subscription so following, streak, etc. always stay current
+        unsubProfile = onSnapshot(userRef, (s) => {
+          if (s.exists()) setUserProfile(s.data());
+        });
       } else {
         setUser(null);
         setUserProfile(null);
       }
     });
+    return () => { unsubAuth(); if (unsubProfile) unsubProfile(); };
   }, []);
 
   // Auto-open post modal if user just logged in via quest button
