@@ -10,7 +10,7 @@ function timeAgo(timestamp) {
   return `${Math.floor(s / 3600)}h`;
 }
 
-export default function CommentSheet({ post, currentUsername, onClose }) {
+export default function CommentSheet({ post, currentUsername, currentAvatar, onClose }) {
   const [comments, setComments] = useState(post.comments || []);
   const [text, setText] = useState('');
 
@@ -37,8 +37,8 @@ export default function CommentSheet({ post, currentUsername, onClose }) {
     try {
       await addDoc(collection(db, 'posts', post.id, 'comments'), {
         userId: user?.uid || 'anon',
-        username: user?.displayName?.toLowerCase().replace(/\s+/g, '.') || 'you',
-        avatar: user?.photoURL || '',
+        username: currentUsername || user?.displayName?.toLowerCase().replace(/\s+/g, '.') || 'you',
+        avatar: currentAvatar || user?.photoURL || '',
         text: commentText,
         createdAt: serverTimestamp(),
       });
@@ -89,9 +89,9 @@ export default function CommentSheet({ post, currentUsername, onClose }) {
         </div>
 
         <div className="comment-input-row">
-          {auth.currentUser?.photoURL
-            ? <img src={auth.currentUser.photoURL} alt="you" className="comment-avatar" referrerPolicy="no-referrer" />
-            : <div className="comment-avatar comment-avatar--initials">{(auth.currentUser?.displayName || 'y')[0].toUpperCase()}</div>
+          {currentAvatar || auth.currentUser?.photoURL
+            ? <img src={currentAvatar || auth.currentUser?.photoURL} alt="you" className="comment-avatar" referrerPolicy="no-referrer" />
+            : <div className="comment-avatar comment-avatar--initials">{(currentUsername || 'y')[0].toUpperCase()}</div>
           }
           <input
             className="comment-input"

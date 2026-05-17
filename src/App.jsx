@@ -256,6 +256,7 @@ export default function App() {
               requested={pendingSent.includes(post.userId)}
               currentUser={user}
               currentUsername={userProfile?.username}
+              currentAvatar={userProfile?.photoURL || user?.photoURL}
               onAddQuestie={(uid) => setUserProfile((prev) => ({ ...prev, following: [...(prev?.following || []), uid] }))}
             />
           ))}

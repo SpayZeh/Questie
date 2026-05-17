@@ -55,7 +55,11 @@ export default function ProfileModal({ user, userProfile, questline, onClose, on
       const blob = await compressAvatar(file);
       const snapshot = await uploadBytes(ref(storage, `avatars/${user.uid}.jpg`), blob);
       const url = await getDownloadURL(snapshot.ref);
-      await updateDoc(doc(db, 'users', user.uid), { photoURL: url });
+      const batch = writeBatch(db);
+      batch.update(doc(db, 'users', user.uid), { photoURL: url });
+      const postsSnap = await getDocs(query(collection(db, 'posts'), where('userId', '==', user.uid)));
+      postsSnap.forEach((d) => batch.update(d.ref, { avatar: url }));
+      await batch.commit();
       setAvatarUrl(url);
       onProfileUpdate?.({ photoURL: url });
     } catch (err) {

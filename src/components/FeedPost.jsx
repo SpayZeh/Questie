@@ -3,7 +3,7 @@ import { doc, updateDoc, increment, addDoc, collection, serverTimestamp } from '
 import { db, auth } from '../firebase.js';
 import CommentSheet from './CommentSheet.jsx';
 
-export default function FeedPost({ post, questEmoji, showAddQuestie, requested, currentUser, currentUsername, onAddQuestie }) {
+export default function FeedPost({ post, questEmoji, showAddQuestie, requested, currentUser, currentUsername, currentAvatar, onAddQuestie }) {
   const [reactions, setReactions] = useState({ ...post.reactions });
   const [tapped, setTapped] = useState({});
   const [showComments, setShowComments] = useState(false);
@@ -144,7 +144,7 @@ export default function FeedPost({ post, questEmoji, showAddQuestie, requested, 
         </div>
       </article>
 
-      {showComments && <CommentSheet post={post} currentUsername={currentUsername} onClose={() => setShowComments(false)} />}
+      {showComments && <CommentSheet post={post} currentUsername={currentUsername} currentAvatar={currentAvatar} onClose={() => setShowComments(false)} />}
     </>
   );
 }
