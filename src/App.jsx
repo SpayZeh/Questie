@@ -13,8 +13,6 @@ import UsernameSetup from './components/UsernameSetup.jsx';
 import { requestNotificationPermission, notificationsSupported, notificationsBlocked } from './hooks/useNotifications.js';
 import { msUntilReset, getLastResetTime, getTodaysQuest } from './data/quests.js';
 
-const quest = getTodaysQuest();
-
 function formatCountdown(ms) {
   const total = Math.max(0, Math.floor(ms / 1000));
   const h = Math.floor(total / 3600).toString().padStart(2, '0');
@@ -38,6 +36,7 @@ export default function App() {
   const [userProfile, setUserProfile] = useState(null);
   const [allPosts, setAllPosts] = useState([]);
   const [tab, setTab] = useState('potential');
+  const quest = getTodaysQuest();
   const lastReset = getLastResetTime();
   const [showPost, setShowPost] = useState(false);
   const [showProfile, setShowProfile] = useState(false);

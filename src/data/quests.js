@@ -124,10 +124,25 @@ export function getLastResetTime() {
 }
 
 export function getTodaysQuest() {
-  return quests[getDayOfYear(new Date()) % quests.length];
+  const now = new Date();
+  const todayMidnight = utcMidnight(now);
+  const todayReset = getResetDateFor(todayMidnight);
+  if (todayReset <= now) {
+    return quests[getDayOfYear(todayMidnight) % quests.length];
+  }
+  const yesterdayMidnight = new Date(todayMidnight);
+  yesterdayMidnight.setUTCDate(yesterdayMidnight.getUTCDate() - 1);
+  return quests[getDayOfYear(yesterdayMidnight) % quests.length];
 }
 
 export function getNextQuest() {
-  const i = getDayOfYear(new Date()) % quests.length;
-  return quests[(i + 1) % quests.length];
+  const now = new Date();
+  const todayMidnight = utcMidnight(now);
+  const todayReset = getResetDateFor(todayMidnight);
+  if (todayReset <= now) {
+    const tomorrowMidnight = new Date(todayMidnight);
+    tomorrowMidnight.setUTCDate(tomorrowMidnight.getUTCDate() + 1);
+    return quests[getDayOfYear(tomorrowMidnight) % quests.length];
+  }
+  return quests[getDayOfYear(todayMidnight) % quests.length];
 }
