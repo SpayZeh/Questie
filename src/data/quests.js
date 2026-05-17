@@ -90,6 +90,7 @@ function utcMidnight(date) {
 // Hard-coded overrides for specific UTC dates { hourCET, minute, second }
 const OVERRIDES = {
   '2026-05-16': { hourCET: 14, minute: 0, second: 0 },
+  '2026-05-18': { hourCET: 14, minute: 0, second: 0 },
 };
 
 // utcDay must be a Date at UTC midnight for the target calendar day
