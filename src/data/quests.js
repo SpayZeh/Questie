@@ -71,7 +71,12 @@ export const quests = [
   },
 ];
 
-function getDayOfYear(utcMidnight) {
+export function getEmojiForQuestName(name) {
+  if (!name) return null;
+  return quests.find((q) => q.tagline.toLowerCase() === name.toLowerCase())?.emoji || null;
+}
+
+
   const start = Date.UTC(utcMidnight.getUTCFullYear(), 0, 1);
   return Math.floor((utcMidnight - start) / 86400000) + 1;
 }

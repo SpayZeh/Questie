@@ -11,7 +11,7 @@ import LoginSheet from './components/LoginSheet.jsx';
 import QuestComplete from './components/QuestComplete.jsx';
 import UsernameSetup from './components/UsernameSetup.jsx';
 import { requestNotificationPermission, notificationsSupported, notificationsBlocked } from './hooks/useNotifications.js';
-import { msUntilReset, getLastResetTime, getTodaysQuest } from './data/quests.js';
+import { msUntilReset, getLastResetTime, getTodaysQuest, getEmojiForQuestName } from './data/quests.js';
 
 function formatCountdown(ms) {
   const total = Math.max(0, Math.floor(ms / 1000));
@@ -262,7 +262,7 @@ export default function App() {
             <FeedPost
               key={post.id}
               post={post}
-              questEmoji={post.questEmoji || quest.emoji}
+              questEmoji={post.questEmoji || getEmojiForQuestName(post.questName) || quest.emoji}
               showAddQuestie={!!user && isFuture && post.userId !== user?.uid && !following.includes(post.userId) && !pendingSent.includes(post.userId)}
               requested={pendingSent.includes(post.userId)}
               currentUser={user}
