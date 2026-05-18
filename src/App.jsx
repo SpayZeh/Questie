@@ -225,8 +225,14 @@ export default function App() {
           {!userProfile?.notificationsEnabled && notifStatus !== 'denied' && (
             <button className="quest-notif-prompt" onClick={async () => {
               if (!user) { setShowLogin(true); return; }
+              const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+              const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+              if (isIOS && !isPWA) {
+                alert('to get notifications on iPhone, tap the share button (□↑) in safari and choose "add to home screen", then open questie from there.');
+                return;
+              }
               if (!notificationsSupported()) {
-                alert('notifications are not supported in this browser. try opening questie.quest in safari or chrome and adding it to your home screen.');
+                alert('notifications are not supported in this browser. try chrome on android or desktop.');
                 return;
               }
               setNotifStatus('loading');
