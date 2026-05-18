@@ -48,9 +48,21 @@ export default function App() {
   const [pendingPost, setPendingPost] = useState(false);
   const [hasUnreadNotifs, setHasUnreadNotifs] = useState(false);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState(null);
+  const [showIOSInstall, setShowIOSInstall] = useState(false);
   const [notifStatus, setNotifStatus] = useState(() =>
     'Notification' in window ? Notification.permission : 'unsupported'
   );
+
+  const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+  // Capture install prompt on Android/Chrome
+  useEffect(() => {
+    const handler = (e) => { e.preventDefault(); setInstallPrompt(e); };
+    window.addEventListener('beforeinstallprompt', handler);
+    return () => window.removeEventListener('beforeinstallprompt', handler);
+  }, []);
 
   // Auth
   useEffect(() => {
@@ -225,8 +237,6 @@ export default function App() {
           {!userProfile?.notificationsEnabled && notifStatus !== 'denied' && (
             <button className="quest-notif-prompt" onClick={async () => {
               if (!user) { setShowLogin(true); return; }
-              const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-              const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
               if (isIOS && !isPWA) {
                 alert('to get notifications on iPhone, tap the share button (□↑) in safari and choose "add to home screen", then open questie from there.');
                 return;
@@ -248,6 +258,19 @@ export default function App() {
               }
             }}>
               {notifStatus === 'loading' ? 'setting up...' : 'want a nudge when the next quest drops?'}
+            </button>
+          )}
+          {!isPWA && (installPrompt || isIOS) && (
+            <button className="quest-notif-prompt" onClick={async () => {
+              if (installPrompt) {
+                installPrompt.prompt();
+                const { outcome } = await installPrompt.userChoice;
+                if (outcome === 'accepted') setInstallPrompt(null);
+              } else {
+                setShowIOSInstall(true);
+              }
+            }}>
+              add questie to your home screen
             </button>
           )}
         </header>
@@ -295,6 +318,16 @@ export default function App() {
       {showNotifs  && <NotifSheet user={user} onClose={() => setShowNotifs(false)} />}
       {showLogin   && <LoginSheet onClose={() => { setShowLogin(false); setPendingPost(false); }} />}
       {showCelebration && <QuestComplete onDone={() => setShowCelebration(false)} />}
+      {showIOSInstall && (
+        <div className="modal-overlay" onClick={() => setShowIOSInstall(false)}>
+          <div className="modal-sheet" style={{ gap: 12, textAlign: 'center' }}>
+            <h2 className="modal-title">add to home screen</h2>
+            <p className="modal-sub">1. tap the share button <strong>⎙</strong> at the bottom of safari</p>
+            <p className="modal-sub">2. scroll down and tap <strong>"add to home screen"</strong></p>
+            <p className="modal-sub">3. tap <strong>"add"</strong> — then open questie from your home screen</p>
+            <button className="modal-post-btn" onClick={() => setShowIOSInstall(false)}>got it</button>
+          </div>
+        </div>}
       {user && userProfile && !userProfile.username && (
         <UsernameSetup onConfirm={async (username) => {
           await updateDoc(doc(db, 'users', user.uid), { username });
