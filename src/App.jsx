@@ -203,7 +203,7 @@ export default function App() {
 
         <header className={`quest-bar${hasPosted ? ' quest-bar--done' : ''}`}>
           <div className="quest-bar-top-row">
-            <button className="quest-icon-btn" onClick={() => setShowProfile(true)} aria-label="add friends">
+            <button className="quest-icon-btn" onClick={() => user ? setShowProfile(true) : setShowLogin(true)} aria-label="add friends">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="16" y1="11" x2="22" y2="11"/></svg>
             </button>
             <div className="quest-timer-pill">{formatCountdown(msLeft)}</div>
