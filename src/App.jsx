@@ -222,8 +222,13 @@ export default function App() {
               complete quest
             </button>
           )}
-          {user && notificationsSupported() && notifStatus !== 'denied' && notifStatus !== 'unsupported' && !userProfile?.notificationsEnabled && (
+          {!userProfile?.notificationsEnabled && notifStatus !== 'denied' && (
             <button className="quest-notif-prompt" onClick={async () => {
+              if (!user) { setShowLogin(true); return; }
+              if (!notificationsSupported()) {
+                alert('notifications are not supported in this browser. try opening questie.quest in safari or chrome and adding it to your home screen.');
+                return;
+              }
               setNotifStatus('loading');
               try {
                 const result = await requestNotificationPermission(user.uid);
