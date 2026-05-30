@@ -76,7 +76,7 @@ export function getEmojiForQuestName(name) {
   return quests.find((q) => q.tagline.toLowerCase() === name.toLowerCase())?.emoji || null;
 }
 
-
+function getDayOfYear(utcMidnight) {
   const start = Date.UTC(utcMidnight.getUTCFullYear(), 0, 1);
   return Math.floor((utcMidnight - start) / 86400000) + 1;
 }

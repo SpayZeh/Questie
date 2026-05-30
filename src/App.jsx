@@ -327,7 +327,8 @@ export default function App() {
             <p className="modal-sub">3. tap <strong>"add"</strong> — then open questie from your home screen</p>
             <button className="modal-post-btn" onClick={() => setShowIOSInstall(false)}>got it</button>
           </div>
-        </div>}
+        </div>
+      )}
       {user && userProfile && !userProfile.username && (
         <UsernameSetup onConfirm={async (username) => {
           await updateDoc(doc(db, 'users', user.uid), { username });
